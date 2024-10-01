@@ -1,0 +1,103 @@
+{% extends 'panel/base/base_admin.html' %}
+{% load static %}
+
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stakeholder Management Module</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{% static 'css/stakeholder_management.css' %}">
+</head>
+<body>
+    <div class="container mt-5">
+        <div class="text-center">
+            <h1 class="page-title">Stakeholder Management Module</h1>
+            <p class="lead">Enhancing Relationships with Key Stakeholders</p>
+        </div>
+
+        <div class="section mt-4">
+            <h2 class="section-title"><i class="fas fa-gavel"></i> Core Content Areas</h2>
+            <h3>Regulatory Compliance</h3>
+            <ul class="list-group mb-4">
+                <li class="list-group-item">Tracking and monitoring of relevant regulations and standards</li>
+                <li class="list-group-item">Risk assessment and mitigation strategies</li>
+                <li class="list-group-item">Reporting and documentation of compliance efforts</li>
+            </ul>
+            
+            <h3>Government Relations</h3>
+            <ul class="list-group mb-4">
+                <li class="list-group-item">Building and maintaining relationships with government agencies</li>
+                <li class="list-group-item">Advocacy for industry interests</li>
+                <li class="list-group-item">Obtaining necessary permits and approvals</li>
+            </ul>
+
+            <h3>Third-Party Stakeholder Management</h3>
+            <ul class="list-group mb-4">
+                <li class="list-group-item">Contract management and negotiation</li>
+                <li class="list-group-item">Performance monitoring and evaluation</li>
+                <li class="list-group-item">Dispute resolution mechanisms</li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2 class="section-title"><i class="fas fa-cogs"></i> Detailed Features</h2>
+            <h3>Regulatory Database</h3>
+            <ul class="list-group mb-4">
+                <li class="list-group-item">Centralized repository of relevant regulations and standards</li>
+                <li class="list-group-item">Automated updates and alerts for changes</li>
+                <li class="list-group-item">Compliance tracking and reporting tools</li>
+            </ul>
+
+            <h3>Government Relations Management</h3>
+            <ul class="list-group mb-4">
+                <li class="list-group-item">Contact information and relationship management tools</li>
+                <li class="list-group-item">Meeting scheduling and agenda management</li>
+                <li class="list-group-item">Document tracking and sharing</li>
+            </ul>
+
+            <h3>Third-Party Stakeholder Management</h3>
+            <ul class="list-group mb-4">
+                <li class="list-group-item">Contract management templates and workflows</li>
+                <li class="list-group-item">Performance metrics and evaluation tools</li>
+                <li class="list-group-item">Dispute resolution processes and documentation</li>
+            </ul>
+
+            <h3>Communication and Collaboration Tools</h3>
+            <ul class="list-group mb-4">
+                <li class="list-group-item">Secure messaging and document sharing</li>
+                <li class="list-group-item">Video conferencing and online meetings</li>
+                <li class="list-group-item">Collaboration platforms for project management</li>
+            </ul>
+
+            <h3>Reporting and Analytics</h3>
+            <ul class="list-group mb-4">
+                <li class="list-group-item">Regulatory compliance reports and dashboards</li>
+                <li class="list-group-item">Stakeholder satisfaction surveys and analysis</li>
+                <li class="list-group-item">Risk assessment and mitigation reports</li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2 class="section-title"><i class="fas fa-clipboard-list"></i> Additional Considerations</h2>
+            <ul class="list-group">
+                <li class="list-group-item">Integration with other systems: Ensure seamless integration with e_railway's existing systems (e.g., project management, finance).</li>
+                <li class="list-group-item">User-friendly interface: Design an intuitive and user-friendly interface for easy access and navigation.</li>
+                <li class="list-group-item">Mobile accessibility: Enable access to stakeholder management tools from mobile devices for on-the-go updates.</li>
+                <li class="list-group-item">Customization options: Allow for customization of features and workflows to fit specific operational requirements.</li>
+                <li class="list-group-item">Regular updates: Ensure that the stakeholder management module is regularly updated to reflect changes in regulations, government policies, and industry trends.</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.1/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="{% static 'js/stakeholder_management.js' %}"></script>
+</body>
+</html>
+{% endblock %}

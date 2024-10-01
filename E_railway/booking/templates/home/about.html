@@ -6,41 +6,91 @@ About Us | E-Railway
 {% endblock %}
 
 {% block content %}
+<style>
+    .about-section {
+        background-color: #f8f9fa;
+        padding: 50px 0;
+        animation: fadeIn 1s ease-in;
+    }
+
+    .team-member {
+        transition: transform 0.3s ease;
+    }
+
+    .team-member:hover {
+        transform: scale(1.05);
+    }
+
+    .about-title {
+        font-size: 2.5rem;
+        margin-bottom: 20px;
+        color: #007bff;
+    }
+
+    .about-subtitle {
+        font-size: 1.5rem;
+        margin-top: 40px;
+        color: #343a40;
+    }
+
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+        }
+        to {
+            opacity: 1;
+        }
+    }
+</style>
+
 <section class="about-section text-center">
     <div class="container">
-        <h2>About Us</h2>
-        <p>Welcome to E-Railway, your trusted platform for seamless train bookings and travel planning across Cameroon. Our goal is to revolutionize railway travel by providing a modern, user-friendly service that simplifies booking and enhances travel experiences.</p>
+        <h2 class="about-title">About Us</h2>
+        <p class="lead">Welcome to E-Railway, your trusted platform for seamless train bookings and travel planning across Cameroon. Our goal is to revolutionize railway travel by providing a modern, user-friendly service that simplifies booking and enhances travel experiences.</p>
         
-        <h3>Our Vision</h3>
+        <h3 class="about-subtitle">Our Vision</h3>
         <p>We aim to become the leading railway booking service in Central Africa, ensuring every passenger enjoys fast, reliable, and comfortable travel options across the region.</p>
 
-        <h3>Our Mission</h3>
+        <h3 class="about-subtitle">Our Mission</h3>
         <p>To connect passengers with railway services efficiently, making travel easy and accessible while improving the quality of train services and enhancing the customer experience.</p>
 
-        <h3>Meet Our Team</h3>
+        <h3 class="about-subtitle">Meet Our Team</h3>
         <div class="row">
             <div class="col-md-4 team-member">
-                <img src="{% static 'image/team1.jpeg' %}" alt="Team Member 1" class="rounded-circle">
-                <h5>John Doe</h5>
+                <img src="{% static 'image/team1.jpeg' %}" alt="John Doe" class="rounded-circle img-fluid">
+                <h5 class="mt-3">John Doe</h5>
                 <p>CEO & Founder</p>
+                <p class="text-muted">With over 15 years of experience in the transport sector, John leads our vision with passion and commitment.</p>
             </div>
             <div class="col-md-4 team-member">
-                <img src="{% static 'image/team2.png' %}" alt="Team Member 2" class="rounded-circle">
-                <h5>Jane Smith</h5>
+                <img src="{% static 'image/team2.png' %}" alt="Jane Smith" class="rounded-circle img-fluid">
+                <h5 class="mt-3">Jane Smith</h5>
                 <p>Chief Operations Officer</p>
+                <p class="text-muted">Jane ensures that our operations run smoothly, enhancing our service delivery and customer satisfaction.</p>
             </div>
             <div class="col-md-4 team-member">
-                <img src="{% static 'image/team3.jpeg' %}" alt="Team Member 3" class="rounded-circle">
-                <h5>Michael Brown</h5>
+                <img src="{% static 'image/team3.jpeg' %}" alt="Michael Brown" class="rounded-circle img-fluid">
+                <h5 class="mt-3">Michael Brown</h5>
                 <p>Head of Customer Relations</p>
+                <p class="text-muted">Michael is dedicated to understanding and addressing customer needs, fostering a positive travel experience.</p>
             </div>
         </div>
 
-        <h3>Why Choose Us?</h3>
+        <h3 class="about-subtitle">Why Choose Us?</h3>
         <p>At E-Railway, we prioritize convenience, comfort, and safety. Whether you're traveling for business or leisure, we are committed to offering you the best railway experience in Cameroon.</p>
         
-        <h3>Join Us</h3>
-        <p>If you want to know more or partner with us, feel free to <a href="#contact">get in touch</a>. We are always looking to collaborate with industry professionals and make train travel better for everyone.</p>
+        <h3 class="about-subtitle">Join Us</h3>
+        <p>If you want to know more or partner with us, feel free to <a href="#contact" class="text-primary">get in touch</a>. We are always looking to collaborate with industry professionals and make train travel better for everyone.</p>
+        
+        <div class="mt-4">
+            <h3 class="about-subtitle">Our Achievements</h3>
+            <ul class="list-unstyled">
+                <li>✅ Over 1 million satisfied customers</li>
+                <li>✅ Awarded "Best Railway Service" in 2023</li>
+                <li>✅ Successfully partnered with multiple local and international agencies</li>
+                <li>✅ Implemented eco-friendly practices to reduce our carbon footprint</li>
+            </ul>
+        </div>
     </div>
 </section>
 {% endblock %}

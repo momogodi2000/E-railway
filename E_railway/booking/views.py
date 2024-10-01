@@ -569,3 +569,12 @@ def delete_communication(request, pk):
 def communication_list(request):
     communications = Communication.objects.all()
     return render(request, 'panel/admin/communication/communication_list.html', {'communications': communications})
+
+
+def policy(request):
+    return render(request, 'panel/admin/policy/policy.html')
+
+def gov(request):
+    return render(request, 'panel/admin/policy/gov.html')
+
+

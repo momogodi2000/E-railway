@@ -61,6 +61,10 @@ urlpatterns = [
     path('edit_communication/<int:pk>/', views.edit_communication, name='edit_communication'),
     path('delete_communication/<int:pk>/', views.delete_communication, name='delete_communication'),
     path('communication_list/', views.communication_list, name='communication_list'),
+    path('policy/', views.policy, name='policy'),
+    path('gov/', views.gov, name='gov'),
+
+
 
 
 

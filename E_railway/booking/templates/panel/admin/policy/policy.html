@@ -1,0 +1,124 @@
+{% extends 'panel/base/base_admin.html' %}
+{% load static %}
+
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>e_Railway Policies & Procedures</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{% static 'css/policy.css' %}">
+</head>
+<body>
+    <div class="container mt-5">
+        <div class="text-center">
+            <h1 class="page-title">e_Railway Policy and Procedure Module</h1>
+            <p class="lead">Ensuring Safety, Quality, and Efficiency</p>
+        </div>
+
+        <div class="section">
+            <h2 class="section-title"><i class="fas fa-shield-alt"></i> Operational Safety</h2>
+            <ul class="list-group">
+                <li class="list-group-item">Emergency procedures (derailments, fires, medical emergencies)</li>
+                <li class="list-group-item">Hazard identification and risk assessment</li>
+                <li class="list-group-item">Safety inspections and audits</li>
+                <li class="list-group-item">Employee safety training and certifications</li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2 class="section-title"><i class="fas fa-check-circle"></i> Quality Control</h2>
+            <ul class="list-group">
+                <li class="list-group-item">Service quality standards (punctuality, cleanliness, customer satisfaction)</li>
+                <li class="list-group-item">Quality assurance measures (inspections, audits)</li>
+                <li class="list-group-item">Performance metrics and reporting</li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2 class="section-title"><i class="fas fa-wrench"></i> Maintenance Scheduling</h2>
+            <ul class="list-group">
+                <li class="list-group-item">Preventive maintenance schedules and procedures</li>
+                <li class="list-group-item">Corrective maintenance protocols</li>
+                <li class="list-group-item">Equipment and infrastructure inspections</li>
+                <li class="list-group-item">Spare parts inventory management</li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2 class="section-title"><i class="fas fa-users"></i> Passenger Service Standards</h2>
+            <ul class="list-group">
+                <li class="list-group-item">Customer service guidelines and training</li>
+                <li class="list-group-item">Complaint handling procedures</li>
+                <li class="list-group-item">Accessibility standards and accommodations</li>
+                <li class="list-group-item">Baggage handling policies</li>
+            </ul>
+        </div>
+
+        <div class="text-center mt-5">
+            <h3 class="section-title">Detailed Features</h3>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6 mb-4">
+                <div class="card shadow">
+                    <div class="card-body">
+                        <h5 class="card-title"><i class="fas fa-book"></i> Policy Library</h5>
+                        <p class="card-text">Centralized repository for all policies and procedures. Version control, customizable templates, and history tracking.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 mb-4">
+                <div class="card shadow">
+                    <div class="card-body">
+                        <h5 class="card-title"><i class="fas fa-graduation-cap"></i> Training and Certification Management</h5>
+                        <p class="card-text">Online training modules, certification tracking, and competency assessments for employees.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 mb-4">
+                <div class="card shadow">
+                    <div class="card-body">
+                        <h5 class="card-title"><i class="fas fa-clipboard-check"></i> Inspection and Audit Management</h5>
+                        <p class="card-text">Automated scheduling and management of inspections, checklists, and non-conformity tracking.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 mb-4">
+                <div class="card shadow">
+                    <div class="card-body">
+                        <h5 class="card-title"><i class="fas fa-chart-line"></i> Performance Metrics and Reporting</h5>
+                        <p class="card-text">Customizable dashboards for KPIs on safety, quality, and performance.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 mb-4">
+                <div class="card shadow">
+                    <div class="card-body">
+                        <h5 class="card-title"><i class="fas fa-exclamation-circle"></i> Incident Management</h5>
+                        <p class="card-text">Incident reporting, root cause analysis, and corrective action tracking.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 mb-4">
+                <div class="card shadow">
+                    <div class="card-body">
+                        <h5 class="card-title"><i class="fas fa-wheelchair"></i> Accessibility Management</h5>
+                        <p class="card-text">Accessibility standards, accommodation planning, and audits to ensure compliance.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Animation and JavaScript -->
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.1/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="{% static 'js/policy.js' %}"></script>
+</body>
+</html>
+{% endblock %}

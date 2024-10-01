@@ -90,15 +90,16 @@
 <!-- New Section for Ticket Availability -->
 <section class="ticket-availability-section py-5 text-center">
     <div class="container">
-        <h2>Ticket Availability</h2>
+        <h2 class="display-4">Ticket Availability</h2>
         <p class="lead">Choose from our range of ticket classes to suit your travel needs.</p>
 
         <div class="row mt-4">
             <div class="col-md-4">
-                <div class="card shadow">
+                <div class="card shadow animated-card">
                     <div class="card-body">
                         <h5 class="card-title">Standard Class</h5>
                         <p class="card-text">Experience comfortable seating at an affordable price.</p>
+                        <h6>Price: <span class="text-success">$50</span></h6>
                         <h6>Services:</h6>
                         <ul>
                             <li>Basic refreshments available</li>
@@ -113,10 +114,11 @@
                 </div>
             </div>
             <div class="col-md-4">
-                <div class="card shadow">
+                <div class="card shadow animated-card">
                     <div class="card-body">
                         <h5 class="card-title">Premium Class</h5>
                         <p class="card-text">Enjoy enhanced comfort and additional amenities.</p>
+                        <h6>Price: <span class="text-success">$100</span></h6>
                         <h6>Services:</h6>
                         <ul>
                             <li>Complimentary meals and drinks</li>
@@ -132,10 +134,11 @@
                 </div>
             </div>
             <div class="col-md-4">
-                <div class="card shadow">
+                <div class="card shadow animated-card">
                     <div class="card-body">
                         <h5 class="card-title">VIP Class</h5>
                         <p class="card-text">Travel in luxury with exclusive benefits.</p>
+                        <h6>Price: <span class="text-success">$200</span></h6>
                         <h6>Services:</h6>
                         <ul>
                             <li>Personalized concierge service</li>
@@ -154,6 +157,7 @@
         </div>
     </div>
 </section>
+
 
 <section class="video-intro-section py-5 bg-white">
     <div class="container text-center">
@@ -201,4 +205,32 @@
     background-color: #f8f9fa;
 }
 </style>
+
+<style>
+    .animated-card {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .animated-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    }
+
+    .ticket-availability-section {
+        background-color: #f9f9f9;
+        border-top: 5px solid #007bff;
+        padding-top: 50px;
+    }
+
+    .ticket-availability-section h2 {
+        margin-bottom: 30px;
+        font-weight: bold;
+        color: #343a40;
+    }
+
+    .ticket-availability-section p.lead {
+        margin-bottom: 40px;
+    }
+</style>
+
 {% endblock %}
