@@ -1,0 +1,114 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Client Panel</title>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+    <!-- Font Awesome CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{% static 'css/clients.css' %}">
+    <style>
+        .profile-pic {
+            width: 50px;  
+            height: 50px; 
+            border-radius: 50%; 
+            margin-right: 10px; 
+        }
+        .header-icons {
+            display: flex;
+            align-items: center;
+        }
+        .header-icons .icon {
+            margin-left: 15px;
+            cursor: pointer;
+            font-size: 1.5rem;
+        }
+        .search-bar {
+            margin-left: auto;
+            display: flex;
+            align-items: center;
+        }
+        .search-bar input {
+            border-radius: 20px;
+            border: 1px solid #ced4da;
+            padding: 5px 15px;
+            width: 200px;
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="dashboard">
+        <div class="dashboard-nav">
+            <header>
+                <a href="{% url 'passenger_panel' %}" class="brand-logo animate__animated animate__fadeInLeft">
+                    {% if user.profile_picture %}
+                        <img src="{{ user.profile_picture.url }}" alt="{{ user.username }}'s profile picture" class="profile-pic" />
+                    {% else %}
+                        <img src="{% static 'image/why.jpeg' %}" alt="Default Avatar" class="profile-pic" />
+                    {% endif %}
+                    <span>{{ user.username }}'s Panel</span>
+                </a>
+            </header>
+            <nav class="dashboard-nav-list">
+                <a href="#" class="dashboard-nav-item"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
+                <a href="#" class="dashboard-nav-item"><i class="fas fa-user-circle"></i> Profile Overview</a>
+                <a href="#" class="dashboard-nav-item"><i class="fas fa-briefcase"></i> Job Posting</a>
+                <a href="#" class="dashboard-nav-item"><i class="fas fa-search"></i> Candidate Search</a>
+                <a href="#" class="dashboard-nav-item"><i class="fas fa-comments"></i> Messaging</a>
+                <a href="#" class="dashboard-nav-item"><i class="fas fa-tasks"></i> Project Management</a>
+                <a href="#" class="dashboard-nav-item"><i class="fas fa-credit-card"></i> Payments</a>
+                <a href="#" class="dashboard-nav-item"><i class="fas fa-star"></i> Reviews and Ratings</a>
+                <a href="#" class="dashboard-nav-item"><i class="fas fa-bell"></i> Notifications</a>
+                <a href="#" class="dashboard-nav-item"><i class="fas fa-users"></i> Community Features</a>
+                <a href="#" class="dashboard-nav-item"><i class="fas fa-comments"></i> Communication</a>
+                <a href="#" class="dashboard-nav-item"><i class="fas fa-cogs"></i> Settings</a>
+                <a href="{% url 'logout' %}" class="dashboard-nav-item"><i class="fas fa-sign-out-alt"></i> Logout</a>
+            </nav>
+        </div>
+        <main class="dashboard-app">
+            <header class="dashboard-toolbar">
+                <a href="#!" class="menu-toggle"><i class="fas fa-bars"></i></a>
+                <div class="header-icons">
+                    <i class="fas fa-globe icon" title="Change Language" onclick="toggleLanguage()"></i>
+                    <i class="fas fa-paint-brush icon" title="Change Theme" onclick="toggleTheme()"></i>
+                    <div class="search-bar">
+                        <input type="text" placeholder="Search..." aria-label="Search" />
+                        <button class="btn btn-outline-secondary" type="button"><i class="fas fa-search"></i></button>
+                    </div>
+                </div>
+            </header>
+            <div class="dashboard-content">
+                {% block content %}{% endblock %}
+            </div>
+        </main>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <!-- Custom JavaScript -->
+    <script src="{% static 'js/momo2.js' %}"></script>
+    <script>
+        // Ensure the form is responsive on mobile
+        window.addEventListener('resize', function() {
+            const formContainer = document.querySelector('.form-container');
+            if (window.innerWidth < 768) {
+                formContainer.style.padding = '15px';  // Decrease padding on smaller screens
+            } else {
+                formContainer.style.padding = '20px';  // Default padding
+            }
+        });
+
+        // Trigger resize event on page load
+        window.dispatchEvent(new Event('resize'));
+    </script>
+</body>
+</html>

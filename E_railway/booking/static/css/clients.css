@@ -1,0 +1,272 @@
+/* Global Styles */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f8f9fa;
+    color: #333;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+}
+
+.dashboard {
+    display: flex;
+    min-height: 100vh;
+}
+
+.dashboard-nav {
+    width: 250px;
+    background-color: #343a40;
+    color: #fff;
+    transition: width 0.4s ease, opacity 0.4s ease;
+    opacity: 1;
+}
+
+.dashboard-nav.closed {
+    width: 80px; /* Adjust for closed state */
+    opacity: 0.8; /* Optional for visual effect */
+}
+
+.dashboard-nav header {
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    background-color: #23272b;
+    text-align: left;
+}
+
+.dashboard-nav .profile-pic {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    margin-right: 10px;
+    border: 2px solid #fff;
+}
+
+.dashboard-nav .brand-logo {
+    display: flex;
+    align-items: center;
+    font-size: 1.2rem;
+    color: #fff;
+    text-decoration: none;
+}
+
+.dashboard-nav .brand-logo span {
+    transition: opacity 0.4s ease;
+}
+
+.dashboard-nav.closed .brand-logo span {
+    opacity: 0; /* Hide text in closed state */
+}
+
+.dashboard-nav .dashboard-nav-list {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+}
+
+.dashboard-nav-item {
+    display: flex;
+    align-items: center;
+    padding: 15px;
+    font-size: 1rem;
+    color: #ddd;
+    text-decoration: none;
+    border-bottom: 1px solid #454d55;
+    transition: background-color 0.3s ease;
+}
+
+.dashboard-nav-item i {
+    margin-right: 10px;
+}
+
+.dashboard-nav-item:hover {
+    background-color: #495057;
+    color: #fff;
+}
+
+.dashboard-nav-item.active {
+    background-color: #007bff;
+    color: #fff;
+}
+
+.dashboard-app {
+    flex-grow: 1;
+    background-color: #fff;
+    padding: 20px;
+    transition: margin-left 0.4s ease;
+}
+
+.dashboard-app.closed {
+    margin-left: 80px; /* Adjust for closed state */
+}
+
+.dashboard-toolbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: #fff;
+    border-bottom: 1px solid #ddd;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.dashboard-toolbar .menu-toggle {
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: #343a40;
+}
+
+.header-icons .icon {
+    margin-left: 15px;
+    font-size: 1.3rem;
+    color: #343a40;
+    transition: color 0.3s ease;
+}
+
+.header-icons .icon:hover {
+    color: #007bff;
+}
+
+.search-bar input {
+    width: 200px;
+    border-radius: 20px;
+    border: 1px solid #ced4da;
+    padding: 5px 15px;
+    transition: width 0.3s ease;
+}
+
+.search-bar input:focus {
+    width: 250px;
+}
+
+.dashboard-content {
+    padding: 20px;
+    background-color: #f8f9fa;
+}
+
+/* Responsive Styles */
+@media screen and (max-width: 992px) {
+    .dashboard-nav {
+        width: 80px;
+    }
+
+    .dashboard-nav.closed {
+        width: 60px; /* Adjust for closed state */
+    }
+
+    .dashboard-nav header {
+        justify-content: center;
+    }
+
+    .dashboard-nav .brand-logo span {
+        display: none;
+    }
+
+    .dashboard-nav-item {
+        justify-content: center;
+    }
+
+    .dashboard-nav-item i {
+        margin-right: 0;
+    }
+
+    .dashboard-app {
+        margin-left: 80px;
+    }
+
+    .dashboard-app.closed {
+        margin-left: 60px; /* Adjust for closed state */
+    }
+
+    .search-bar input {
+        width: 150px;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .dashboard-nav {
+        width: 60px;
+    }
+
+    .dashboard-app {
+        margin-left: 60px;
+    }
+
+    .search-bar input {
+        width: 100px;
+    }
+}
+
+@media screen and (max-width: 576px) {
+    .dashboard {
+        flex-direction: column;
+    }
+
+    .dashboard-nav {
+        width: 100%;
+        height: auto;
+    }
+
+    .dashboard-app {
+        margin-left: 0;
+    }
+
+    .dashboard-toolbar {
+        flex-direction: column;
+    }
+
+    .search-bar input {
+        width: 80px;
+    }
+}
+
+/* Animation */
+.dashboard-nav .brand-logo {
+    animation: slideIn 1s ease-in-out;
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateX(-100%);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.dashboard-nav-item {
+    position: relative;
+    overflow: hidden;
+}
+
+.dashboard-nav-item::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.2);
+    transform: translateX(-100%);
+    transition: transform 0.5s ease;
+}
+
+.dashboard-nav-item:hover::before {
+    transform: translateX(0);
+}
+
+.dashboard-app {
+    animation: fadeIn 1s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}

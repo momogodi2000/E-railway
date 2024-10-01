@@ -1,0 +1,57 @@
+from django.urls import path
+from . import views
+from django.contrib.auth import views as auth_views
+from .views import forgot_password, verify_reset_code, reset_password, profile_admin
+from .views import manage_contact, reply_contact, delete_contact, add_ticket, ticket_form_view
+
+
+
+urlpatterns = [
+    path('', views.home, name='home'), # Root URL routed to the home view
+    path('contact/', views.contact, name='contact'),
+    path('about/', views.about, name='about'),
+    path('Privacy/', views.Privacy, name='Privacy'),
+    path('term/', views.term, name='term'),
+    path('services/', views.services, name='services'),
+    path('route/', views.route, name='route'),
+    path('register/', views.register, name='register'),
+    path('login/', views.login, name='login'),
+    path('forgot-password/', forgot_password, name='forgot_password'),
+    path('verify-reset-code/', verify_reset_code, name='verify_reset_code'),
+    path('reset-password/', reset_password, name='reset_password'), 
+    path('logout/', views.logout, name='logout'),
+
+
+    path('panel/admin/', views.admin_panel, name='admin_panel'),
+    path('panel/maintenance/', views.maintenance_panel, name='maintenance_panel'),
+    path('panel/passenger/', views.passenger_panel, name='passenger_panel'),
+    path('panel/employer/', views.employer_panel, name='employer_panel'),
+
+    path('route/<int:route_id>/', views.route_detail, name='route_detail'),
+
+    path('user-management/', views.user_management, name='user_management'),
+    path('add-user/', views.add_user, name='add_user'),
+    path('edit-user/<int:user_id>/', views.edit_user, name='edit_user'),
+    path('delete-user/<int:user_id>/', views.delete_user, name='delete_user'),
+    path('security/', views.security, name='security'),
+    path('profile_admin/', profile_admin, name='profile_admin'),
+    path('manage_contact/', manage_contact, name='manage_contact'),
+    path('reply_contact/<int:contact_id>/', reply_contact, name='reply_contact'),
+    path('delete_contact/<int:contact_id>/', delete_contact, name='delete_contact'),
+
+    path('add_ticket/', add_ticket, name='add_ticket'),
+    path('ticket_form/', ticket_form_view, name='ticket_form'),
+    path('add_ticket/', views.add_ticket, name='add_ticket'),
+    path('view_tickets/', views.view_tickets, name='view_tickets'),
+    path('delete_ticket/<int:ticket_id>/', views.delete_ticket, name='delete_ticket'),
+    path('edit_ticket/<int:ticket_id>/', views.edit_ticket, name='edit_ticket'),
+
+    path('assign_task/', views.assign_task, name='assign_task'),
+    path('tasks/', views.task_list, name='task_list'),
+    path('edit_task/<int:task_id>/', views.edit_task, name='edit_task'),
+    path('delete_task/<int:task_id>/', views.delete_task, name='delete_task'),
+    path('apply_sanction/<int:task_id>/', views.apply_sanction, name='apply_sanction'),
+
+
+
+]

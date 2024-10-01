@@ -1,0 +1,23 @@
+{% extends 'panel/base/base_expert.html' %}
+{% block title %}Job Seeker List{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="text-center mb-4">Job Seekers</h2>
+    <div class="row">
+        {% for seeker in job_seekers %}
+            <div class="col-md-4">
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ seeker.domain.name }} - {{ seeker.specification.name }}</h5>
+                        <p class="card-text">{{ seeker.description }}</p>
+                        <p class="text-muted">Age: {{ seeker.age }}</p>
+                        <p class="text-muted">Location: {{ seeker.location }}</p>
+                        <a href="{{ seeker.resume.url }}" target="_blank" class="btn btn-primary">View Resume</a>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,94 @@
+{% extends 'panel/base/base_admin.html' %}
+
+{% block content %}
+<div class="container">
+    <div class="form-container shadow">
+        <h2 class="form-header">Add Train Ticket</h2>
+        <form id="ticketForm">
+            <div class="form-group">
+                <label for="hour">Hour</label>
+                <input type="time" class="form-control" id="hour" name="hour" required>
+            </div>
+            
+            <!-- Departure Destination Dropdown -->
+            <div class="form-group">
+                <label for="departure">Departure Destination</label>
+                <select class="form-control" id="departure" name="departure" required>
+                    <option value="Yaoundé">Yaoundé</option>
+                    <option value="Bafoussam">Bafoussam</option>
+                    <option value="Ngaoundéré">Ngaoundéré</option>
+                    <option value="Douala">Douala</option>
+                    <option value="Bamenda">Bamenda</option>
+                    <option value="Garoua">Garoua</option>
+                </select>
+            </div>
+
+            <!-- Arrival Destination Dropdown -->
+            <div class="form-group">
+                <label for="arrival">Arrival Destination</label>
+                <select class="form-control" id="arrival" name="arrival" required>
+                    <option value="Yaoundé">Yaoundé</option>
+                    <option value="Bafoussam">Bafoussam</option>
+                    <option value="Ngaoundéré">Ngaoundéré</option>
+                    <option value="Douala">Douala</option>
+                    <option value="Bamenda">Bamenda</option>
+                    <option value="Garoua">Garoua</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="classification">Ticket Classification</label>
+                <select class="form-control" id="classification" name="classification" required>
+                    <option value="Standard">Standard - 2000 XAF</option>
+                    <option value="Premium">Premium - 4000 XAF</option>
+                    <option value="VIP">VIP - 10000 XAF</option>
+                </select>
+            </div>
+            
+            <input type="hidden" id="railwayName" name="railway_name" value="Default Railway">
+            <div class="form-group">
+                <button type="submit" class="btn btn-custom">Add Ticket</button>
+                <button type="button" class="btn btn-secondary">Cancel</button>
+                <a href="{% url 'view_tickets' %}" class="btn btn-info">View Tickets</a>  <!-- View Tickets Button -->
+             </div>
+        </form>
+    </div>
+</div>
+<style>
+    .btn-secondary {
+    background-color: #6c757d; /* Grey color */
+    color: white;
+}
+.btn-secondary:hover {
+    background-color: #5a6268; /* Darker grey on hover */
+}
+</style>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#ticketForm').on('submit', function (e) {
+            e.preventDefault();
+            const formData = {
+                hour: $('#hour').val(),
+                departure: $('#departure').val(),
+                arrival: $('#arrival').val(),
+                classification: $('#classification').val(),
+                railway_name: $('#railwayName').val(),
+                'csrfmiddlewaretoken': '{{ csrf_token }}'  // Add CSRF token for security
+            };
+            $.ajax({
+                url: "{% url 'add_ticket' %}",
+                method: 'POST',
+                data: formData,
+                success: function (response) {
+                    alert('Ticket successfully added!');
+                    $('#ticketForm')[0].reset();
+                },
+                error: function () {
+                    alert('Failed to add ticket. Please try again.');
+                }
+            });
+        });
+    });
+</script>
+{% endblock %}

@@ -1,0 +1,74 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verify Reset Code</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <style>
+        /* Add your CSS styles here */
+        body {
+            background: url("{% static 'image/auth1.jpeg' %}") no-repeat center center fixed;
+            background-size: cover;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+        .form-container {
+            max-width: 400px;
+            width: 100%;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            background-color: rgba(255, 255, 255, 0.9);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            animation: fadeIn 1s ease-in-out;
+        }
+        .form-container h2 {
+            margin-bottom: 20px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="form-container">
+            <h2>Verify Reset Code</h2>
+            <form method="post">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="code">Enter Reset Code</label>
+                    <input type="text" name="code" class="form-control" required>
+                </div>
+                <button type="submit" class="btn btn-primary btn-block">Verify</button>
+            </form>
+            <div class="text-center mt-3">
+                <p><a href="{% url 'forgot_password' %}" class="btn btn-outline-primary">Resend Code</a></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        // Ensure the form is responsive on mobile
+        window.addEventListener('resize', function() {
+            const formContainer = document.querySelector('.form-container');
+            if (window.innerWidth < 768) {
+                formContainer.style.padding = '15px';  // Decrease padding on smaller screens
+            } else {
+                formContainer.style.padding = '20px';  // Default padding
+            }
+        });
+
+        // Trigger resize event on page load
+        window.dispatchEvent(new Event('resize'));
+    </script>
+</body>
+</html>

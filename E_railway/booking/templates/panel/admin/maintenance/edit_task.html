@@ -1,0 +1,37 @@
+{% extends 'panel/base/base_admin.html' %}
+
+{% load static %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/task.css' %}">
+
+<div class="container">
+    <h2 class="form-header">Edit Maintenance Task</h2>
+    <form method="POST">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="task_name">Task Name</label>
+            <input type="text" class="form-control" id="task_name" name="task_name" value="{{ task.task_name }}" required>
+        </div>
+        <div class="form-group">
+            <label for="description">Description</label>
+            <textarea class="form-control" id="description" name="description" required>{{ task.description }}</textarea>
+        </div>
+        <div class="form-group">
+            <label for="duration">Duration</label>
+            <select class="form-control" id="duration" name="duration" required>
+                <option value="periodic" {% if task.duration == 'periodic' %}selected{% endif %}>Periodic</option>
+                <option value="monthly" {% if task.duration == 'monthly' %}selected{% endif %}>Monthly</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="status">Status</label>
+            <select class="form-control" id="status" name="status" required>
+                <option value="done" {% if task.status == 'done' %}selected{% endif %}>Done</option>
+                <option value="not_done" {% if task.status == 'not_done' %}selected{% endif %}>Not Done</option>
+            </select>
+        </div>
+        <button type="submit" class="btn btn-custom">Save Changes</button>
+    </form>
+</div>
+{% endblock %}

@@ -1,0 +1,46 @@
+{% extends 'panel/base/base_home.html' %}
+{% load static %}
+
+{% block title %}
+About Us | E-Railway
+{% endblock %}
+
+{% block content %}
+<section class="about-section text-center">
+    <div class="container">
+        <h2>About Us</h2>
+        <p>Welcome to E-Railway, your trusted platform for seamless train bookings and travel planning across Cameroon. Our goal is to revolutionize railway travel by providing a modern, user-friendly service that simplifies booking and enhances travel experiences.</p>
+        
+        <h3>Our Vision</h3>
+        <p>We aim to become the leading railway booking service in Central Africa, ensuring every passenger enjoys fast, reliable, and comfortable travel options across the region.</p>
+
+        <h3>Our Mission</h3>
+        <p>To connect passengers with railway services efficiently, making travel easy and accessible while improving the quality of train services and enhancing the customer experience.</p>
+
+        <h3>Meet Our Team</h3>
+        <div class="row">
+            <div class="col-md-4 team-member">
+                <img src="{% static 'image/team1.jpeg' %}" alt="Team Member 1" class="rounded-circle">
+                <h5>John Doe</h5>
+                <p>CEO & Founder</p>
+            </div>
+            <div class="col-md-4 team-member">
+                <img src="{% static 'image/team2.png' %}" alt="Team Member 2" class="rounded-circle">
+                <h5>Jane Smith</h5>
+                <p>Chief Operations Officer</p>
+            </div>
+            <div class="col-md-4 team-member">
+                <img src="{% static 'image/team3.jpeg' %}" alt="Team Member 3" class="rounded-circle">
+                <h5>Michael Brown</h5>
+                <p>Head of Customer Relations</p>
+            </div>
+        </div>
+
+        <h3>Why Choose Us?</h3>
+        <p>At E-Railway, we prioritize convenience, comfort, and safety. Whether you're traveling for business or leisure, we are committed to offering you the best railway experience in Cameroon.</p>
+        
+        <h3>Join Us</h3>
+        <p>If you want to know more or partner with us, feel free to <a href="#contact">get in touch</a>. We are always looking to collaborate with industry professionals and make train travel better for everyone.</p>
+    </div>
+</section>
+{% endblock %}

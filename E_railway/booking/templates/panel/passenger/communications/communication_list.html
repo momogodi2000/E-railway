@@ -1,0 +1,41 @@
+{% extends "panel/base/base_clients.html" %}
+{% load static %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/communication.css' %}">
+
+<div class="container mt-5">
+    <h2>Communications</h2>
+    <div class="row">
+        {% for communication in communications %}
+        <div class="col-md-4 mb-4">
+            <div class="card h-100 animate__animated animate__fadeIn">
+                <img src="{{ communication.photo.url }}" class="card-img-top" alt="{{ communication.title }}">
+                <div class="card-body">
+                    <h5 class="card-title">{{ communication.title }}</h5>
+                    <p class="card-text">{{ communication.description|slice:":100" }}...</p>
+                    <a href="{% url 'communication_detail' communication.pk %}" class="btn btn-primary">View</a>
+                    <a href="{% url 'download_communication_pdf' communication.pk %}" class="btn btn-secondary">Download PDF</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+<Script>// scripts.js
+
+    document.addEventListener('DOMContentLoaded', function () {
+        const cards = document.querySelectorAll('.card');
+    
+        // Add hover animation to cards
+        cards.forEach(card => {
+            card.addEventListener('mouseenter', function () {
+                card.classList.add('animate__pulse');
+            });
+            card.addEventListener('mouseleave', function () {
+                card.classList.remove('animate__pulse');
+            });
+        });
+    });
+    </Script>
+{% endblock %}

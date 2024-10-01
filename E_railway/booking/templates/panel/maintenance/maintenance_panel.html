@@ -1,0 +1,339 @@
+{% extends 'panel/base/base_maintenance.html' %}
+{% load static %}
+
+{% block title %}Job Seeker Dashboard - JobConnect{% endblock %}
+
+{% block content %}
+
+
+<div class="container mt-4">
+    <h2>Expert Dashboard</h2>
+    <div class="row">
+
+        <!-- Profile Overview Card -->
+        <div class="col-md-4">
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h5><i class="fas fa-user"></i> Profile Overview</h5>
+                </div>
+                <div class="card-body">
+                    <h6 class="card-title">Count: <span class="badge bg-primary">{{ profile_count }}</span></h6>
+                </div>
+            </div>
+        </div>
+
+        <!-- Portfolio Management Card -->
+        <div class="col-md-4">
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h5><i class="fas fa-briefcase"></i> Portfolio Management</h5>
+                </div>
+                <div class="card-body">
+                    <h6 class="card-title">Count: <span class="badge bg-primary">{{ portfolio_count }}</span></h6>
+                </div>
+            </div>
+        </div>
+
+        <!-- Job Applications Card -->
+        <div class="col-md-4">
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h5><i class="fas fa-file-alt"></i> Job Applications</h5>
+                </div>
+                <div class="card-body">
+                    <h6 class="card-title">Count: <span class="badge bg-primary">{{ job_applications_count }}</span></h6>
+                </div>
+            </div>
+        </div>
+
+        <!-- Messages Card -->
+        <div class="col-md-4">
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h5><i class="fas fa-envelope"></i> Messages</h5>
+                </div>
+                <div class="card-body">
+                    <h6 class="card-title">Count: <span class="badge bg-primary">{{ messages_count }}</span></h6>
+                </div>
+            </div>
+        </div>
+
+        <!-- Notifications Card -->
+        <div class="col-md-4">
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h5><i class="fas fa-bell"></i> Notifications</h5>
+                </div>
+                <div class="card-body">
+                    <h6 class="card-title">Count: <span class="badge bg-primary">{{ notifications_count }}</span></h6>
+                </div>
+            </div>
+        </div>
+
+        <!-- Earnings Card -->
+        <div class="col-md-4">
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h5><i class="fas fa-dollar-sign"></i> Earnings</h5>
+                </div>
+                <div class="card-body">
+                    <h6 class="card-title">Count: <span class="badge bg-primary">{{ earnings_count }}</span></h6>
+                </div>
+            </div>
+        </div>
+
+     
+      
+
+    </div>
+</div>
+
+<div class="dashboard-section">
+
+    <!-- Profile Overview -->
+    <div class="card" style="animation: fadeIn 0.5s;">
+        <div class="card-header">
+            <h3>Profile Overview</h3>
+        </div>
+        <div class="card-body">
+            <p>View your profile details, including skills, experience, and ratings from clients.</p>
+            <img src="{% static 'image/why.jpeg' %}" class="img-fluid" alt="Profile Overview">
+        </div>
+    </div>
+
+    <!-- Portfolio Management -->
+    <div class="card" style="animation: fadeIn 0.5s; animation-delay: 0.2s;">
+        <div class="card-header">
+            <h3>Portfolio Management</h3>
+        </div>
+        <div class="card-body">
+            <p>Showcase your work by organizing your projects, adding descriptions, and uploading files.</p>
+            <img src="{% static 'image/why1.jpeg' %}" class="img-fluid" alt="Portfolio Management">
+        </div>
+    </div>
+
+    <!-- Job Listings -->
+    <div class="card" style="animation: fadeIn 0.5s; animation-delay: 0.4s;">
+        <div class="card-header">
+            <h3>Job Listings</h3>
+        </div>
+        <div class="card-body">
+            <p>Browse and apply for available jobs that match your skills and expertise.</p>
+            <img src="{% static 'image/why2.jpeg' %}" class="img-fluid" alt="Job Listings">
+        </div>
+    </div>
+
+    <!-- Booking Management -->
+    <div class="card" style="animation: fadeIn 0.5s; animation-delay: 0.6s;">
+        <div class="card-header">
+            <h3>Booking Management</h3>
+        </div>
+        <div class="card-body">
+            <p>Manage your bookings, view upcoming projects, and track your availability.</p>
+            <img src="{% static 'image/why.jpeg' %}" class="img-fluid" alt="Booking Management">
+        </div>
+    </div>
+ 
+
+    <!-- Performance Analytics -->
+    <div class="card" style="animation: fadeIn 0.5s; animation-delay: 1.2s;">
+        <div class="card-header">
+            <h3>Performance Analytics</h3>
+        </div>
+        <div class="card-body">
+            <p>Track your profile views, completed projects, and client feedback to improve your services.</p>
+            <img src="{% static 'image/why1.jpeg' %}" class="img-fluid" alt="Performance Analytics">
+        </div>
+    </div>
+
+    <!-- Skill Development -->
+    <div class="card" style="animation: fadeIn 0.5s; animation-delay: 1.4s;">
+        <div class="card-header">
+            <h3>Skill Development</h3>
+        </div>
+        <div class="card-body">
+            <p>Access resources and courses to enhance your skills and stay competitive in your field.</p>
+            <img src="{% static 'image/why2.jpeg' %}" class="img-fluid" alt="Skill Development">
+        </div>
+    </div>
+</div>
+
+<!-- Publicity Video Widget -->
+<div class="col-md-12 mb-4">
+    <div class="card video-widget animate__animated animate__fadeInUp" data-aos="zoom-in">
+        <div class="card-body text-center">
+            <h5 class="mb-4"><i class="fas fa-play-circle"></i> Watch Our Success Stories</h5>
+            <div class="video-container">
+                <video id="video1" controls class="video-responsive" muted>
+                    <source src="{% static 'video/moi.mp4' %}" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+                <video id="video2" class="video-responsive" muted style="display: none;">
+                    <source src="{% static 'video/moi1.mp4' %}" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Services Section -->
+<div class="col-md-12 mb-4">
+    <div class="services-section animate__animated animate__fadeIn" data-aos="fade-up">
+        <h3 class="text-center">Our Services for Job Seekers</h3>
+        <div class="row">
+            <!-- Standard Services -->
+            <div class="col-md-4 mb-3">
+                <div class="service-card card shadow-sm p-3">
+                    <h4>Standard Services</h4>
+                    <p>Get started with essential features for finding your next job.</p>
+                    <ul>
+                        <li>Access to all job postings</li>
+                        <li>Basic profile visibility to employers</li>
+                        <li>Email alerts for job matches</li>
+                    </ul>
+                    <p><strong>Price: 2,000 XAF</strong></p>
+                    <a href="{% url 'pay_now' service_type='standard' %}" class="btn btn-primary">Pay Now</a>
+                </div>
+            </div>
+            <!-- Premium Services -->
+            <div class="col-md-4 mb-3">
+                <div class="service-card card shadow-sm p-3">
+                    <h4>Premium Services</h4>
+                    <p>Boost your chances of getting hired with premium features.</p>
+                    <ul>
+                        <li>Highlighted profile for top visibility</li>
+                        <li>Advanced job alerts and recommendations</li>
+                        <li>Priority email and chat support</li>
+                    </ul>
+                    <p><strong>Price: 20,000 XAF</strong></p>
+                    <a href="{% url 'pay_now' service_type='premium' %}" class="btn btn-primary">Pay Now</a>
+                </div>
+            </div>
+            <!-- VIP Services -->
+            <div class="col-md-4 mb-3">
+                <div class="service-card card shadow-sm p-3">
+                    <h4>VIP Services</h4>
+                    <p>Experience personalized job search assistance with VIP services.</p>
+                    <ul>
+                        <li>Dedicated career coach</li>
+                        <li>Exclusive job offers from top employers</li>
+                        <li>24/7 priority support and guidance</li>
+                    </ul>
+                    <p><strong>Price: 35,000 XAF</strong></p>
+                    <a href="{% url 'pay_now' service_type='vip' %}" class="btn btn-primary">Pay Now</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Copyright Section -->
+<div class="col-md-12 text-center mt-4">
+    <p class="copyright">© 2024 JobConnect. All rights reserved.</p>
+</div>
+
+
+<style>
+    .video-container {
+        position: relative;
+        padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
+        height: 0;
+        overflow: hidden;
+        border-radius: 10px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+    .video-responsive {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        border: none;
+    }
+</style>
+
+<style>
+    .call-to-action {
+        background-color: #343a40;
+        color: #fff;
+        padding: 40px;
+        text-align: center;
+        border-radius: 8px;
+        box-shadow: 0 6px 12px rgba(0,0,0,0.2);
+    }
+    .cta-button {
+        padding: 10px 20px;
+        background-color: #28a745;
+        color: white;
+        border-radius: 50px;
+        border: none;
+        transition: background-color 0.3s ease-in-out;
+    }
+    .cta-button:hover {
+        background-color: #218838;
+    }
+    .services-section {
+        padding: 20px;
+        background-color: #f8f9fa;
+        border-radius: 8px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+    .service-card {
+        padding: 20px;
+        background-color: #fff;
+        border-radius: 10px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease;
+    }
+    .service-card:hover {
+        transform: translateY(-5px);
+    }
+    .copyright {
+        color: #6c757d;
+        margin-top: 20px;
+    }
+</style>
+
+<style>
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+.dashboard-section {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+    margin-top: 20px;
+}
+.card {
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    background-color: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s;
+}
+.card:hover {
+    transform: scale(1.02);
+}
+.card-header {
+    background-color: #f7f7f7;
+    padding: 15px;
+    border-bottom: 1px solid #ddd;
+}
+.card-body {
+    padding: 15px;
+}
+.img-fluid {
+    max-width: 100%;
+    height: auto;
+}
+</style>
+{% endblock %}

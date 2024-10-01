@@ -1,0 +1,34 @@
+{% extends "panel/base/base_clients.html" %}
+{% load static %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/communication.css' %}">
+
+<div class="container mt-5">
+    <div class="card mb-4">
+        <img src="{{ communication.photo.url }}" class="card-img-top" alt="{{ communication.title }}">
+        <div class="card-body">
+            <h2>{{ communication.title }}</h2>
+            <p><strong>Date:</strong> {{ communication.date|date:"F d, Y" }}</p>
+            <p>{{ communication.description }}</p>
+            <a href="{% url 'download_communication_pdf' communication.pk %}" class="btn btn-secondary">Download PDF</a>
+        </div>
+    </div>
+</div>
+<Script>// scripts.js
+
+    document.addEventListener('DOMContentLoaded', function () {
+        const cards = document.querySelectorAll('.card');
+    
+        // Add hover animation to cards
+        cards.forEach(card => {
+            card.addEventListener('mouseenter', function () {
+                card.classList.add('animate__pulse');
+            });
+            card.addEventListener('mouseleave', function () {
+                card.classList.remove('animate__pulse');
+            });
+        });
+    });
+    </Script>
+{% endblock %}

@@ -1,0 +1,89 @@
+{% extends 'panel/base/base_expert.html' %}
+{% load static %}
+
+
+{% block title %}Community{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/forum.css' %}">
+
+<!-- Header Section -->
+<header class="py-5 text-center text-white bg-primary">
+    <h1>Welcome to the Community</h1>
+    <p>Connect, share, and stay informed with fellow job seekers.</p>
+</header>
+
+<!-- Main Community Section -->
+<div class="container my-5">
+    <div class="row">
+        <!-- Forum Participation Section -->
+        <div class="col-lg-4 col-md-6 mb-4" data-aos="fade-up">
+            <div class="card h-100 shadow">
+                <div class="card-body text-center">
+                    <i class="fas fa-comments fa-3x text-primary mb-3"></i>
+                    <h4 class="card-title">Forum Participation</h4>
+                    <p class="card-text">Join discussions and share knowledge with other job seekers.</p>
+                    <a href="{% url 'forum' %}" class="btn btn-primary">Join the Forum</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Networking Section -->
+        <div class="col-lg-4 col-md-6 mb-4" data-aos="fade-up" data-aos-delay="200">
+            <div class="card h-100 shadow">
+                <div class="card-body text-center">
+                    <i class="fas fa-network-wired fa-3x text-success mb-3"></i>
+                    <h4 class="card-title">Networking</h4>
+                    <p class="card-text">Connect with professionals in your field and expand your network.</p>
+                    <a href="{% url 'networking_form' %}" class="btn btn-success">Start Networking</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Industry News Section -->
+        <div class="col-lg-4 col-md-6 mb-4" data-aos="fade-up" data-aos-delay="400">
+            <div class="card h-100 shadow">
+                <div class="card-body text-center">
+                    <i class="fas fa-newspaper fa-3x text-warning mb-3"></i>
+                    <h4 class="card-title">Industry News</h4>
+                    <p class="card-text">Stay updated on the latest trends and developments in your industry.</p>
+                    <a href="#" class="btn btn-warning">Read News</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<style>
+    /* community.css */
+header {
+    background-image: url('/path/to/community-banner.jpg'); /* Optional: replace with your image */
+    background-size: cover;
+    background-position: center;
+    color: white;
+    text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.7);
+}
+
+.card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+footer {
+    background-color: #343a40;
+    font-size: 0.9rem;
+}
+
+</style>
+{% endblock %}
+
+{% block scripts %}
+<!-- AOS for animations -->
+<script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+<script>
+    AOS.init(); // Initialize AOS animations
+</script>
+{% endblock %}

@@ -1,0 +1,267 @@
+{% extends 'panel/base/base_admin.html' %}
+
+{% load static %}
+
+{% block content %}
+
+<style>
+/* Basic Reset */
+body {
+    margin: 0;
+    font-family: 'Arial', sans-serif;
+    background-color: #f4f7fa;
+}
+
+/* Card Container */
+.card-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 20px;
+    padding: 20px;
+}
+
+/* Card Styles */
+.card {
+    background: #ffffff;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+}
+
+/* Card Body */
+.card-body {
+    padding: 20px;
+}
+
+/* Card Title */
+.card-title {
+    font-size: 1.5em;
+    margin-bottom: 10px;
+    color: #333;
+}
+
+/* Card Text */
+.card-text {
+    font-size: 1em;
+    color: #666;
+    margin: 5px 0;
+}
+
+/* Button Styles */
+.btn {
+    display: inline-block;
+    padding: 12px 20px;
+    font-size: 0.9em;
+    color: #ffffff;
+    background-color: #007bff;
+    border: none;
+    border-radius: 30px;
+    text-decoration: none;
+    text-align: center;
+    transition: background-color 0.3s, transform 0.3s;
+}
+.btn:hover {
+    background-color: #0056b3;
+    transform: translateY(-2px);
+}
+
+/* Animation */
+.animated {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.5s, transform 0.5s;
+}
+.animated.fadeIn {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Map Styles */
+#map {
+    height: 400px;
+    margin: 20px 0;
+}
+
+/* Table Styles */
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+.table th, .table td {
+    border: 1px solid #ccc;
+    padding: 10px;
+    text-align: left;
+}
+.table th {
+    background-color: #007bff;
+    color: white;
+}
+
+/* Responsive Design */
+@media (max-width: 600px) {
+    .card-title {
+        font-size: 1.2em;
+    }
+    .card-text {
+        font-size: 0.9em;
+    }
+}
+</style>
+
+<div class="container">
+    <h1 class="mt-4">Admin Panel</h1>
+</div>
+
+<!-- Cards Container -->
+<div class="card-container">
+    <div class="card text-center animated">
+        <div class="card-body">
+            <h5 class="card-title"><i class="fas fa-users"></i> User Management</h5>
+            <p class="card-text">Manage user information and roles effectively.</p>
+            <p class="card-text">Count: {{ user_count }}</p>
+            <a href="#" class="btn">View Users</a>
+        </div>
+    </div>
+    <div class="card text-center animated">
+        <div class="card-body">
+            <h5 class="card-title"><i class="fas fa-comments"></i> Communication Management</h5>
+            <p class="card-text">Oversee all communications and messages.</p>
+            <p class="card-text">Count: {{ communication_count }}</p>
+            <a href="#" class="btn">View Communications</a>
+        </div>
+    </div>
+    <div class="card text-center animated">
+        <div class="card-body">
+            <h5 class="card-title"><i class="fas fa-lock"></i> Password Resets</h5>
+            <p class="card-text">Handle password reset requests securely.</p>
+            <p class="card-text">Count: {{ password_reset_count }}</p>
+            <a href="#" class="btn">View Requests</a>
+        </div>
+    </div>
+    <div class="card text-center animated">
+        <div class="card-body">
+            <h5 class="card-title"><i class="fas fa-star"></i> Review Management</h5>
+            <p class="card-text">Manage customer reviews and feedback.</p>
+            <p class="card-text">Count: {{ review_count }}</p>
+            <a href="#" class="btn">View Reviews</a>
+        </div>
+    </div>
+    <div class="card text-center animated">
+        <div class="card-body">
+            <h5 class="card-title"><i class="fas fa-calendar-check"></i> Booking Management</h5>
+            <p class="card-text">Organize and manage bookings effortlessly.</p>
+            <p class="card-text">Count: {{ booking_count }}</p>
+            <a href="#" class="btn">View Bookings</a>
+        </div>
+    </div>
+</div>
+
+<!-- Google Map -->
+<div id="map"></div>
+
+<!-- Table for Cameroon Railway Train Agencies -->
+<h2 class="mt-4">Cameroon Railway Train Agencies</h2>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Agency Name</th>
+            <th>Location</th>
+            <th>Contact</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>SNCF Cameroon</td>
+            <td>Yaoundé</td>
+            <td>+237 123 456 789</td>
+        </tr>
+        <tr>
+            <td>Camrail</td>
+            <td>Douala</td>
+            <td>+237 987 654 321</td>
+        </tr>
+        <tr>
+            <td>Railway Express</td>
+            <td>Garoua</td>
+            <td>+237 555 444 333</td>
+        </tr>
+        <!-- Add more agencies as needed -->
+    </tbody>
+</table>
+
+<!-- Copyright Section -->
+<div class="col-md-12 text-center mt-4">
+    <p class="copyright">© 2024 E-railway. All rights reserved.</p>
+</div>
+
+<!-- Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<!-- Google Maps API -->
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAOVYRIgupAurZup5y1PRh8Ismb1A3lLao&libraries=places&callback=initMap" async defer>
+
+</script>
+
+<!-- Custom JavaScript -->
+<script src="{% static 'js/admin_panel.js' %}"></script>
+
+<script>
+function initMap() {
+    const map = new google.maps.Map(document.getElementById("map"), {
+        center: { lat: 3.848, lng: 11.5021 }, // Centered on Yaoundé
+        zoom: 6,
+    });
+
+    const markers = [
+        { position: { lat: 3.848, lng: 11.5021 }, title: "SNCF Cameroon" },
+        { position: { lat: 4.0511, lng: 9.7085 }, title: "Camrail" },
+        { position: { lat: 9.3238, lng: 13.3944 }, title: "Railway Express" },
+        // Add more markers as needed
+    ];
+
+    markers.forEach(markerData => {
+        const marker = new google.maps.Marker({
+            position: markerData.position,
+            map: map,
+            title: markerData.title,
+        });
+    });
+}
+
+// Wait for the DOM to fully load
+document.addEventListener('DOMContentLoaded', function() {
+    const cards = document.querySelectorAll('.animated');
+
+    // Add fade-in effect to cards
+    cards.forEach((card, index) => {
+        setTimeout(() => {
+            card.classList.add('fadeIn');
+        }, index * 200); // Staggered animation
+    });
+
+    // Adjust card container based on screen size
+    adjustCardContainer();
+
+    window.addEventListener('resize', adjustCardContainer);
+
+    function adjustCardContainer() {
+        const container = document.querySelector('.card-container');
+        const width = window.innerWidth;
+
+        if (width < 600) {
+            container.style.gridTemplateColumns = 'repeat(auto-fill, minmax(100%, 1fr))';
+        } else {
+            container.style.gridTemplateColumns = 'repeat(auto-fill, minmax(280px, 1fr))';
+        }
+    }
+});
+</script>
+{% endblock %}

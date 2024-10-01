@@ -1,0 +1,56 @@
+{% extends 'panel/base/base_admin.html' %}
+
+{% block content %}
+<div class="container">
+    <div class="form-container shadow">
+        <h2 class="form-header">Edit Train Ticket</h2>
+        <form method="POST" action="{% url 'edit_ticket' ticket.id %}">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="hour">Hour</label>
+                <input type="time" class="form-control" id="hour" name="hour" value="{{ ticket.hour }}" required>
+            </div>
+            
+            <!-- Departure Destination Dropdown -->
+            <div class="form-group">
+                <label for="departure">Departure Destination</label>
+                <select class="form-control" id="departure" name="departure" required>
+                    <option value="Yaoundé" {% if ticket.departure == "Yaoundé" %}selected{% endif %}>Yaoundé</option>
+                    <option value="Bafoussam" {% if ticket.departure == "Bafoussam" %}selected{% endif %}>Bafoussam</option>
+                    <option value="Ngaoundéré" {% if ticket.departure == "Ngaoundéré" %}selected{% endif %}>Ngaoundéré</option>
+                    <option value="Douala" {% if ticket.departure == "Douala" %}selected{% endif %}>Douala</option>
+                    <option value="Bamenda" {% if ticket.departure == "Bamenda" %}selected{% endif %}>Bamenda</option>
+                    <option value="Garoua" {% if ticket.departure == "Garoua" %}selected{% endif %}>Garoua</option>
+                </select>
+            </div>
+
+            <!-- Arrival Destination Dropdown -->
+            <div class="form-group">
+                <label for="arrival">Arrival Destination</label>
+                <select class="form-control" id="arrival" name="arrival" required>
+                    <option value="Yaoundé" {% if ticket.arrival == "Yaoundé" %}selected{% endif %}>Yaoundé</option>
+                    <option value="Bafoussam" {% if ticket.arrival == "Bafoussam" %}selected{% endif %}>Bafoussam</option>
+                    <option value="Ngaoundéré" {% if ticket.arrival == "Ngaoundéré" %}selected{% endif %}>Ngaoundéré</option>
+                    <option value="Douala" {% if ticket.arrival == "Douala" %}selected{% endif %}>Douala</option>
+                    <option value="Bamenda" {% if ticket.arrival == "Bamenda" %}selected{% endif %}>Bamenda</option>
+                    <option value="Garoua" {% if ticket.arrival == "Garoua" %}selected{% endif %}>Garoua</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="classification">Ticket Classification</label>
+                <select class="form-control" id="classification" name="classification" required>
+                    <option value="Standard" {% if ticket.classification == "Standard" %}selected{% endif %}>Standard - 2000 XAF</option>
+                    <option value="Premium" {% if ticket.classification == "Premium" %}selected{% endif %}>Premium - 4000 XAF</option>
+                    <option value="VIP" {% if ticket.classification == "VIP" %}selected{% endif %}>VIP - 10000 XAF</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <button type="submit" class="btn btn-custom">Save Changes</button>
+                <a href="{% url 'view_tickets' %}" class="btn btn-secondary">Cancel</a>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

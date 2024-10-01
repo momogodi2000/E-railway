@@ -1,0 +1,37 @@
+{% extends 'panel/base/base_admin.html' %}
+
+{% load static %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/task.css' %}">
+
+<div class="container">
+    <h2 class="form-header">Maintenance Task List</h2>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Task Name</th>
+                <th>Assigned To</th>
+                <th>Status</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for task in tasks %}
+                <tr>
+                    <td>{{ task.task_name }}</td>
+                    <td>{{ task.assigned_to.username }}</td>
+                    <td>{{ task.status }}</td>
+                    <td>
+                        <a href="{% url 'edit_task' task.id %}" class="btn btn-sm btn-warning">Edit</a>
+                        <a href="{% url 'delete_task' task.id %}" class="btn btn-sm btn-danger">Delete</a>
+                        {% if task.status == 'not_done' %}
+                            <a href="{% url 'apply_sanction' task.id %}" class="btn btn-sm btn-dark">Apply Sanction</a>
+                        {% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

@@ -1,0 +1,61 @@
+from django import forms
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm, PasswordResetForm
+from django.contrib.auth.forms import UserChangeForm
+from .models import CustomUser
+from django.contrib.auth.models import User
+from .models import Contact
+
+
+
+
+class RegistrationForm(UserCreationForm):
+    ROLES = [
+        ('admin', 'Admin'),
+        ('employer', 'Employer'),
+        ('passenger', 'Passenger'),
+        ('maintenance', 'Maintenance'),
+    ]
+    role = forms.ChoiceField(choices=ROLES, widget=forms.Select(attrs={'class': 'form-control'}))
+
+    class Meta:
+        model = CustomUser
+        fields = ['username', 'email', 'password1', 'password2', 'role']
+
+        widgets = {
+            'username': forms.TextInput(attrs={'class': 'form-control'}),
+            'email': forms.EmailInput(attrs={'class': 'form-control'}),
+            'password1': forms.PasswordInput(attrs={'class': 'form-control'}),
+            'password2': forms.PasswordInput(attrs={'class': 'form-control'}),
+        }
+
+
+
+class LoginForm(AuthenticationForm):
+    username = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Username'}))
+    password = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Password'}))
+
+
+class CustomPasswordResetForm(PasswordResetForm):
+    email = forms.EmailField(widget=forms.EmailInput(attrs={'class': 'form-control', 'placeholder': 'Email'}))
+
+
+
+class CustomUserCreationForm(UserCreationForm):
+    email = forms.EmailField(required=True)
+
+    class Meta:
+        model = User
+        fields = ('username', 'email', 'password1', 'password2')
+
+        
+class ForgotPasswordForm(forms.Form):
+    email = forms.EmailField(label='Email Address', max_length=254)
+
+
+class ContactForm(forms.ModelForm):
+    class Meta:
+        model = Contact
+        fields = ['email', 'description', 'location']
+        widgets = {
+            'description': forms.Textarea(attrs={'rows': 4}),
+        }

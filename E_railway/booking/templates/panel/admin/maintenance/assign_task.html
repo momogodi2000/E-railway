@@ -1,0 +1,46 @@
+{% extends 'panel/base/base_admin.html' %}
+
+{% load static %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/task.css' %}">
+
+<div class="container">
+    <div class="form-container shadow">
+        <h2 class="form-header">Assign Maintenance Task</h2>
+        <form method="POST" id="assignTaskForm">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="assigned_to">Select Maintenance User</label>
+                <select class="form-control" id="assigned_to" name="assigned_to" required>
+                    {% for user in maintenance_users %}
+                        <option value="{{ user.id }}">{{ user.username }} ({{ user.email }})</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="task_name">Task Name</label>
+                <input type="text" class="form-control" id="task_name" name="task_name" required>
+            </div>
+            <div class="form-group">
+                <label for="description">Description</label>
+                <textarea class="form-control" id="description" name="description" required></textarea>
+            </div>
+            <div class="form-group">
+                <label for="duration">Duration</label>
+                <select class="form-control" id="duration" name="duration" required>
+                    <option value="periodic">Periodic</option>
+                    <option value="monthly">Monthly</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="deadline">Deadline</label>
+                <input type="date" class="form-control" id="deadline" name="deadline" required>
+            </div>
+            <button type="submit" class="btn btn-custom">Assign Task</button>
+            <a href="{% url 'task_list' %}" class="btn btn-sm btn-warning">manage maintenance_users</a>
+
+        </form>
+    </div>
+</div>
+{% endblock %}
