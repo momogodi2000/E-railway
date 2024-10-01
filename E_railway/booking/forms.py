@@ -59,3 +59,34 @@ class ContactForm(forms.ModelForm):
         widgets = {
             'description': forms.Textarea(attrs={'rows': 4}),
         }
+
+from .models import Task, CustomUser
+from .models import Communication
+
+
+class TaskForm(forms.ModelForm):
+    class Meta:
+        model = Task
+        fields = ['name', 'description', 'task_type', 'ticket_quota', 'is_on_guard', 'status', 'sanction', 'assigned_to']
+        widgets = {
+            'description': forms.Textarea(attrs={'rows': 4}),
+            'assigned_to': forms.Select(attrs={'class': 'form-control'}),
+            'task_type': forms.Select(attrs={'class': 'form-control'}),
+            'sanction': forms.Select(attrs={'class': 'form-control'}),
+            'status': forms.Select(attrs={'class': 'form-control'}),
+        }
+
+
+class CommunicationForm(forms.ModelForm):
+    class Meta:
+        model = Communication
+        fields = ['name', 'description', 'photo', 'destination']
+
+    def clean_photo(self):
+        photo = self.cleaned_data.get('photo', False)
+        if photo:
+            if photo.size > 4 * 1024 * 1024:
+                raise forms.ValidationError("Image file too large ( > 4MB )")
+            if not photo.content_type.startswith('image'):
+                raise forms.ValidationError("File is not an image")
+        return photo

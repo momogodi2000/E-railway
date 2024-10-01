@@ -1,0 +1,69 @@
+{% extends 'panel/base/base_admin.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container">
+    <div class="form-container shadow">
+        <h2 class="form-header">Add Communication</h2>
+        <form id="communicationForm" enctype="multipart/form-data">
+            <div class="form-group">
+                <label for="name">Communication Name</label>
+                <input type="text" class="form-control" id="name" name="name" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="description">Description</label>
+                <textarea class="form-control" id="description" name="description" rows="5" required></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="photo">Photo (optional, max 4MB)</label>
+                <input type="file" class="form-control" id="photo" name="photo" accept="image/*">
+            </div>
+
+            <div class="form-group">
+                <label for="destination">Destination</label>
+                <select class="form-control" id="destination" name="destination" required>
+                    <option value="employer">Employer</option>
+                    <option value="maintenance">Maintenance</option>
+                    <option value="passenger">Passenger</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary">Add Communication</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#communicationForm').on('submit', function (e) {
+            e.preventDefault();
+            var formData = new FormData(this);
+            formData.append('csrfmiddlewaretoken', '{{ csrf_token }}');
+            
+            $.ajax({
+                url: "{% url 'add_communication' %}",
+                type: "POST",
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function (response) {
+                    if (response.status === 'success') {
+                        alert('Communication added successfully!');
+                        $('#communicationForm')[0].reset();
+                    } else {
+                        alert('Error adding communication.');
+                    }
+                },
+                error: function () {
+                    alert('Error adding communication.');
+                }
+            });
+        });
+    });
+</script>
+{% endblock %}

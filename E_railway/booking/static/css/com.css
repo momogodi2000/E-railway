@@ -1,0 +1,25 @@
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.form-container {
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 5px;
+}
+
+.form-header {
+    margin-bottom: 20px;
+}
+
+@media (max-width: 768px) {
+    .container {
+        padding: 10px;
+    }
+
+    .form-header {
+        text-align: center;
+    }
+}

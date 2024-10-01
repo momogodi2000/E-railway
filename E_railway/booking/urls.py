@@ -52,6 +52,16 @@ urlpatterns = [
     path('delete_task/<int:task_id>/', views.delete_task, name='delete_task'),
     path('apply_sanction/<int:task_id>/', views.apply_sanction, name='apply_sanction'),
 
+    path('employer-tasks/', views.employer_task_list, name='employer_task_list'),
+    path('assign-task/', views.assign_task, name='assign_task'),
+    path('edit-task/<int:task_id>/', views.edit_task, name='edit_task'),
+    path('delete-task/<int:task_id>/', views.delete_task, name='delete_task'),
+
+    path('add_communication/', views.add_communication, name='add_communication'),
+    path('edit_communication/<int:pk>/', views.edit_communication, name='edit_communication'),
+    path('delete_communication/<int:pk>/', views.delete_communication, name='delete_communication'),
+    path('communication_list/', views.communication_list, name='communication_list'),
+
 
 
 ]

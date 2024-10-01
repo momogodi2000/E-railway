@@ -1,0 +1,43 @@
+{% extends "panel/base/base_admin.html" %}
+{% load static %}
+
+{% block content %}
+<style>
+    .container {
+    padding: 2rem;
+}
+
+h2 {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.table-striped {
+    margin-top: 2rem;
+}
+
+.btn {
+    margin-right: 1rem;
+}
+
+</style>
+<div class="container">
+    <h2>Assign New Task</h2>
+
+    <form method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+
+        <button type="submit" class="btn btn-success">Assign Task</button>
+    </form>
+</div>
+<Script>
+    // Example: Adding confirmation before deleting a task
+    $('.btn-danger').click(function(e) {
+        if(!confirm("Are you sure you want to delete this task?")) {
+            e.preventDefault();
+        }
+    });
+    
+    </Script>
+{% endblock %}

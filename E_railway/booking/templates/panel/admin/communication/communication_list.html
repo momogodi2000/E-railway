@@ -1,0 +1,35 @@
+{% extends 'panel/base/base_admin.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container">
+    <h2 class="mb-4">All Communications</h2>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Date</th>
+                <th>Destination</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for communication in communications %}
+            <tr>
+                <td>{{ communication.name }}</td>
+                <td>{{ communication.description }}</td>
+                <td>{{ communication.date }}</td>
+                <td>{{ communication.get_destination_display }}</td>
+                <td>
+                    <a href="{% url 'edit_communication' communication.id %}" class="btn btn-warning btn-sm">Edit</a>
+                    <a href="{% url 'delete_communication' communication.id %}" class="btn btn-danger btn-sm">Delete</a>
+                </td>
+                <a href="{% url 'add_communication' %}" class="btn btn-primary btn-sm">Add communication</a>
+
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

@@ -442,3 +442,130 @@ def apply_sanction(request, task_id):
     )
 
     return redirect('task_list')
+
+
+# views.py
+
+from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib.auth.decorators import user_passes_test
+from .models import Task, CustomUser
+from .forms import TaskForm
+
+def is_admin(user):
+    return user.is_authenticated and user.role == 'admin'
+
+@user_passes_test(is_admin)
+def employer_task_list(request):
+    employers = CustomUser.objects.filter(role='employer')
+    tasks = Task.objects.all()
+
+    return render(request, 'panel/admin/employer/employer_task_list.html', {
+        'employers': employers,
+        'tasks': tasks,
+    })
+
+@user_passes_test(is_admin)
+def assign_task(request):
+    if request.method == 'POST':
+        form = TaskForm(request.POST)
+        if form.is_valid():
+            task = form.save()
+
+            # Send email alert using yagmail
+            send_task_assignment_email(task)
+
+            return redirect('employer_task_list')
+    else:
+        form = TaskForm()
+
+    return render(request, 'panel/admin/employer/assign_task.html', {'form': form})
+
+def send_task_assignment_email(task):
+    username = "yvangodimomo@gmail.com"
+    password = "pzlsapphesjecgdl"  # Your app-specific password
+    yag = yagmail.SMTP(username, password)
+
+    subject = f"New Task Assigned: {task.name}"
+    content = f"""
+    Dear {task.assigned_to.username},
+
+    A new task has been assigned to you.
+
+    Task Name: {task.name}
+    Description: {task.description}
+    Task Type: {task.get_task_type_display()}
+    Ticket Quota: {task.ticket_quota}
+    Is On Guard: {'Yes' if task.is_on_guard else 'No'}
+
+    Please ensure this task is completed on time.
+
+    Best Regards,
+    Admin
+    """
+    yag.send(task.assigned_to.email, subject, content)
+
+@user_passes_test(is_admin)
+def edit_task(request, task_id):
+    task = get_object_or_404(Task, id=task_id)
+    if request.method == 'POST':
+        form = TaskForm(request.POST, instance=task)
+        if form.is_valid():
+            form.save()
+            return redirect('employer_task_list')
+    else:
+        form = TaskForm(instance=task)
+
+    return render(request, 'panel/admin/employer/edit_task.html', {'form': form})
+
+@user_passes_test(is_admin)
+def delete_task(request, task_id):
+    task = get_object_or_404(Task, id=task_id)
+    if request.method == 'POST':
+        task.delete()
+        return redirect('employer_task_list')
+
+    return render(request, 'panel/admin/employer/delete_task.html', {'task': task})
+
+
+from .models import Communication
+from .forms import CommunicationForm
+
+# Add a communication
+def add_communication(request):
+    if request.method == 'POST':
+        form = CommunicationForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            return JsonResponse({'status': 'success'})
+        else:
+            return JsonResponse({'status': 'error', 'errors': form.errors})
+    else:
+        form = CommunicationForm()
+    return render(request, 'panel/admin/communication/add_communication.html', {'form': form})
+
+# Edit a communication
+def edit_communication(request, pk):
+    communication = get_object_or_404(Communication, pk=pk)
+    if request.method == 'POST':
+        form = CommunicationForm(request.POST, request.FILES, instance=communication)
+        if form.is_valid():
+            form.save()
+            return JsonResponse({'status': 'success'})
+        else:
+            return JsonResponse({'status': 'error', 'errors': form.errors})
+    else:
+        form = CommunicationForm(instance=communication)
+    return render(request, 'panel/admin/communication/edit_communication.html', {'form': form, 'communication': communication})
+
+# Delete a communication
+def delete_communication(request, pk):
+    communication = get_object_or_404(Communication, pk=pk)
+    if request.method == 'POST':
+        communication.delete()
+        return redirect('communication_list')
+    return render(request, 'panel/admin/communication/delete_communication.html', {'communication': communication})
+
+# List all communications
+def communication_list(request):
+    communications = Communication.objects.all()
+    return render(request, 'panel/admin/communication/communication_list.html', {'communications': communications})

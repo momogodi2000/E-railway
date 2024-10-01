@@ -1,0 +1,15 @@
+{% extends 'panel/base/base_admin.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container">
+    <div class="alert alert-danger">
+        Are you sure you want to delete the communication <strong>{{ communication.name }}</strong>?
+    </div>
+    <form method="POST">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger">Yes, delete</button>
+        <a href="{% url 'communication_list' %}" class="btn btn-secondary">Cancel</a>
+    </form>
+</div>
+{% endblock %}

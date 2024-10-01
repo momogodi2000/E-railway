@@ -4,7 +4,6 @@ from django.contrib.auth.models import AbstractUser
 from django.utils import timezone
 
 
-
 class CustomUser(AbstractUser):
     ROLE_CHOICES = (
         ('admin', 'Admin'),
@@ -102,3 +101,50 @@ class MaintenanceTask(models.Model):
 
     def __str__(self):
         return f"{self.task_name} assigned to {self.assigned_to.username}"
+
+
+
+class Task(models.Model):
+    TASK_TYPE_CHOICES = (
+        ('periodic', 'Periodic'),
+        ('monthly', 'Monthly'),
+    )
+    STATUS_CHOICES = (
+        ('done', 'Done'),
+        ('not_done', 'Not Done'),
+    )
+    SANCTION_CHOICES = (
+        ('none', 'None'),
+        ('warning', 'Warning'),
+        ('temporary_ban', 'Temporary Ban'),
+    )
+
+    assigned_to = models.ForeignKey(CustomUser, on_delete=models.CASCADE, limit_choices_to={'role': 'employer'})
+    name = models.CharField(max_length=255)
+    description = models.TextField()
+    task_type = models.CharField(max_length=20, choices=TASK_TYPE_CHOICES)
+    ticket_quota = models.IntegerField()
+    is_on_guard = models.BooleanField(default=False)  # Whether the user is on guard duty
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='not_done')
+    sanction = models.CharField(max_length=20, choices=SANCTION_CHOICES, default='none')
+    assigned_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return f"{self.name} - {self.assigned_to.username}"
+
+class Communication(models.Model):
+    DESTINATION_CHOICES = (
+        ('employer', 'Employer'),
+        ('maintenance', 'Maintenance'),
+        ('passenger', 'Passenger'),
+    )
+
+    name = models.CharField(max_length=255)
+    description = models.TextField()
+    date = models.DateTimeField(default=timezone.now)
+    photo = models.ImageField(upload_to='communications/', blank=True, null=True)
+    destination = models.CharField(max_length=30, choices=DESTINATION_CHOICES)
+
+    def __str__(self):
+        return self.name
