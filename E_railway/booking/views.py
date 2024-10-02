@@ -822,3 +822,132 @@ def generate_pdf_receipt(receipt_info):
 
     buffer.seek(0)
     return buffer
+
+
+from .models import TicketBought
+
+def rewards_fidelity(request):
+    if request.user.is_authenticated:
+        tickets_bought = TicketBought.objects.filter(user=request.user)
+        total_tickets = tickets_bought.count()
+        reward_level = calculate_reward(total_tickets)
+    else:
+        total_tickets = 0
+        reward_level = None
+
+    return render(request, 'panel/passenger/reward/rewards_fidelity.html', {
+        'total_tickets': total_tickets,
+        'reward_level': reward_level,
+    })
+
+def calculate_reward(total_tickets):
+    if total_tickets >= 10:
+        return "60% Discount"
+    elif total_tickets >= 5:
+        return "40% Discount"
+    elif total_tickets >= 3:
+        return "20% Discount"
+    elif total_tickets >= 1:
+        return "1 Free Travel"
+    else:
+        return "No Rewards Yet"
+
+
+def ticket_history(request):
+    if request.user.is_authenticated:
+        ticket_history = TicketBought.objects.filter(user=request.user).order_by('-date')
+    else:
+        ticket_history = []
+
+    return render(request, 'panel/passenger/reward/ticket_history.html', {
+        'ticket_history': ticket_history,
+    })
+
+
+## employer panel
+
+@login_required
+def setting_security(request):
+    if request.method == 'POST':
+        name = request.POST.get('name')
+        email = request.POST.get('email')
+        current_password = request.POST.get('currentPassword')
+        new_password = request.POST.get('newPassword')
+        confirm_password = request.POST.get('confirmPassword')
+        profile_picture = request.FILES.get('profile_picture')
+
+        # Update name and email
+        request.user.name = name
+        request.user.email = email
+
+        # Check current password for security
+        if not request.user.check_password(current_password):
+            context = {'error': 'Current password is incorrect'}
+        else:
+            # Update password if provided and valid
+            if new_password and new_password == confirm_password:
+                request.user.set_password(new_password)
+
+            # Update profile picture if provided
+            if profile_picture:
+                request.user.profile_picture = profile_picture
+
+            request.user.save()
+            context = {'success': 'Settings updated successfully'}
+            # Redirect to avoid resubmission on refresh
+            return redirect('user_panel')
+    else:
+        context = {}
+
+    return render(request, 'panel/employer/profile/setting_security.html', context)
+
+@login_required
+def profile_employer(request):
+    return render(request, 'panel/employer/profile/profile_employer.html', {'user': request.user})
+
+
+# View to list all communications
+def communication_list_employer(request):
+    communications = Communication.objects.all()
+    return render(request, 'panel/employer/communications/communication_list_employer.html', {'communications': communications})
+
+# View to generate and download the PDF
+def download_pdf_employer(request, communication_id):
+    communication = get_object_or_404(Communication, id=communication_id)
+    template = get_template('panel/employer/communications/communication_pdf_employer.html')
+    html = template.render({'communication': communication})
+    
+    response = HttpResponse(content_type='application/pdf')
+    response['Content-Disposition'] = f'attachment; filename="{communication.name}.pdf"'
+    
+    pisa_status = pisa.CreatePDF(
+        io.BytesIO(html.encode("UTF-8")), dest=response
+    )
+    
+    if pisa_status.err:
+        return HttpResponse('Error generating PDF')
+    
+    return response
+
+
+def get_communication_details_employer(request, communication_id):
+    communication = get_object_or_404(Communication, id=communication_id)
+    html = render_to_string('panel/employer/communications/communication_details_employer.html', {'communication': communication})
+    return JsonResponse({'html': html})
+
+
+from .models import Task
+
+@login_required
+def notifications(request):
+    # Get the current user
+    current_user = request.user
+
+    # Fetch tasks assigned to the current user
+    tasks = Task.objects.filter(assigned_to=current_user)
+
+    context = {
+        'tasks': tasks,
+    }
+    return render(request, 'panel/employer/note/notifications.html', context)
+

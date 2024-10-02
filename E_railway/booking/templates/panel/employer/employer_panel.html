@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block title %}
-    JobConnect - Enhanced Client Dashboard
+    E-Railway - Employer Dashboard
 {% endblock %}
 
 {% block stylesheet %}
@@ -10,374 +10,131 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
-    <style>
-        .dashboard-header {
-            background-image: url('{% static "images/dashboard-bg.jpg" %}');
-            background-size: cover;
-            padding: 60px;
-            color: #fff;
-            text-align: center;
-        }
-        .widget {
-            padding: 20px;
-            background-color: #fff;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-            border-radius: 10px;
-            transition: transform 0.3s ease;
-        }
-        .widget img {
-            width: 100%;
-            height: auto;
-            object-fit: cover;
-        }
-        .card:hover {
-            transform: translateY(-10px);
-        }
-        .stat-widget {
-            background-color: #f8f9fa;
-            padding: 30px;
-            border-radius: 8px;
-            box-shadow: 0 6px 12px rgba(0,0,0,0.15);
-        }
-        .video-widget {
-            position: relative;
-            padding-bottom: 56.25%;
-            height: 0;
-            overflow: hidden;
-        }
-        .video-widget iframe {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            border: 0;
-        }
-        .call-to-action {
-            background-color: #343a40;
-            color: #fff;
-            padding: 40px;
-            text-align: center;
-            border-radius: 8px;
-            box-shadow: 0 6px 12px rgba(0,0,0,0.2);
-        }
-        .call-to-action:hover {
-            background-color: #495057;
-            cursor: pointer;
-        }
-        .cta-button {
-            padding: 10px 20px;
-            background-color: #28a745;
-            color: white;
-            border-radius: 50px;
-            border: none;
-            transition: background-color 0.3s ease-in-out;
-        }
-        .cta-button:hover {
-            background-color: #218838;
-        }
-    </style>
 {% endblock %}
 
 {% block content %}
 <div class="dashboard">
     <div class="dashboard-header">
-        <h1 class="animate__animated animate__fadeInDown">Welcome  {{ user.username }}, To Your Dashboard</h1>
-        <p class="animate__animated animate__fadeInUp">Manage your jobs, candidates, and projects with ease.</p>
+        <h1 class="animate__animated animate__fadeInDown">Welcome {{ user.username }}, To Your E-Railway Dashboard</h1>
+        <p class="animate__animated animate__fadeInUp">Manage ticket sales, reservations, and train schedules effectively.</p>
     </div>
 
-    <div class="dashboard-content container mt-4">
+    <div class="container mt-4">
         <div class="row">
-            <!-- Job Stats Widget -->
+            <!-- Ticket Sales -->
+            <div class="col-md-6 mb-4">
+                <div class="card widget animate__animated animate__fadeInLeft" data-aos="fade-right">
+                    <div class="card-header bg-success text-white">
+                        <h5><i class="fas fa-ticket-alt"></i> Ticket Sales</h5>
+                    </div>
+                    <div class="card-body">
+                        <ul>
+                            <li>Sell tickets to passengers at stations.</li>
+                            <li>Manage daily ticket sales and reports.</li>
+                        </ul>
+                        <img src="{% static 'image/ticket.png' %}" alt="Ticket Sales" class="img-fluid">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Ticket Reservations -->
+            <div class="col-md-6 mb-4">
+                <div class="card widget animate__animated animate__fadeInRight" data-aos="fade-left">
+                    <div class="card-header bg-info text-white">
+                        <h5><i class="fas fa-calendar-check"></i> Ticket Reservations</h5>
+                    </div>
+                    <div class="card-body">
+                        <ul>
+                            <li>Handle ticket reservations and cancellations.</li>
+                            <li>View and manage reservation status.</li>
+                        </ul>
+                        <img src="{% static 'image/ticket.png' %}" alt="Ticket Reservations" class="img-fluid">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Train Schedule -->
+            <div class="col-md-6 mb-4">
+                <div class="card widget animate__animated animate__fadeInLeft" data-aos="fade-right">
+                    <div class="card-header bg-warning text-white">
+                        <h5><i class="fas fa-clock"></i> Train Schedule</h5>
+                    </div>
+                    <div class="card-body">
+                        <ul>
+                            <li>Provide up-to-date information about train schedules.</li>
+                            <li>Manage routes and fares efficiently.</li>
+                        </ul>
+                        <img src="{% static 'image/train_staff.jpeg' %}" alt="Train Schedule" class="img-fluid">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Customer Support -->
+            <div class="col-md-6 mb-4">
+                <div class="card widget animate__animated animate__fadeInRight" data-aos="fade-left">
+                    <div class="card-header bg-danger text-white">
+                        <h5><i class="fas fa-headset"></i> Customer Support</h5>
+                    </div>
+                    <div class="card-body">
+                        <ul>
+                            <li>Assist passengers with inquiries and issues.</li>
+                            <li>Provide information about routes and fares.</li>
+                        </ul>
+                        <img src="{% static 'image/support.jpeg' %}" alt="Customer Support" class="img-fluid">
+                    </div>
+                </div>
+            </div>
+
+           
+            <!-- Publicity Section -->
             <div class="col-md-12 mb-4">
-                <div class="stat-widget text-center animate__animated animate__fadeIn">
-                    <h5><i class="fas fa-chart-line"></i> Job Posting Statistics</h5>
-                    <p>Track job applications, hiring rate, and ongoing projects.</p>
-                    <canvas id="jobStatsChart" height="100"></canvas>
-                </div>
-            </div>
-
-            <!-- Job Posting -->
-            <div class="col-md-6 mb-4">
-                <div class="card widget animate__animated animate__fadeInLeft" data-aos="fade-right">
-                    <div class="card-header">
-                        <h5><i class="fas fa-briefcase"></i> Job Posting</h5>
+                <div class="card widget animate__animated animate__fadeInUp" data-aos="fade-up">
+                    <div class="card-header bg-primary text-white">
+                        <h5><i class="fas fa-bullhorn"></i> Publicity and Promotions</h5>
                     </div>
                     <div class="card-body">
+                        <p>Check out our latest promotions and campaigns to boost ticket sales!</p>
                         <ul>
-                            <li>Create and manage job postings.</li>
-                            <li>Track applications and profiles.</li>
+                            <li>Special discounts on weekend travel.</li>
+                            <li>Family packages available for group bookings.</li>
+                            <li>Seasonal promotions during holidays.</li>
                         </ul>
-                        <img src="{% static 'image/job-posting.jpeg' %}" alt="Job Posting">
                     </div>
                 </div>
             </div>
 
-            <!-- Candidate Search -->
-            <div class="col-md-6 mb-4">
-                <div class="card widget animate__animated animate__fadeInRight" data-aos="fade-left">
-                    <div class="card-header">
-                        <h5><i class="fas fa-search"></i> Candidate Search</h5>
+            <!-- Local Videos Section -->
+            <div class="col-md-12 mb-4">
+                <div class="card widget animate__animated animate__fadeInUp" data-aos="fade-up">
+                    <div class="card-header bg-secondary text-white">
+                        <h5><i class="fas fa-video"></i> Local Videos</h5>
                     </div>
                     <div class="card-body">
-                        <ul>
-                            <li>Use advanced filters to find suitable candidates.</li>
-                            <li>View detailed candidate profiles and resumes.</li>
-                        </ul>
-                        <img src="{% static 'image/candidate-search.jpeg' %}" alt="Candidate Search">
+                        <p>Watch our local promotional videos to learn more about our services:</p>
+                        <video controls class="mb-3 w-100">
+                            <source src="{% static 'video/moi.mp4' %}" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+                      
                     </div>
                 </div>
             </div>
 
-            <!-- Messaging -->
-            <div class="col-md-6 mb-4">
-                <div class="card widget animate__animated animate__fadeInLeft" data-aos="fade-right">
-                    <div class="card-header">
-                        <h5><i class="fas fa-comments"></i> Messaging</h5>
-                    </div>
-                    <div class="card-body">
-                        <ul>
-                            <li>Direct messaging with candidates.</li>
-                            <li>Discuss projects and share files.</li>
-                        </ul>
-                        <img src="{% static 'image/messaging.jpeg' %}" alt="Messaging">
-                    </div>
-                </div>
-            </div>
-
-            <!-- Project Management -->
-            <div class="col-md-6 mb-4">
-                <div class="card widget animate__animated animate__fadeInRight" data-aos="fade-left">
-                    <div class="card-header">
-                        <h5><i class="fas fa-tasks"></i> Project Management</h5>
-                    </div>
-                    <div class="card-body">
-                        <ul>
-                            <li>Create and assign project tasks.</li>
-                            <li>Monitor project progress and deadlines.</li>
-                        </ul>
-                        <img src="{% static 'image/project-management.jpeg' %}" alt="Project Management">
-                    </div>
-                </div>
-            </div>
-
-            <!-- Payments -->
-            <div class="col-md-6 mb-4">
-                <div class="card widget animate__animated animate__fadeInLeft" data-aos="fade-right">
-                    <div class="card-header">
-                        <h5><i class="fas fa-dollar-sign"></i> Payments</h5>
-                    </div>
-                    <div class="card-body">
-                        <ul>
-                            <li>Review and process payments.</li>
-                            <li>Track billing history and invoices.</li>
-                        </ul>
-                        <img src="{% static 'image/why2.jpeg' %}" alt="Payments">
-                    </div>
-                </div>
-            </div>
-<!-- Publicity Video Widget -->
-<div class="col-md-12 mb-4">
-    <div class="card video-widget animate__animated animate__fadeInUp" data-aos="zoom-in">
-        <div class="card-body text-center">
-            <h5 class="mb-4"><i class="fas fa-play-circle"></i> Watch Our Success Stories</h5>
-            <div class="video-container">
-                <video id="video1" controls class="video-responsive" muted>
-                    <source src="{% static 'video/moi.mp4' %}" type="video/mp4">
-                    Your browser does not support the video tag.
-                </video>
-                <video id="video2" class="video-responsive" muted style="display: none;">
-                    <source src="{% static 'video/moi1.mp4' %}" type="video/mp4">
-                    Your browser does not support the video tag.
-                </video>
+            <!-- Copyright Section -->
+            <div class="col-md-12 text-center mt-4">
+                <p class="copyright">© 2024 E-Railway. All rights reserved.</p>
             </div>
         </div>
     </div>
 </div>
 
-<style>
-    .video-container {
-        position: relative;
-        padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
-        height: 0;
-        overflow: hidden;
-        border-radius: 10px;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    }
-    .video-responsive {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        border: none;
-    }
-</style>
-
-      <!-- Call to Action -->
-<div class="col-md-12 mb-4">
-    <div class="call-to-action animate__animated animate__bounceIn" data-aos="fade-up">
-        <h2>Ready to Get Started?</h2>
-        <p>Explore more features and upgrade to premium for the best experience.</p>
-        <button class="cta-button">Upgrade Now</button>
-    </div>
-</div>
-
-<!-- Services Section -->
-<div class="col-md-12 mb-4">
-    <div class="services-section animate__animated animate__fadeIn" data-aos="fade-up">
-        <h3 class="text-center">Our Services</h3>
-        <div class="row">
-            <!-- Standard Services -->
-            <div class="col-md-4 mb-3">
-                <div class="service-card">
-                    <h4>Standard Services</h4>
-                    <p>Basic job posting and candidate search features.</p>
-                    <ul>
-                        <li>Access to job postings</li>
-                        <li>Basic candidate filtering</li>
-                        <li>Email support</li>
-                    </ul>
-                    <p><strong>Price: 2,000 XAF</strong></p>
-                </div>
-            </div>
-            <!-- Premium Services -->
-            <div class="col-md-4 mb-3">
-                <div class="service-card">
-                    <h4>Premium Services</h4>
-                    <p>Enhanced features for serious recruiters.</p>
-                    <ul>
-                        <li>Advanced analytics</li>
-                        <li>Custom candidate matching</li>
-                        <li>Priority support</li>
-                    </ul>
-                    <p><strong>Price: 20,000 XAF</strong></p>
-                </div>
-            </div>
-            <!-- VIP Services -->
-            <div class="col-md-4 mb-3">
-                <div class="service-card">
-                    <h4>VIP Services</h4>
-                    <p>All-inclusive services for top-tier clients.</p>
-                    <ul>
-                        <li>Dedicated account manager</li>
-                        <li>Exclusive job postings</li>
-                        <li>24/7 support</li>
-                    </ul>
-                    <p><strong>Price: 35,000 XAF</strong></p>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Copyright Section -->
-<div class="col-md-12 text-center mt-4">
-    <p class="copyright">© 2024 JobConnect. All rights reserved.</p>
-</div>
-
-<style>
-    .call-to-action {
-        background-color: #343a40;
-        color: #fff;
-        padding: 40px;
-        text-align: center;
-        border-radius: 8px;
-        box-shadow: 0 6px 12px rgba(0,0,0,0.2);
-    }
-    .cta-button {
-        padding: 10px 20px;
-        background-color: #28a745;
-        color: white;
-        border-radius: 50px;
-        border: none;
-        transition: background-color 0.3s ease-in-out;
-    }
-    .cta-button:hover {
-        background-color: #218838;
-    }
-    .services-section {
-        padding: 20px;
-        background-color: #f8f9fa;
-        border-radius: 8px;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    }
-    .service-card {
-        padding: 20px;
-        background-color: #fff;
-        border-radius: 10px;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-        transition: transform 0.3s ease;
-    }
-    .service-card:hover {
-        transform: translateY(-5px);
-    }
-    .copyright {
-        color: #6c757d;
-        margin-top: 20px;
-    }
-</style>
 {% endblock %}
 
 {% block script %}
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
     <script>
-        
-        // Chart for job statistics
-        const ctx = document.getElementById('jobStatsChart').getContext('2d');
-        const jobStatsChart = new Chart(ctx, {
-            type: 'line',
-            data: {
-                labels: ['January', 'February', 'March', 'April', 'May'],
-                datasets: [{
-                    label: 'Applications',
-                    data: [12, 19, 3, 5, 2, 3],
-                    borderColor: 'rgba(75, 192, 192, 1)',
-                    fill: false
-                }, {
-                    label: 'Hires',
-                    data: [1, 2, 3, 4, 5, 6],
-                    borderColor: 'rgba(153, 102, 255, 1)',
-                    fill: false
-                }]
-            },
-            options: {
-                responsive: true,
-                scales: {
-                    y: {
-                        beginAtZero: true
-                    }
-                }
-            }
-        });
-
-        // AOS animation initialization
-        AOS.init({
-            duration: 1200, // animation duration in ms
-            once: true, // whether animation happens only once
-        });
+        // Initialize AOS
+        AOS.init();
     </script>
-
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            const video1 = document.getElementById("video1");
-            const video2 = document.getElementById("video2");
-    
-            // When video1 ends, hide it and show video2, then play video2
-            video1.addEventListener("ended", function() {
-                video1.style.display = "none"; // Hide video1
-                video2.style.display = "block"; // Show video2
-                video2.play(); // Start video2
-            });
-    
-            // Optionally, you can add the logic for video looping back to video1
-            video2.addEventListener("ended", function() {
-                video2.style.display = "none"; // Hide video2
-                video1.style.display = "block"; // Show video1
-                video1.play(); // Restart video1
-            });
-        });
-    </script>
-    
 {% endblock %}

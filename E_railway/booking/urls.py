@@ -64,24 +64,30 @@ urlpatterns = [
     path('policy/', views.policy, name='policy'),
     path('gov/', views.gov, name='gov'),
 
-
+## passenger url
     path('security_cleints/', views.security_cleints, name='security_cleints'),
     path('profile_clients/', views.profile_clients, name='profile_clients'),
-
     path('communications/', views.communication_list, name='communication_list'),
     path('download_pdf/<int:communication_id>/', views.download_pdf, name='download_pdf'),
     path('get_communication_details/<int:communication_id>/', get_communication_details, name='get_communication_details'),
     path('my-report/', views.my_report, name='my_report'),
-   
-   
-   
     path('ticket-selection/', views.ticket_selection, name='ticket_selection'),
-    
     # Payment page for buying or reserving tickets
     path('ticket/payment/<int:ticket_id>/', views.ticket_payment, name='ticket_payment'),
-
     # URL for generating the PDF receipt
     path('ticket/generate_pdf/', views.generate_pdf_receipt, name='generate_pdf'),
+    path('rewards/', views.rewards_fidelity, name='rewards_fidelity'),
+    path('history/', views.ticket_history, name='ticket_history'),
+
+
+## employer url
+    path('setting_security/', views.setting_security, name='setting_security'),
+    path('profile_employer/', views.profile_employer, name='profile_employer'),
+
+    path('communications_employer/', views.communication_list_employer, name='communication_list_employer'),
+    path('download_pdf_employer/<int:communication_id>/', views.download_pdf_employer, name='download_pdf_employer'),
+    path('get_communication_details_employer/<int:communication_id>/', views.get_communication_details_employer, name='get_communication_details_employer'),
+    path('notifications/', views.notifications, name='notifications'),
 
 
 ]
