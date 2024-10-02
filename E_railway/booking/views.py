@@ -951,3 +951,35 @@ def notifications(request):
     }
     return render(request, 'panel/employer/note/notifications.html', context)
 
+
+@login_required
+def verify_tickets(request):
+    tickets_bought = TicketBought.objects.select_related('user', 'ticket').all()
+
+    if request.method == 'POST':
+        ticket_id = request.POST.get('ticket_id')
+        action = request.POST.get('action')
+
+        try:
+            ticket_bought = TicketBought.objects.get(id=ticket_id)
+
+            if action == 'verify':
+                # Logic to generate the ticket
+                messages.success(request, f'Ticket for {ticket_bought.user.username} has been verified.')
+                # Implement ticket generation logic here
+                # e.g., creating a ticket PDF or sending an email
+                
+            elif action == 'reject':
+                ticket_bought.status = 'rejected'
+                ticket_bought.save()
+                messages.info(request, f'Ticket for {ticket_bought.user.username} has been rejected.')
+
+        except TicketBought.DoesNotExist:
+            messages.error(request, 'Ticket not found.')
+
+        return redirect('verify_tickets')
+
+    context = {
+        'tickets_bought': tickets_bought,
+    }
+    return render(request, 'panel/employer/note/verify_tickets.html', context)

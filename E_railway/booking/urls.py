@@ -88,6 +88,8 @@ urlpatterns = [
     path('download_pdf_employer/<int:communication_id>/', views.download_pdf_employer, name='download_pdf_employer'),
     path('get_communication_details_employer/<int:communication_id>/', views.get_communication_details_employer, name='get_communication_details_employer'),
     path('notifications/', views.notifications, name='notifications'),
+    path('verify-tickets/', views.verify_tickets, name='verify_tickets'),
+
 
 
 ]

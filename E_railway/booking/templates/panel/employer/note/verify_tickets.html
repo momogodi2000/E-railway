@@ -1,0 +1,93 @@
+{% extends 'panel/base/base_employer.html' %}
+{% load static %}
+
+{% block title %}
+    Verify Tickets
+{% endblock %}
+
+{% block stylesheet %}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{% static 'css/verify_tickets.css' %}"> <!-- Custom CSS -->
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        h2 {
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+        .table th {
+            background-color: #007bff;
+            color: white;
+        }
+        .table td {
+            vertical-align: middle;
+        }
+        .btn {
+            margin-right: 5px;
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+    <div class="container mt-5">
+        <h2>Verify Tickets</h2>
+
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>User</th>
+                    <th>Ticket Details</th>
+                    <th>Amount Paid</th>
+                    <th>Status</th>
+                    <th>Date Bought</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for ticket in tickets_bought %}
+                    <tr>
+                        <td>{{ ticket.user.username }}</td>
+                        <td>
+                            {{ ticket.ticket }}<br>
+                            Departure: {{ ticket.ticket.departure }}<br>
+                            Arrival: {{ ticket.ticket.arrival }}<br>
+                            Classification: {{ ticket.ticket.classification }}
+                        </td>
+                        <td>{{ ticket.amount_paid }}</td>
+                        <td>{{ ticket.status }}</td>
+                        <td>{{ ticket.date }}</td>
+                        <td>
+                            <form method="post" action="{% url 'verify_tickets' %}">
+                                {% csrf_token %}
+                                <input type="hidden" name="ticket_id" value="{{ ticket.id }}">
+                                <button type="submit" name="action" value="verify" class="btn btn-success">Verify</button>
+                                <button type="submit" name="action" value="reject" class="btn btn-danger">Reject</button>
+                            </form>
+                        </td>
+                    </tr>
+                {% empty %}
+                    <tr>
+                        <td colspan="6" class="text-center">No tickets purchased.</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}
+
+{% block script %}
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="{% static 'js/verify_tickets.js' %}"></script> <!-- Custom JS -->
+{% endblock %}
