@@ -1,8 +1,10 @@
-{% extends 'panel/base/base_passenger.html' %}
+{% extends 'panel/base/base_clients.html' %}
+
+
 {% load static %}
 
 {% block title %}
-    JobConnect - Enhanced Client Dashboard
+    e-Railway - Passenger Dashboard
 {% endblock %}
 
 {% block stylesheet %}
@@ -12,7 +14,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
     <style>
         .dashboard-header {
-            background-image: url('{% static "images/dashboard-bg.jpg" %}');
+            background-image: url('{% static "images/railway-bg.jpg" %}');
             background-size: cover;
             padding: 60px;
             color: #fff;
@@ -25,33 +27,8 @@
             border-radius: 10px;
             transition: transform 0.3s ease;
         }
-        .widget img {
-            width: 100%;
-            height: auto;
-            object-fit: cover;
-        }
         .card:hover {
             transform: translateY(-10px);
-        }
-        .stat-widget {
-            background-color: #f8f9fa;
-            padding: 30px;
-            border-radius: 8px;
-            box-shadow: 0 6px 12px rgba(0,0,0,0.15);
-        }
-        .video-widget {
-            position: relative;
-            padding-bottom: 56.25%;
-            height: 0;
-            overflow: hidden;
-        }
-        .video-widget iframe {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            border: 0;
         }
         .call-to-action {
             background-color: #343a40;
@@ -60,10 +37,6 @@
             text-align: center;
             border-radius: 8px;
             box-shadow: 0 6px 12px rgba(0,0,0,0.2);
-        }
-        .call-to-action:hover {
-            background-color: #495057;
-            cursor: pointer;
         }
         .cta-button {
             padding: 10px 20px;
@@ -76,269 +49,201 @@
         .cta-button:hover {
             background-color: #218838;
         }
+        /* Google Map styling */
+        #map {
+            height: 400px;
+            width: 100%;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
     </style>
 {% endblock %}
 
 {% block content %}
 <div class="dashboard">
     <div class="dashboard-header">
-        <h1 class="animate__animated animate__fadeInDown">Welcome  {{ user.username }}, To Your Dashboard</h1>
-        <p class="animate__animated animate__fadeInUp">Manage your jobs, candidates, and projects with ease.</p>
+        <h1 class="animate__animated animate__fadeInDown">Welcome {{ user.username }}, To Your e-Railway Dashboard</h1>
+        <p class="animate__animated animate__fadeInUp">Manage your trips, bookings, and services with ease.</p>
     </div>
 
     <div class="dashboard-content container mt-4">
         <div class="row">
-            <!-- Job Stats Widget -->
+            <!-- Travel Stats Widget -->
             <div class="col-md-12 mb-4">
                 <div class="stat-widget text-center animate__animated animate__fadeIn">
-                    <h5><i class="fas fa-chart-line"></i> Job Posting Statistics</h5>
-                    <p>Track job applications, hiring rate, and ongoing projects.</p>
-                    <canvas id="jobStatsChart" height="100"></canvas>
+                    <h5><i class="fas fa-train"></i> Travel Statistics</h5>
+                    <p>Track your travel history and upcoming journeys.</p>
+                    <canvas id="travelStatsChart" height="100"></canvas>
                 </div>
             </div>
 
-            <!-- Job Posting -->
+            <!-- Ticket Booking -->
             <div class="col-md-6 mb-4">
                 <div class="card widget animate__animated animate__fadeInLeft" data-aos="fade-right">
                     <div class="card-header">
-                        <h5><i class="fas fa-briefcase"></i> Job Posting</h5>
+                        <h5><i class="fas fa-ticket-alt"></i> Ticket Booking</h5>
                     </div>
                     <div class="card-body">
                         <ul>
-                            <li>Create and manage job postings.</li>
-                            <li>Track applications and profiles.</li>
+                            <li>Book and manage your train tickets.</li>
+                            <li>View booking history.</li>
                         </ul>
-                        <img src="{% static 'image/job-posting.jpeg' %}" alt="Job Posting">
+                        <img src="{% static 'image/ticket.png' %}" alt="Ticket Booking">
                     </div>
                 </div>
             </div>
 
-            <!-- Candidate Search -->
+            <!-- Train Schedule -->
             <div class="col-md-6 mb-4">
                 <div class="card widget animate__animated animate__fadeInRight" data-aos="fade-left">
                     <div class="card-header">
-                        <h5><i class="fas fa-search"></i> Candidate Search</h5>
+                        <h5><i class="fas fa-clock"></i> Train Schedule</h5>
                     </div>
                     <div class="card-body">
                         <ul>
-                            <li>Use advanced filters to find suitable candidates.</li>
-                            <li>View detailed candidate profiles and resumes.</li>
+                            <li>Check real-time train schedules.</li>
+                            <li>Get notifications for delays or changes.</li>
                         </ul>
-                        <img src="{% static 'image/candidate-search.jpeg' %}" alt="Candidate Search">
+                        <img src="{% static 'image/training.jpeg' %}" alt="Train Schedule">
                     </div>
                 </div>
             </div>
 
-            <!-- Messaging -->
+            <!-- Customer Support -->
             <div class="col-md-6 mb-4">
                 <div class="card widget animate__animated animate__fadeInLeft" data-aos="fade-right">
                     <div class="card-header">
-                        <h5><i class="fas fa-comments"></i> Messaging</h5>
+                        <h5><i class="fas fa-comments"></i> Customer Support</h5>
                     </div>
                     <div class="card-body">
                         <ul>
-                            <li>Direct messaging with candidates.</li>
-                            <li>Discuss projects and share files.</li>
+                            <li>Reach out for inquiries or assistance.</li>
+                            <li>Chat with support representatives.</li>
                         </ul>
-                        <img src="{% static 'image/messaging.jpeg' %}" alt="Messaging">
+                        <img src="{% static 'image/support.jpeg' %}" alt="Customer Support">
                     </div>
                 </div>
             </div>
 
-            <!-- Project Management -->
+            <!-- Profile Management -->
             <div class="col-md-6 mb-4">
                 <div class="card widget animate__animated animate__fadeInRight" data-aos="fade-left">
                     <div class="card-header">
-                        <h5><i class="fas fa-tasks"></i> Project Management</h5>
+                        <h5><i class="fas fa-user"></i> Profile Management</h5>
                     </div>
                     <div class="card-body">
                         <ul>
-                            <li>Create and assign project tasks.</li>
-                            <li>Monitor project progress and deadlines.</li>
+                            <li>Update your personal information.</li>
+                            <li>Manage payment methods and preferences.</li>
                         </ul>
-                        <img src="{% static 'image/project-management.jpeg' %}" alt="Project Management">
+                        <img src="{% static 'image/profile-management.jpeg' %}" alt="Profile Management">
                     </div>
                 </div>
             </div>
 
-            <!-- Payments -->
+            <!-- Promotions -->
             <div class="col-md-6 mb-4">
                 <div class="card widget animate__animated animate__fadeInLeft" data-aos="fade-right">
                     <div class="card-header">
-                        <h5><i class="fas fa-dollar-sign"></i> Payments</h5>
+                        <h5><i class="fas fa-bullhorn"></i> Promotions</h5>
                     </div>
                     <div class="card-body">
                         <ul>
-                            <li>Review and process payments.</li>
-                            <li>Track billing history and invoices.</li>
+                            <li>Check for ongoing discounts and offers.</li>
+                            <li>Subscribe for exclusive deals.</li>
                         </ul>
-                        <img src="{% static 'image/why2.jpeg' %}" alt="Payments">
+                        <img src="{% static 'image/promotions.jpeg' %}" alt="Promotions">
                     </div>
                 </div>
             </div>
-<!-- Publicity Video Widget -->
-<div class="col-md-12 mb-4">
-    <div class="card video-widget animate__animated animate__fadeInUp" data-aos="zoom-in">
-        <div class="card-body text-center">
-            <h5 class="mb-4"><i class="fas fa-play-circle"></i> Watch Our Success Stories</h5>
-            <div class="video-container">
-                <video id="video1" controls class="video-responsive" muted>
-                    <source src="{% static 'video/moi.mp4' %}" type="video/mp4">
-                    Your browser does not support the video tag.
-                </video>
-                <video id="video2" class="video-responsive" muted style="display: none;">
-                    <source src="{% static 'video/moi1.mp4' %}" type="video/mp4">
-                    Your browser does not support the video tag.
-                </video>
+
+            <!-- Railway Table -->
+            <div class="col-md-12 mb-4">
+                <div class="card widget">
+                    <div class="card-header">
+                        <h5><i class="fas fa-train"></i> Railways in Cameroon</h5>
+                    </div>
+                    <div class="card-body">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Railway Name</th>
+                                    <th scope="col">Location</th>
+                                    <th scope="col">Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Cameroon Railway</td>
+                                    <td>Yaoundé</td>
+                                    <td>Operational</td>
+                                </tr>
+                                <tr>
+                                    <td>Douala Railway</td>
+                                    <td>Douala</td>
+                                    <td>Operational</td>
+                                </tr>
+                                <tr>
+                                    <td>Bertoua Railway</td>
+                                    <td>Bertoua</td>
+                                    <td>Under Construction</td>
+                                </tr>
+                                <tr>
+                                    <td>Garoua Railway</td>
+                                    <td>Garoua</td>
+                                    <td>Operational</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Google Map -->
+            <div class="col-md-12 mb-4">
+                <div class="card widget">
+                    <div class="card-header">
+                        <h5><i class="fas fa-map-marker-alt"></i> Nearest Railway Location</h5>
+                    </div>
+                    <div class="card-body">
+                        <div id="map"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Call to Action -->
+            <div class="col-md-12 mb-4">
+                <div class="call-to-action animate__animated animate__bounceIn" data-aos="fade-up">
+                    <h2>Ready to Travel?</h2>
+                    <p>Explore our services and book your next journey.</p>
+                    <button class="cta-button">Book Now</button>
+                </div>
+            </div>
+
+            <!-- Copyright Section -->
+            <div class="col-md-12 text-center mt-4">
+                <p class="copyright">© 2024 e-Railway. All rights reserved.</p>
             </div>
         </div>
     </div>
-</div>
 
-<style>
-    .video-container {
-        position: relative;
-        padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
-        height: 0;
-        overflow: hidden;
-        border-radius: 10px;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    }
-    .video-responsive {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        border: none;
-    }
-</style>
-
-      <!-- Call to Action -->
-<div class="col-md-12 mb-4">
-    <div class="call-to-action animate__animated animate__bounceIn" data-aos="fade-up">
-        <h2>Ready to Get Started?</h2>
-        <p>Explore more features and upgrade to premium for the best experience.</p>
-        <button class="cta-button">Upgrade Now</button>
-    </div>
-</div>
-
-<!-- Services Section -->
-<div class="col-md-12 mb-4">
-    <div class="services-section animate__animated animate__fadeIn" data-aos="fade-up">
-        <h3 class="text-center">Our Services</h3>
-        <div class="row">
-            <!-- Standard Services -->
-            <div class="col-md-4 mb-3">
-                <div class="service-card">
-                    <h4>Standard Services</h4>
-                    <p>Basic job posting and candidate search features.</p>
-                    <ul>
-                        <li>Access to job postings</li>
-                        <li>Basic candidate filtering</li>
-                        <li>Email support</li>
-                    </ul>
-                    <p><strong>Price: 2,000 XAF</strong></p>
-                </div>
-            </div>
-            <!-- Premium Services -->
-            <div class="col-md-4 mb-3">
-                <div class="service-card">
-                    <h4>Premium Services</h4>
-                    <p>Enhanced features for serious recruiters.</p>
-                    <ul>
-                        <li>Advanced analytics</li>
-                        <li>Custom candidate matching</li>
-                        <li>Priority support</li>
-                    </ul>
-                    <p><strong>Price: 20,000 XAF</strong></p>
-                </div>
-            </div>
-            <!-- VIP Services -->
-            <div class="col-md-4 mb-3">
-                <div class="service-card">
-                    <h4>VIP Services</h4>
-                    <p>All-inclusive services for top-tier clients.</p>
-                    <ul>
-                        <li>Dedicated account manager</li>
-                        <li>Exclusive job postings</li>
-                        <li>24/7 support</li>
-                    </ul>
-                    <p><strong>Price: 35,000 XAF</strong></p>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Copyright Section -->
-<div class="col-md-12 text-center mt-4">
-    <p class="copyright">© 2024 JobConnect. All rights reserved.</p>
-</div>
-
-<style>
-    .call-to-action {
-        background-color: #343a40;
-        color: #fff;
-        padding: 40px;
-        text-align: center;
-        border-radius: 8px;
-        box-shadow: 0 6px 12px rgba(0,0,0,0.2);
-    }
-    .cta-button {
-        padding: 10px 20px;
-        background-color: #28a745;
-        color: white;
-        border-radius: 50px;
-        border: none;
-        transition: background-color 0.3s ease-in-out;
-    }
-    .cta-button:hover {
-        background-color: #218838;
-    }
-    .services-section {
-        padding: 20px;
-        background-color: #f8f9fa;
-        border-radius: 8px;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    }
-    .service-card {
-        padding: 20px;
-        background-color: #fff;
-        border-radius: 10px;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-        transition: transform 0.3s ease;
-    }
-    .service-card:hover {
-        transform: translateY(-5px);
-    }
-    .copyright {
-        color: #6c757d;
-        margin-top: 20px;
-    }
-</style>
 {% endblock %}
 
 {% block script %}
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAOVYRIgupAurZup5y1PRh8Ismb1A3lLao&libraries=places&callback=initMap"></script>
     <script>
-        
-        // Chart for job statistics
-        const ctx = document.getElementById('jobStatsChart').getContext('2d');
-        const jobStatsChart = new Chart(ctx, {
+        // Chart for travel statistics
+        const ctx = document.getElementById('travelStatsChart').getContext('2d');
+        const travelStatsChart = new Chart(ctx, {
             type: 'line',
             data: {
                 labels: ['January', 'February', 'March', 'April', 'May'],
                 datasets: [{
-                    label: 'Applications',
-                    data: [12, 19, 3, 5, 2, 3],
+                    label: 'Trips Taken',
+                    data: [5, 8, 12, 7, 10],
                     borderColor: 'rgba(75, 192, 192, 1)',
-                    fill: false
-                }, {
-                    label: 'Hires',
-                    data: [1, 2, 3, 4, 5, 6],
-                    borderColor: 'rgba(153, 102, 255, 1)',
                     fill: false
                 }]
             },
@@ -354,30 +259,24 @@
 
         // AOS animation initialization
         AOS.init({
-            duration: 1200, // animation duration in ms
-            once: true, // whether animation happens only once
+            duration: 1200,
+            once: true,
         });
-    </script>
 
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            const video1 = document.getElementById("video1");
-            const video2 = document.getElementById("video2");
-    
-            // When video1 ends, hide it and show video2, then play video2
-            video1.addEventListener("ended", function() {
-                video1.style.display = "none"; // Hide video1
-                video2.style.display = "block"; // Show video2
-                video2.play(); // Start video2
+        // Initialize Google Map
+        function initMap() {
+            const location = { lat: 4.0511, lng: 9.7085 }; // Example coordinates for Douala
+            const map = new google.maps.Map(document.getElementById('map'), {
+                zoom: 12,
+                center: location
             });
-    
-            // Optionally, you can add the logic for video looping back to video1
-            video2.addEventListener("ended", function() {
-                video2.style.display = "none"; // Hide video2
-                video1.style.display = "block"; // Show video1
-                video1.play(); // Restart video1
+            const marker = new google.maps.Marker({
+                position: location,
+                map: map
             });
-        });
+        }
+
+        // Call initMap to display the map
+        initMap();
     </script>
-    
 {% endblock %}

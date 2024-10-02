@@ -148,3 +148,24 @@ class Communication(models.Model):
 
     def __str__(self):
         return self.name
+
+class Rating(models.Model):
+    rated_user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='ratings')
+    rating_user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    rating = models.IntegerField(choices=[(i, str(i)) for i in range(1, 6)])
+    comment = models.TextField(blank=True, null=True)
+    date = models.DateTimeField(default=timezone.now)
+
+class Report(models.Model):
+    reported_user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='reports')
+    reporting_user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    description = models.TextField()
+    date = models.DateTimeField(default=timezone.now)
+
+
+class TicketBought(models.Model):
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    ticket = models.ForeignKey(Ticket, on_delete=models.CASCADE)
+    amount_paid = models.DecimalField(max_digits=10, decimal_places=2)
+    status = models.CharField(max_length=10, choices=[('paid', 'Paid'), ('reserved', 'Reserved')])
+    date = models.DateTimeField(auto_now_add=True)

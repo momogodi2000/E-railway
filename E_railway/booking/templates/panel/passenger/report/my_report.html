@@ -1,0 +1,203 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Report</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="stylesheet" href="{% static 'css/report.css' %}">
+
+ 
+</head>
+
+<div class="dashboard d-flex">
+    <div class="dashboard-nav">
+        <header class="d-flex align-items-center p-3">
+            <a href="{% url 'passenger_panel' %}" class="brand-logo d-flex align-items-center">
+                {% if user.profile_picture %}
+                    <img src="{{ user.profile_picture.url }}" alt="{{ user.username }}'s profile picture" class="profile-pic" />
+                {% else %}
+                    <img src="{% static 'image/why.jpeg' %}" alt="Default Avatar" class="profile-pic" />
+                {% endif %}
+                <span>{{ user.username }}'s Panel</span>
+            </a>
+        </header>
+        <nav>
+            <ul class="dashboard-nav-list">
+                <li><a href="{% url 'passenger_panel' %}" class="dashboard-nav-item"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+                <li><a href="{% url 'profile_clients' %}" class="dashboard-nav-item"><i class="fas fa-user-circle"></i> Profile Overview</a></li>
+                <li><a href="#" class="dashboard-nav-item"><i class="fas fa-briefcase"></i> Buy Ticket</a></li>
+                <li><a href="#" class="dashboard-nav-item"><i class="fas fa-credit-card"></i> Cancel Reservation</a></li>
+                <li><a href="{% url 'my_report' %}" class="dashboard-nav-item"><i class="fas fa-star"></i> My Report</a></li>
+                <li><a href="#" class="dashboard-nav-item"><i class="fas fa-bell"></i> Rewards</a></li>
+                <li><a href="#" class="dashboard-nav-item"><i class="fas fa-users"></i> History</a></li>
+                <li><a href="#" class="dashboard-nav-item"><i class="fas fa-comments"></i> Notification</a></li>
+                <li><a href="{% url 'communication_list' %}" class="dashboard-nav-item"><i class="fas fa-comments"></i> Communication</a></li>
+                <li><a href="{% url 'security_cleints' %}" class="dashboard-nav-item"><i class="fas fa-cogs"></i> Settings</a></li>
+                <li><a href="{% url 'logout' %}" class="dashboard-nav-item"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+            </ul>
+        </nav>
+    </div>
+    <main class="dashboard-app flex-grow-1">
+        <header class="dashboard-toolbar d-flex align-items-center">
+            <a href="#!" class="menu-toggle"><i class="fas fa-bars"></i></a>
+            <div class="header-icons">
+                <i class="fas fa-globe icon" title="Change Language" onclick="toggleLanguage()"></i>
+                <i class="fas fa-paint-brush icon" title="Change Theme" onclick="toggleTheme()"></i>
+                <div class="search-bar">
+                    <input type="text" placeholder="Search..." aria-label="Search" />
+                    <button class="btn btn-outline-secondary" type="button"><i class="fas fa-search"></i></button>
+                </div>
+            </div>
+        </header>
+<body>
+<div class="container">
+    <h1 class="text-center">Rate and Report Users</h1>
+    <div class="row">
+        {% for user in users %}
+        <div class="col-md-4">
+            <div class="card">
+                <!-- Check if user has a profile picture -->
+                {% if user.profile_picture %}
+                    <img src="{{ user.profile_picture.url }}" alt="Profile Picture" class="card-img-top img-fluid">
+                {% else %}
+                    <img src="{% static 'image/why.jpeg' %}" alt="Default Profile Picture" class="card-img-top img-fluid">
+                {% endif %}
+                <div class="card-body">
+                    <h5 class="card-title">{{ user.username }}</h5>
+                    <p class="card-text"><strong>Role:</strong> {{ user.get_role_display }}</p>
+                    <button class="btn btn-primary rate-user" data-id="{{ user.id }}">Rate User</button>
+                    <button class="btn btn-danger report-user" data-id="{{ user.id }}">Report User</button>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<!-- Rating Modal -->
+<div class="modal fade" id="ratingModal" tabindex="-1" aria-labelledby="ratingModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="ratingModalLabel">Rate User</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="rating-stars text-center">
+                    <i class="fas fa-star" data-value="1"></i>
+                    <i class="fas fa-star" data-value="2"></i>
+                    <i class="fas fa-star" data-value="3"></i>
+                    <i class="fas fa-star" data-value="4"></i>
+                    <i class="fas fa-star" data-value="5"></i>
+                </div>
+                <input type="hidden" id="selectedRating" value="0">
+                <textarea id="ratingComment" class="form-control" placeholder="Add your comment (optional)" rows="3"></textarea>
+                <input type="hidden" id="ratingUserId">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="submitRating">Submit Rating</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Report Modal -->
+<div class="modal fade" id="reportModal" tabindex="-1" aria-labelledby="reportModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="reportModalLabel">Report User</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <textarea id="reportDescription" class="form-control" placeholder="Describe the issue" rows="3"></textarea>
+                <input type="hidden" id="reportUserId">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-danger" id="submitReport">Submit Report</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+
+<script>
+$(document).ready(function() {
+    let selectedStars = 0;
+
+    // Open rating modal
+    $('.rate-user').on('click', function() {
+        $('#ratingUserId').val($(this).data('id'));
+        $('#ratingModal').modal('show');
+    });
+
+    // Select rating stars
+    $('.rating-stars i').on('click', function() {
+        selectedStars = $(this).data('value');
+        $('#selectedRating').val(selectedStars);
+        $('.rating-stars i').removeClass('selected');
+        $(this).prevAll().addBack().addClass('selected');
+    });
+
+    // Submit rating
+    $('#submitRating').on('click', function() {
+        const userId = $('#ratingUserId').val();
+        const ratingValue = $('#selectedRating').val();
+        const comment = $('#ratingComment').val();
+        $.ajax({
+            url: '',
+            method: 'POST',
+            data: {
+                rate_user: true,
+                rated_user_id: userId,
+                rating_value: ratingValue,
+                comment: comment,
+                csrfmiddlewaretoken: '{{ csrf_token }}'
+            },
+            success: function(response) {
+                alert(response.message);
+                $('#ratingModal').modal('hide');
+            }
+        });
+    });
+
+    // Open report modal
+    $('.report-user').on('click', function() {
+        $('#reportUserId').val($(this).data('id'));
+        $('#reportModal').modal('show');
+    });
+
+    // Submit report
+    $('#submitReport').on('click', function() {
+        const userId = $('#reportUserId').val();
+        const description = $('#reportDescription').val();
+        $.ajax({
+            url: '',
+            method: 'POST',
+            data: {
+                report_user: true,
+                reported_user_id: userId,
+                description: description,
+                csrfmiddlewaretoken: '{{ csrf_token }}'
+            },
+            success: function(response) {
+                alert(response.message);
+                $('#reportModal').modal('hide');
+            }
+        });
+    });
+});
+</script>
+</body>
+</html>

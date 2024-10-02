@@ -1,0 +1,16 @@
+{% extends 'panel/base/base_passenger.html' %}
+
+{% load static %}
+{% block title %}Communication Details{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h2>{{ communication.name }}</h2>
+    <p><strong>Description:</strong> {{ communication.description }}</p>
+    <p><strong>Date:</strong> {{ communication.date }}</p>
+    <p><strong>Destination:</strong> {{ communication.get_destination_display }}</p>
+    {% if communication.photo %}
+        <img src="{{ communication.photo.url }}" alt="{{ communication.name }}" class="img-fluid">
+    {% endif %}
+</div>
+{% endblock %}

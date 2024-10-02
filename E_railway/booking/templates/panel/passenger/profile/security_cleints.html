@@ -1,11 +1,11 @@
-{% extends 'panel/base/base_clients.html' %}
+{% extends 'panel/base/base_passenger.html' %}
 
 {% block title %}Security Settings{% endblock %}
 
 {% block content %}
 <div class="container">
     <h2>Security Settings</h2>
-    <form method="post" action="{% url 'security_settings' %}" enctype="multipart/form-data">
+    <form method="post" action="{% url 'security_cleints' %}" enctype="multipart/form-data">
         {% csrf_token %}
         
         <!-- Name -->

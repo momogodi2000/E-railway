@@ -1,0 +1,67 @@
+{% extends "panel/base/base_passenger.html" %}
+
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ticket Selection</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <style>
+        .ticket-card {
+            margin: 20px 0;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s ease-in-out;
+        }
+        .ticket-card:hover {
+            transform: scale(1.05);
+        }
+        .btn-custom {
+            width: 100%;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2 class="my-4 text-center">Select Your Ticket</h2>
+        <div class="row">
+            {% for ticket in tickets %}
+            <div class="col-md-4">
+                <div class="card ticket-card">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ ticket.classification }} Ticket</h5>
+                        <p class="card-text">From: {{ ticket.departure }} to {{ ticket.arrival }}</p>
+                        <p class="card-text">Departure Time: {{ ticket.hour }}</p>
+                        <p class="card-text">Price: {{ ticket.price }} XAF</p>
+                        <button class="btn btn-primary btn-custom reserve-btn" data-ticket-id="{{ ticket.id }}" data-price="{{ ticket.price }}">Reserve (30%)</button>
+                        <button class="btn btn-success btn-custom buy-btn" data-ticket-id="{{ ticket.id }}" data-price="{{ ticket.price }}">Buy Now</button>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <script>
+        $(document).ready(function() {
+            // Handle Reserve button
+            $('.reserve-btn').click(function() {
+                let ticketId = $(this).data('ticket-id');
+                let reservePrice = (this.dataset.price * 0.3).toFixed(2);
+                window.location.href = '/ticket/payment/' + ticketId + '/?type=reservation&amount=' + reservePrice;
+            });
+
+            // Handle Buy Now button
+            $('.buy-btn').click(function() {
+                let ticketId = $(this).data('ticket-id');
+                let fullPrice = this.dataset.price;
+                window.location.href = '/ticket/payment/' + ticketId + '/?type=purchase&amount=' + fullPrice;
+            });
+        });
+    </script>
+{% endblock %}

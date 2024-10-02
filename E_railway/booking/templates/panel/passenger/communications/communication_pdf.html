@@ -3,12 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ communication.title }}</title>
+    <title>{{ communication.name }} PDF</title>
 </head>
 <body>
-    <h1>{{ communication.title }}</h1>
-    <p><strong>Date:</strong> {{ communication.date|date:"F d, Y" }}</p>
-    <img src="{{ communication.photo.url }}" alt="{{ communication.title }}" width="200" />
-    <p>{{ communication.description }}</p>
+    <h1>{{ communication.name }}</h1>
+    <p><strong>Description:</strong> {{ communication.description }}</p>
+    <p><strong>Date:</strong> {{ communication.date }}</p>
+    <p><strong>Destination:</strong> {{ communication.get_destination_display }}</p>
+    {% if communication.photo %}
+        <img src="{{ communication.photo.url }}" alt="{{ communication.name }} Photo" width="300">
+    {% endif %}
 </body>
 </html>

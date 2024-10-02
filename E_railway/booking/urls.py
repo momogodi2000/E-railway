@@ -2,7 +2,7 @@ from django.urls import path
 from . import views
 from django.contrib.auth import views as auth_views
 from .views import forgot_password, verify_reset_code, reset_password, profile_admin
-from .views import manage_contact, reply_contact, delete_contact, add_ticket, ticket_form_view
+from .views import manage_contact, reply_contact, delete_contact, add_ticket, ticket_form_view, get_communication_details
 
 
 
@@ -65,7 +65,23 @@ urlpatterns = [
     path('gov/', views.gov, name='gov'),
 
 
+    path('security_cleints/', views.security_cleints, name='security_cleints'),
+    path('profile_clients/', views.profile_clients, name='profile_clients'),
 
+    path('communications/', views.communication_list, name='communication_list'),
+    path('download_pdf/<int:communication_id>/', views.download_pdf, name='download_pdf'),
+    path('get_communication_details/<int:communication_id>/', get_communication_details, name='get_communication_details'),
+    path('my-report/', views.my_report, name='my_report'),
+   
+   
+   
+    path('ticket-selection/', views.ticket_selection, name='ticket_selection'),
+    
+    # Payment page for buying or reserving tickets
+    path('ticket/payment/<int:ticket_id>/', views.ticket_payment, name='ticket_payment'),
+
+    # URL for generating the PDF receipt
+    path('ticket/generate_pdf/', views.generate_pdf_receipt, name='generate_pdf'),
 
 
 ]

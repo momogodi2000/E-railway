@@ -578,3 +578,247 @@ def gov(request):
     return render(request, 'panel/admin/policy/gov.html')
 
 
+
+
+### passenger view
+
+@login_required
+def security_cleints(request):
+    if request.method == 'POST':
+        name = request.POST.get('name')
+        email = request.POST.get('email')
+        current_password = request.POST.get('currentPassword')
+        new_password = request.POST.get('newPassword')
+        confirm_password = request.POST.get('confirmPassword')
+        profile_picture = request.FILES.get('profile_picture')
+
+        # Update name and email
+        request.user.name = name
+        request.user.email = email
+
+        # Check current password for security
+        if not request.user.check_password(current_password):
+            context = {'error': 'Current password is incorrect'}
+        else:
+            # Update password if provided and valid
+            if new_password and new_password == confirm_password:
+                request.user.set_password(new_password)
+
+            # Update profile picture if provided
+            if profile_picture:
+                request.user.profile_picture = profile_picture
+
+            request.user.save()
+            context = {'success': 'Settings updated successfully'}
+            # Redirect to avoid resubmission on refresh
+            return redirect('user_panel')
+    else:
+        context = {}
+
+    return render(request, 'panel/passenger/profile/security_cleints.html', context)
+
+@login_required
+def profile_clients(request):
+    return render(request, 'panel/passenger/profile/profile_clients.html', {'user': request.user})
+
+from django.shortcuts import render, get_object_or_404
+from django.http import HttpResponse
+from .models import Communication
+import io
+from django.template.loader import get_template
+from xhtml2pdf import pisa  # For generating PDFs
+from django.conf import settings
+from django.http import JsonResponse
+from django.template.loader import render_to_string
+
+# View to list all communications
+def communication_list(request):
+    communications = Communication.objects.all()
+    return render(request, 'panel/passenger/communications/communication_list.html', {'communications': communications})
+
+# View to generate and download the PDF
+def download_pdf(request, communication_id):
+    communication = get_object_or_404(Communication, id=communication_id)
+    template = get_template('panel/passenger/communications/communication_pdf.html')
+    html = template.render({'communication': communication})
+    
+    response = HttpResponse(content_type='application/pdf')
+    response['Content-Disposition'] = f'attachment; filename="{communication.name}.pdf"'
+    
+    pisa_status = pisa.CreatePDF(
+        io.BytesIO(html.encode("UTF-8")), dest=response
+    )
+    
+    if pisa_status.err:
+        return HttpResponse('Error generating PDF')
+    
+    return response
+
+
+def get_communication_details(request, communication_id):
+    communication = get_object_or_404(Communication, id=communication_id)
+    html = render_to_string('panel/passenger/communications/communication_details.html', {'communication': communication})
+    return JsonResponse({'html': html})
+
+from .models import CustomUser, Rating, Report
+
+@login_required
+def my_report(request):
+    # Get all users with role 'employer' or 'maintenance'
+    users = CustomUser.objects.filter(role__in=['employer', 'maintenance'])
+
+    if request.method == 'POST':
+        # Handle rating submission
+        if 'rate_user' in request.POST:
+            rated_user_id = request.POST.get('rated_user_id')
+            rating_value = request.POST.get('rating_value')
+            comment = request.POST.get('comment')
+
+            rated_user = get_object_or_404(CustomUser, id=rated_user_id)
+            Rating.objects.create(
+                rated_user=rated_user,
+                rating_user=request.user,
+                rating=rating_value,
+                comment=comment
+            )
+            return JsonResponse({'message': 'Rating submitted successfully.'})
+
+        # Handle report submission
+        elif 'report_user' in request.POST:
+            reported_user_id = request.POST.get('reported_user_id')
+            description = request.POST.get('description')
+
+            reported_user = get_object_or_404(CustomUser, id=reported_user_id)
+            Report.objects.create(
+                reported_user=reported_user,
+                reporting_user=request.user,
+                description=description
+            )
+            return JsonResponse({'message': 'Report submitted successfully.'})
+
+    return render(request, 'panel/passenger/report/my_report.html', {'users': users})
+
+
+
+
+def ticket_selection(request):
+    tickets = Ticket.objects.all()
+    return render(request, 'panel/passenger/ticket/ticket_selection.html', {'tickets': tickets})
+
+from decimal import Decimal
+from django.shortcuts import render, get_object_or_404
+from django.http import FileResponse
+from .models import TicketBought, Ticket
+from io import BytesIO
+from reportlab.pdfgen import canvas
+from reportlab.graphics.barcode.qr import QrCodeWidget
+from reportlab.graphics.shapes import Drawing
+from reportlab.lib.units import mm
+from reportlab.graphics import renderPDF
+from django.utils.timezone import now
+from campay.sdk import Client as CamPayClient
+import uuid  # For generating unique external reference
+
+
+# CamPay Client Setup
+campay = CamPayClient({
+    "app_username": "JByBUneb4BceuEyoMu1nKlmyTgVomd-QfokOrs4t4B9tPJS7hhqUtpuxOx5EQ7zpT0xmYw3P6DU6LU0mH2DvaQ",
+    "app_password": "m-Xuj9EQIT_zeQ5hSn8hLjYlyJT7KnSTHABYVp7tKeHKgsVnF0x6PEcdtZCVaDM0BN5mX-eylX0fhrGGMZBrWg",
+    "environment": "PROD"  # Or 'DEV' for testing
+})
+
+def ticket_selection(request):
+    tickets = Ticket.objects.all()
+    return render(request, 'panel/passenger/ticket/ticket_selection.html', {'tickets': tickets})
+
+
+
+def ticket_payment(request, ticket_id):
+    ticket = get_object_or_404(Ticket, id=ticket_id)
+
+    if request.method == 'POST':
+        user = request.user
+        phone = request.POST.get("phone").strip()
+        payment_type = request.POST.get("payment_type")  # 'full' or 'partial'
+
+        amount = ticket.price if payment_type == 'full' else ticket.price * Decimal('0.3')
+        payment_description = "Full payment" if payment_type == 'full' else "Reservation (30%)"
+
+        # Ensure phone is formatted correctly
+        if not phone.startswith('237'):
+            phone = '237' + phone
+
+        # Generate a unique external reference
+        external_reference = str(uuid.uuid4())
+
+        # Process payment using CamPay
+        payment_response = campay.collect({
+            "amount": str(amount),
+            "currency": "XAF",
+            "from": phone,
+            "description": payment_description,
+            "external_reference": external_reference  # Unique reference for the transaction
+        })
+
+        if payment_response.get('status') == 'SUCCESSFUL':
+            # Generate PDF Receipt
+            receipt_info = {
+                "reference": payment_response.get('reference'),
+                "name": user.get_full_name(),
+                "email": user.email,
+                "phone": phone,
+                "ticket": ticket,
+                "amount": amount,
+                "description": payment_description,
+                "date": now()
+            }
+            buffer = generate_pdf_receipt(receipt_info)
+
+            # Store payment status
+            ticket_status = 'paid' if payment_type == 'full' else 'reserved'
+            # Save payment information in TicketBought model
+            TicketBought.objects.create(
+                user=user,
+                ticket=ticket,
+                amount_paid=amount,
+                status=ticket_status,
+                date=now()
+            )
+
+            return FileResponse(buffer, as_attachment=True, filename=f'ticket_{ticket.id}.pdf', content_type='application/pdf')
+
+        else:
+            context = {'message': 'Payment failed. Please try again.'}
+            return render(request, 'panel/passenger/ticket/payment_failed.html', context)
+
+    return render(request, 'panel/passenger/ticket/ticket_payment.html', {'ticket': ticket})
+
+
+def generate_pdf_receipt(receipt_info):
+    buffer = BytesIO()
+    p = canvas.Canvas(buffer)
+    
+    p.drawString(100, 750, "Ticket Payment Receipt")
+    p.drawString(100, 730, f"Name: {receipt_info['name']}")
+    p.drawString(100, 710, f"Email: {receipt_info['email']}")
+    p.drawString(100, 690, f"Phone: {receipt_info['phone']}")
+    p.drawString(100, 670, f"Ticket: {receipt_info['ticket']}")
+    p.drawString(100, 650, f"Amount: {receipt_info['amount']} XAF")
+    p.drawString(100, 630, f"Description: {receipt_info['description']}")
+    p.drawString(100, 610, f"Date: {receipt_info['date']}")
+
+    # QR Code generation
+    qr_data = f"Reference: {receipt_info['reference']}\nTicket: {receipt_info['ticket']}\nAmount: {receipt_info['amount']}"
+    qr_code = QrCodeWidget(qr_data)
+    bounds = qr_code.getBounds()
+    width = bounds[2] - bounds[0]
+    height = bounds[3] - bounds[1]
+    d = Drawing(45, 45, transform=[45./width, 0, 0, 45./height, 0, 0])
+    d.add(qr_code)
+    renderPDF.draw(d, p, 100, 560)
+
+    p.showPage()
+    p.save()
+
+    buffer.seek(0)
+    return buffer
