@@ -786,6 +786,8 @@ def ticket_selection(request):
 
 
 
+from django.http import JsonResponse
+
 def ticket_payment(request, ticket_id):
     ticket = get_object_or_404(Ticket, id=ticket_id)
 
@@ -838,6 +840,14 @@ def ticket_payment(request, ticket_id):
                 date=now()
             )
 
+            # Check if it's an AJAX request
+            if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+                # Send a JSON response with the redirect URL for the client
+                return JsonResponse({
+                    'redirect_url': f'/ticket/generate_pdf/'
+                })
+
+            # If it's not an AJAX request, return the PDF directly
             return FileResponse(buffer, as_attachment=True, filename=f'ticket_{ticket.id}.pdf', content_type='application/pdf')
 
         else:

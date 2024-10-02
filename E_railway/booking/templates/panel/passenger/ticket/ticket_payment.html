@@ -41,26 +41,29 @@
 
 <script>
     $(document).on('submit', 'form', function(e) {
-    e.preventDefault();
-    let formData = $(this).serialize();
+        e.preventDefault();
+        let formData = $(this).serialize();
 
-    $.ajax({
-        type: 'POST',
-        url: $(this).attr('action'),
-        data: formData,
-        beforeSend: function() {
-            // Show loading spinner or message
-            $('.btn').prop('disabled', true).text('Processing...');
-        },
-        success: function(response) {
-            window.location.href = response.redirect_url; // Redirect to the PDF download or success page
-        },
-        error: function() {
-            alert('Payment failed. Please try again.');
-            $('.btn').prop('disabled', false).text('Pay Now');
-        }
+        $.ajax({
+            type: 'POST',
+            url: $(this).attr('action'),
+            data: formData,
+            beforeSend: function() {
+                // Show loading spinner or message
+                $('.btn').prop('disabled', true).text('Processing...');
+            },
+            success: function(response) {
+                if (response.redirect_url) {
+                    // Redirect to the URL provided by the server
+                    window.location.href = response.redirect_url;
+                }
+            },
+            error: function() {
+                alert('Payment failed. Please try again.');
+                $('.btn').prop('disabled', false).text('Pay Now');
+            }
+        });
     });
-});
-
 </script>
+
 </html>
