@@ -1,0 +1,68 @@
+<!-- templates/maintenance_alert.html -->
+
+{% extends 'panel/base/base_maintenance.html' %}
+{% load static %}
+
+{% block title %}Maintenance Alert{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2>Maintenance Alert</h2>
+
+    <!-- Display form -->
+    <div class="card mb-5">
+        <div class="card-body">
+            <h5 class="card-title">Report Damage</h5>
+            <form method="POST" action="">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="damage_type">Damage Type</label>
+                    {{ form.damage_type }}
+                </div>
+                <div class="form-group">
+                    <label for="description">Description</label>
+                    {{ form.description }}
+                </div>
+                <button type="submit" class="btn btn-primary">Submit Report</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Display table of reports -->
+    <h3>Reported Damages</h3>
+    <table class="table table-striped table-bordered">
+        <thead>
+            <tr>
+                <th>Reported By</th>
+                <th>Damage Type</th>
+                <th>Description</th>
+                <th>Status</th>
+                <th>Reported At</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for report in damage_reports %}
+                <tr>
+                    <td>{{ report.reported_by.username }}</td>
+                    <td>{{ report.get_damage_type_display }}</td>
+                    <td>{{ report.description }}</td>
+                    <td>{{ report.get_status_display }}</td>
+                    <td>{{ report.reported_at }}</td>
+                    <td>
+                        <!-- For future actions like updating or marking as resolved -->
+                    </td>
+                </tr>
+            {% empty %}
+                <tr>
+                    <td colspan="6" class="text-center">No damage reports available.</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script src="{% static 'js/maintenance_alert.js' %}"></script>
+{% endblock %}

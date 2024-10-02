@@ -16,6 +16,31 @@ from .forms import ContactForm
 from .models import CustomUser
 from .models import Route
 import yagmail
+from django.http import JsonResponse, HttpResponse
+from django.views.decorators.csrf import csrf_exempt
+from .models import Ticket
+from .models import Rating, Report
+from .models import Communication
+from .forms import CommunicationForm
+from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib.auth.decorators import user_passes_test
+from .models import Task, CustomUser
+from .forms import TaskForm
+from django.contrib.auth import get_user_model
+from django.core.mail import send_mail
+from .models import MaintenanceTask
+from django.shortcuts import render, get_object_or_404
+from django.http import HttpResponse
+from .models import Communication
+import io
+from django.template.loader import get_template
+from xhtml2pdf import pisa  # For generating PDFs
+from django.conf import settings
+from django.http import JsonResponse
+from django.template.loader import render_to_string
+from django.shortcuts import render
+from .models import CustomUser, Contact, Route, Ticket, MaintenanceTask, Task, Communication, Rating, Report, TicketBought, DamageReport
+from django.db.models import Count
 
 
 # Replace with your Gmail credentials
@@ -303,9 +328,7 @@ def delete_contact(request, contact_id):
     return redirect('manage_contact')
 
 
-from django.http import JsonResponse, HttpResponse
-from django.views.decorators.csrf import csrf_exempt
-from .models import Ticket
+
 
 def ticket_form_view(request):
     return render(request, 'panel/admin/ticket/ticket_form.html')  # The HTML template for the form
@@ -366,10 +389,6 @@ def edit_ticket(request, ticket_id):
 
     return render(request, 'panel/admin/ticket/edit_ticket.html', {'ticket': ticket})
 
-
-from django.contrib.auth import get_user_model
-from django.core.mail import send_mail
-from .models import MaintenanceTask
 
 def assign_task(request):
     maintenance_users = get_user_model().objects.filter(role='maintenance')
@@ -443,13 +462,6 @@ def apply_sanction(request, task_id):
 
     return redirect('task_list')
 
-
-# views.py
-
-from django.shortcuts import render, redirect, get_object_or_404
-from django.contrib.auth.decorators import user_passes_test
-from .models import Task, CustomUser
-from .forms import TaskForm
 
 def is_admin(user):
     return user.is_authenticated and user.role == 'admin'
@@ -527,9 +539,6 @@ def delete_task(request, task_id):
     return render(request, 'panel/admin/employer/delete_task.html', {'task': task})
 
 
-from .models import Communication
-from .forms import CommunicationForm
-
 # Add a communication
 def add_communication(request):
     if request.method == 'POST':
@@ -578,6 +587,60 @@ def gov(request):
     return render(request, 'panel/admin/policy/gov.html')
 
 
+from .models import Rating, Report
+
+def user_reviews(request):
+    # Query all ratings and reports
+    ratings = Rating.objects.all()
+    reports = Report.objects.all()
+    
+    context = {
+        'ratings': ratings,
+        'reports': reports,
+    }
+    
+    return render(request, 'panel/admin/review/reviews.html', context)
+
+
+
+def analytics_dashboard(request):
+    # Counting all elements in each model
+    user_count = CustomUser.objects.count()
+    contact_count = Contact.objects.count()
+    route_count = Route.objects.count()
+    ticket_count = Ticket.objects.count()
+    maintenance_task_count = MaintenanceTask.objects.count()
+    task_count = Task.objects.count()
+    communication_count = Communication.objects.count()
+    rating_count = Rating.objects.count()
+    report_count = Report.objects.count()
+    ticket_bought_count = TicketBought.objects.count()
+    damage_report_count = DamageReport.objects.count()
+
+    # Pass counts to the template
+    context = {
+        'user_count': user_count,
+        'contact_count': contact_count,
+        'route_count': route_count,
+        'ticket_count': ticket_count,
+        'maintenance_task_count': maintenance_task_count,
+        'task_count': task_count,
+        'communication_count': communication_count,
+        'rating_count': rating_count,
+        'report_count': report_count,
+        'ticket_bought_count': ticket_bought_count,
+        'damage_report_count': damage_report_count,
+    }
+
+    return render(request, 'panel/admin/review/analytics_dashboard.html', context)
+
+
+from .models import DamageReport
+
+def damage_report_view(request):
+    damage_reports = DamageReport.objects.select_related('reported_by').all()  # Fetch all damage reports
+    return render(request, 'panel/admin/review/damage_reports.html', {'damage_reports': damage_reports})
+
 
 
 ### passenger view
@@ -620,16 +683,6 @@ def security_cleints(request):
 @login_required
 def profile_clients(request):
     return render(request, 'panel/passenger/profile/profile_clients.html', {'user': request.user})
-
-from django.shortcuts import render, get_object_or_404
-from django.http import HttpResponse
-from .models import Communication
-import io
-from django.template.loader import get_template
-from xhtml2pdf import pisa  # For generating PDFs
-from django.conf import settings
-from django.http import JsonResponse
-from django.template.loader import render_to_string
 
 # View to list all communications
 def communication_list(request):
@@ -983,3 +1036,119 @@ def verify_tickets(request):
         'tickets_bought': tickets_bought,
     }
     return render(request, 'panel/employer/note/verify_tickets.html', context)
+
+
+
+
+# maintenance view
+
+
+@login_required
+def setting_main(request):
+    if request.method == 'POST':
+        name = request.POST.get('name')
+        email = request.POST.get('email')
+        current_password = request.POST.get('currentPassword')
+        new_password = request.POST.get('newPassword')
+        confirm_password = request.POST.get('confirmPassword')
+        profile_picture = request.FILES.get('profile_picture')
+
+        # Update name and email
+        request.user.name = name
+        request.user.email = email
+
+        # Check current password for security
+        if not request.user.check_password(current_password):
+            context = {'error': 'Current password is incorrect'}
+        else:
+            # Update password if provided and valid
+            if new_password and new_password == confirm_password:
+                request.user.set_password(new_password)
+
+            # Update profile picture if provided
+            if profile_picture:
+                request.user.profile_picture = profile_picture
+
+            request.user.save()
+            context = {'success': 'Settings updated successfully'}
+            # Redirect to avoid resubmission on refresh
+            return redirect('user_panel')
+    else:
+        context = {}
+
+    return render(request, 'panel/maintenance/profile/setting_main.html', context)
+
+@login_required
+def profile_main(request):
+    return render(request, 'panel/maintenance/profile/profile_main.html', {'user': request.user})
+
+
+# View to list all communications
+def communication_list_main(request):
+    communications = Communication.objects.all()
+    return render(request, 'panel/maintenance/communications/communication_list_main.html', {'communications': communications})
+
+# View to generate and download the PDF
+def download_pdf_main(request, communication_id):
+    communication = get_object_or_404(Communication, id=communication_id)
+    template = get_template('panel/maintenance/communications/communication_pdf_main.html')
+    html = template.render({'communication': communication})
+    
+    response = HttpResponse(content_type='application/pdf')
+    response['Content-Disposition'] = f'attachment; filename="{communication.name}.pdf"'
+    
+    pisa_status = pisa.CreatePDF(
+        io.BytesIO(html.encode("UTF-8")), dest=response
+    )
+    
+    if pisa_status.err:
+        return HttpResponse('Error generating PDF')
+    
+    return response
+
+
+def get_communication_details_main(request, communication_id):
+    communication = get_object_or_404(Communication, id=communication_id)
+    html = render_to_string('panel/maintenance/communications/communication_details_main.html', {'communication': communication})
+    return JsonResponse({'html': html})
+
+
+@login_required
+def notifications_main(request):
+    # Get the current user
+    current_user = request.user
+
+    # Fetch tasks assigned to the current user
+    tasks = Task.objects.filter(assigned_to=current_user)
+
+    context = {
+        'tasks': tasks,
+    }
+    return render(request, 'panel/maintenance/note/notifications_main.html', context)
+
+from django.contrib import messages
+from .models import DamageReport
+from .forms import DamageReportForm
+
+@login_required
+def maintenance_alert(request):
+    if request.method == 'POST':
+        form = DamageReportForm(request.POST)
+        if form.is_valid():
+            damage_report = form.save(commit=False)
+            damage_report.reported_by = request.user
+            damage_report.save()
+            messages.success(request, 'Damage report submitted successfully.')
+            return redirect('maintenance_alert')
+    else:
+        form = DamageReportForm()
+
+    damage_reports = DamageReport.objects.all()
+
+    context = {
+        'form': form,
+        'damage_reports': damage_reports,
+    }
+    return render(request, 'panel/maintenance/note/maintenance_alert.html', context)
+
+

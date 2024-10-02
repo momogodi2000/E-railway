@@ -1,0 +1,66 @@
+{% extends 'panel/base/base_maintenance.html' %}
+{% load static %}
+
+{% block title %}Communication List{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1 class="text-center">Communications</h1>
+    <div class="row">
+        {% for communication in communications %}
+            <div class="col-md-4">
+                <div class="card" data-aos="fade-up">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ communication.name }}</h5>
+                        <p class="card-text">{{ communication.description|truncatewords:10 }}</p>
+                        <button class="btn btn-primary view-details" data-id="{{ communication.id }}">View Details</button>
+                        <a href="{% url 'download_pdf' communication.id %}" class="btn btn-danger">Download as PDF</a>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+
+<!-- Modal for displaying communication details -->
+<div class="modal fade" id="communicationModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Communication Details</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div id="communication-details"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+<script>
+    AOS.init();
+
+    $(document).ready(function() {
+        $('.view-details').on('click', function() {
+            var communicationId = $(this).data('id');
+            $.ajax({
+                url: '/get_communication_details_main/' + communicationId + '/',
+                method: 'GET',
+                success: function(data) {
+                    // Insert the HTML from the response into the modal body
+                    $('#communication-details').html(data.html);
+                    $('#communicationModal').modal('show');
+                },
+                error: function() {
+                    alert('Error fetching details');
+                }
+            });
+        });
+    });
+</script>
+{% endblock %}

@@ -1,0 +1,76 @@
+{% extends 'panel/base/base_admin.html' %}
+{% load static %}
+
+{% block title %}User Reviews{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h2 class="section-header">User Ratings</h2>
+    <table class="table table-striped table-hover">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Rated User</th>
+                <th>Rating User</th>
+                <th>Rating</th>
+                <th>Comment</th>
+                <th>Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for rating in ratings %}
+            <tr>
+                <td>{{ forloop.counter }}</td>
+                <td>{{ rating.rated_user.username }}</td>
+                <td>{{ rating.rating_user.username }}</td>
+                <td>{{ rating.rating }}</td>
+                <td>{{ rating.comment }}</td>
+                <td>{{ rating.date }}</td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="6" class="text-center">No ratings available</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <h2 class="section-header">User Reports</h2>
+    <table class="table table-striped table-hover">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Reported User</th>
+                <th>Reporting User</th>
+                <th>Description</th>
+                <th>Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for report in reports %}
+            <tr>
+                <td>{{ forloop.counter }}</td>
+                <td>{{ report.reported_user.username }}</td>
+                <td>{{ report.reporting_user.username }}</td>
+                <td>{{ report.description }}</td>
+                <td>{{ report.date }}</td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="5" class="text-center">No reports available</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<script>
+    $(document).ready(function () {
+        // Add some simple animations or table interactivity here if needed.
+        $('table').on('mouseover', function () {
+            $(this).addClass('table-hover');
+        });
+    });
+</script>
+
+{% endblock %}

@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Expert Panel</title>
+    <title>Maintenance Panel</title>
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
@@ -15,15 +15,53 @@
     <!-- Custom CSS -->
     <link rel="stylesheet" href="{% static 'css/momo2.css' %}">
     <style>
-        .profile-pic {
-            width: 50px;  /* Adjust as needed */
-            height: 50px; /* Adjust as needed */
-            border-radius: 50%; /* Circular image */
-            margin-right: 10px; /* Space between the image and text */
+        body {
+            display: flex;
+            flex-direction: row;
+            margin: 0;
+            height: 100vh;
+            overflow: hidden;
+        }
+        .dashboard {
+            display: flex;
+            width: 100%;
+            transition: margin-left 0.3s;
+        }
+        .dashboard-nav {
+            width: 250px;
+            background-color: #343a40;
+            color: white;
+            transition: transform 0.3s ease;
+            position: relative;
+        }
+        .dashboard-nav-list {
+            list-style: none;
+            padding: 0;
+        }
+        .dashboard-nav-item {
+            padding: 15px;
+            color: white;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+        }
+        .dashboard-nav-item:hover {
+            background-color: #495057;
+        }
+        .dashboard-app {
+            flex: 1;
+            background-color: #f8f9fa;
+            padding: 20px;
+            transition: margin-left 0.3s;
+        }
+        .menu-toggle {
+            cursor: pointer;
+            font-size: 1.5rem;
         }
         .header-icons {
             display: flex;
             align-items: center;
+            justify-content: flex-end;
         }
         .header-icons .icon {
             margin-left: 15px;
@@ -41,13 +79,30 @@
             padding: 5px 15px;
             width: 200px;
         }
+        @media (max-width: 768px) {
+            .dashboard-nav {
+                position: absolute;
+                width: 250px;
+                transform: translateX(-100%);
+                z-index: 1000;
+            }
+            .dashboard-nav.open {
+                transform: translateX(0);
+            }
+            .dashboard {
+                margin-left: 0;
+            }
+            .dashboard-app {
+                margin-left: 0;
+            }
+        }
     </style>
 </head>
 <body>
     <div class="dashboard">
         <div class="dashboard-nav">
             <header>
-                <a href="{% url 'maintenance_panel' %}" class="brand-logo animate__animated animate__fadeInLeft">
+                <a href="{% url 'maintenance_panel' %}" class="brand-logo">
                     {% if user.profile_picture %}
                         <img src="{{ user.profile_picture.url }}" alt="{{ user.username }}'s profile picture" class="profile-pic" />
                     {% else %}
@@ -58,23 +113,19 @@
             </header>
             <nav class="dashboard-nav-list">
                 <a href="{% url 'maintenance_panel' %}" class="dashboard-nav-item"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
-                <a href="#" class="dashboard-nav-item"><i class="fas fa-user-circle"></i> Profile Overview</a>
-                <a href="#" class="dashboard-nav-item"><i class="fas fa-briefcase"></i> Portfolio Management</a>
-                <a href="#" class="dashboard-nav-item"><i class="fas fa-briefcase"></i> View Portfolio</a>
-                <a href="#" class="dashboard-nav-item"><i class="fas fa-comments"></i> Community</a>
-                <a href="#" class="dashboard-nav-item"><i class="fas fa-clipboard-list"></i> Job Applications</a>
-                <a href="#" class="dashboard-nav-item"><i class="fas fa-chart-line"></i> Analytics</a>
-                <a href="#" class="dashboard-nav-item"><i class="fas fa-inbox"></i> Messages</a>
-                <a href="#" class="dashboard-nav-item"><i class="fas fa-bell"></i> Notifications</a>
-                <a href="#" class="dashboard-nav-item"><i class="fas fa-history"></i> History</a>
-                <a href="#" class="dashboard-nav-item"><i class="fas fa-bell"></i> UnLock New features</a>
-                <a href="#" class="dashboard-nav-item"><i class="fas fa-cogs"></i> Settings</a>
+                <a href="{% url 'profile_main' %}" class="dashboard-nav-item"><i class="fas fa-user-circle"></i> Profile Overview</a>
+                <a href="{% url 'maintenance_alert' %}" class="dashboard-nav-item"><i class="fas fa-tools"></i> Maintenance alert</a>
+                <a href="#" class="dashboard-nav-item"><i class="fas fa-chart-line"></i> Performance Analytics</a>
+                <a href="#" class="dashboard-nav-item"><i class="fas fa-comments"></i> Feedback</a>
+                <a href="{% url 'notifications_main' %}" class="dashboard-nav-item"><i class="fas fa-bell"></i> Notifications</a>
+                <a href="{% url 'communication_list_main' %}" class="dashboard-nav-item"><i class="fas fa-comments"></i> Communication</a>
+                <a href="{% url 'setting_main' %}" class="dashboard-nav-item"><i class="fas fa-cogs"></i> Settings</a>
                 <a href="{% url 'logout' %}" class="dashboard-nav-item"><i class="fas fa-sign-out-alt"></i> Logout</a>
             </nav>
         </div>
         <main class="dashboard-app">
             <header class="dashboard-toolbar">
-                <a href="#!" class="menu-toggle"><i class="fas fa-bars"></i></a>
+                <a class="menu-toggle"><i class="fas fa-bars"></i></a>
                 <div class="header-icons">
                     <i class="fas fa-globe icon" title="Change Language" onclick="toggleLanguage()"></i>
                     <i class="fas fa-paint-brush icon" title="Change Theme" onclick="toggleTheme()"></i>
@@ -91,11 +142,21 @@
     </div>
 
     <!-- Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
     <!-- Custom JavaScript -->
     <script src="{% static 'js/momo.js' %}"></script>
     <script>
+        // Toggle the sidebar
+        const menuToggle = document.querySelector('.menu-toggle');
+        const dashboardNav = document.querySelector('.dashboard-nav');
+
+        menuToggle.addEventListener('click', function() {
+            dashboardNav.classList.toggle('open');
+        });
+
         // Ensure the form is responsive on mobile
         window.addEventListener('resize', function() {
             const formContainer = document.querySelector('.form-container');

@@ -1,5 +1,4 @@
-{% extends 'panel/base/base_clients.html' %}
-
+{% extends 'panel/base/base_passenger.html' %}
 
 {% load static %}
 
@@ -56,6 +55,21 @@
             border-radius: 10px;
             box-shadow: 0 4px 10px rgba(0,0,0,0.1);
         }
+        /* Responsive styles */
+        @media (max-width: 768px) {
+            .dashboard-header {
+                padding: 30px;
+            }
+            .call-to-action {
+                padding: 20px;
+            }
+            .cta-button {
+                padding: 8px 16px;
+            }
+            .widget {
+                margin: 10px 0;
+            }
+        }
     </style>
 {% endblock %}
 
@@ -69,7 +83,7 @@
     <div class="dashboard-content container mt-4">
         <div class="row">
             <!-- Travel Stats Widget -->
-            <div class="col-md-12 mb-4">
+            <div class="col-lg-12 mb-4">
                 <div class="stat-widget text-center animate__animated animate__fadeIn">
                     <h5><i class="fas fa-train"></i> Travel Statistics</h5>
                     <p>Track your travel history and upcoming journeys.</p>
@@ -78,7 +92,7 @@
             </div>
 
             <!-- Ticket Booking -->
-            <div class="col-md-6 mb-4">
+            <div class="col-md-6 col-lg-4 mb-4">
                 <div class="card widget animate__animated animate__fadeInLeft" data-aos="fade-right">
                     <div class="card-header">
                         <h5><i class="fas fa-ticket-alt"></i> Ticket Booking</h5>
@@ -88,13 +102,13 @@
                             <li>Book and manage your train tickets.</li>
                             <li>View booking history.</li>
                         </ul>
-                        <img src="{% static 'image/ticket.png' %}" alt="Ticket Booking">
+                        <img src="{% static 'image/ticket.png' %}" alt="Ticket Booking" class="img-fluid">
                     </div>
                 </div>
             </div>
 
             <!-- Train Schedule -->
-            <div class="col-md-6 mb-4">
+            <div class="col-md-6 col-lg-4 mb-4">
                 <div class="card widget animate__animated animate__fadeInRight" data-aos="fade-left">
                     <div class="card-header">
                         <h5><i class="fas fa-clock"></i> Train Schedule</h5>
@@ -104,13 +118,13 @@
                             <li>Check real-time train schedules.</li>
                             <li>Get notifications for delays or changes.</li>
                         </ul>
-                        <img src="{% static 'image/training.jpeg' %}" alt="Train Schedule">
+                        <img src="{% static 'image/training.jpeg' %}" alt="Train Schedule" class="img-fluid">
                     </div>
                 </div>
             </div>
 
             <!-- Customer Support -->
-            <div class="col-md-6 mb-4">
+            <div class="col-md-6 col-lg-4 mb-4">
                 <div class="card widget animate__animated animate__fadeInLeft" data-aos="fade-right">
                     <div class="card-header">
                         <h5><i class="fas fa-comments"></i> Customer Support</h5>
@@ -120,13 +134,13 @@
                             <li>Reach out for inquiries or assistance.</li>
                             <li>Chat with support representatives.</li>
                         </ul>
-                        <img src="{% static 'image/support.jpeg' %}" alt="Customer Support">
+                        <img src="{% static 'image/support.jpeg' %}" alt="Customer Support" class="img-fluid">
                     </div>
                 </div>
             </div>
 
             <!-- Profile Management -->
-            <div class="col-md-6 mb-4">
+            <div class="col-md-6 col-lg-4 mb-4">
                 <div class="card widget animate__animated animate__fadeInRight" data-aos="fade-left">
                     <div class="card-header">
                         <h5><i class="fas fa-user"></i> Profile Management</h5>
@@ -136,13 +150,13 @@
                             <li>Update your personal information.</li>
                             <li>Manage payment methods and preferences.</li>
                         </ul>
-                        <img src="{% static 'image/profile-management.jpeg' %}" alt="Profile Management">
+                        <img src="{% static 'image/profile-management.jpeg' %}" alt="Profile Management" class="img-fluid">
                     </div>
                 </div>
             </div>
 
             <!-- Promotions -->
-            <div class="col-md-6 mb-4">
+            <div class="col-md-6 col-lg-4 mb-4">
                 <div class="card widget animate__animated animate__fadeInLeft" data-aos="fade-right">
                     <div class="card-header">
                         <h5><i class="fas fa-bullhorn"></i> Promotions</h5>
@@ -152,7 +166,7 @@
                             <li>Check for ongoing discounts and offers.</li>
                             <li>Subscribe for exclusive deals.</li>
                         </ul>
-                        <img src="{% static 'image/promotions.jpeg' %}" alt="Promotions">
+                        <img src="{% static 'image/promotions.jpeg' %}" alt="Promotions" class="img-fluid">
                     </div>
                 </div>
             </div>
@@ -226,7 +240,6 @@
             </div>
         </div>
     </div>
-
 {% endblock %}
 
 {% block script %}

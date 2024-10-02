@@ -83,12 +83,27 @@ urlpatterns = [
 ## employer url
     path('setting_security/', views.setting_security, name='setting_security'),
     path('profile_employer/', views.profile_employer, name='profile_employer'),
-
     path('communications_employer/', views.communication_list_employer, name='communication_list_employer'),
     path('download_pdf_employer/<int:communication_id>/', views.download_pdf_employer, name='download_pdf_employer'),
     path('get_communication_details_employer/<int:communication_id>/', views.get_communication_details_employer, name='get_communication_details_employer'),
     path('notifications/', views.notifications, name='notifications'),
     path('verify-tickets/', views.verify_tickets, name='verify_tickets'),
+
+
+
+## maintenance url
+
+    path('setting_main/', views.setting_main, name='setting_main'),
+    path('profile_main/', views.profile_main, name='profile_main'),
+    path('communications_main/', views.communication_list_main, name='communication_list_main'),
+    path('download_pdf_main/<int:communication_id>/', views.download_pdf_main, name='download_pdf_main'),
+    path('get_communication_details_main/<int:communication_id>/', views.get_communication_details_main, name='get_communication_details_main'),
+    path('notifications_main/', views.notifications_main, name='notifications_main'),
+    path('maintenance-alert/', views.maintenance_alert, name='maintenance_alert'),
+    path('reviews/', views.user_reviews, name='reviews'),  # <-- Make sure 'reviews' is the correct name
+    path('analytics_dashboard/', views.analytics_dashboard, name='analytics_dashboard'),
+    
+    path('damage-reports/', views.damage_report_view, name='damage_report_view'),
 
 
 

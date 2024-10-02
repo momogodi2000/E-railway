@@ -38,8 +38,6 @@ class Route(models.Model):
     def __str__(self):
         return self.name
 
-
-
 class Ticket(models.Model):
     TOWN_CHOICES = [
         ('Yaoundé', 'Yaoundé'),
@@ -78,7 +76,6 @@ class Ticket(models.Model):
         super().save(*args, **kwargs)
 
 
-
 class MaintenanceTask(models.Model):
     TASK_DURATION_CHOICES = (
         ('periodic', 'Periodic'),
@@ -101,8 +98,6 @@ class MaintenanceTask(models.Model):
 
     def __str__(self):
         return f"{self.task_name} assigned to {self.assigned_to.username}"
-
-
 
 class Task(models.Model):
     TASK_TYPE_CHOICES = (
@@ -169,3 +164,31 @@ class TicketBought(models.Model):
     amount_paid = models.DecimalField(max_digits=10, decimal_places=2)
     status = models.CharField(max_length=10, choices=[('paid', 'Paid'), ('reserved', 'Reserved')])
     date = models.DateTimeField(auto_now_add=True)
+
+
+from django.contrib.auth import get_user_model
+
+CustomUser = get_user_model()
+
+class DamageReport(models.Model):
+    DAMAGE_TYPE_CHOICES = [
+        ('sector', 'Sector'),
+        ('train', 'Train'),
+        ('device', 'Device'),
+    ]
+
+    STATUS_CHOICES = [
+        ('reported', 'Reported'),
+        ('in_progress', 'In Progress'),
+        ('resolved', 'Resolved'),
+    ]
+
+    reported_by = models.ForeignKey(CustomUser, on_delete=models.CASCADE, limit_choices_to={'role': 'maintenance'})
+    damage_type = models.CharField(max_length=50, choices=DAMAGE_TYPE_CHOICES)
+    description = models.TextField()
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='reported')
+    reported_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return f"{self.get_damage_type_display()} - {self.reported_by.username}"

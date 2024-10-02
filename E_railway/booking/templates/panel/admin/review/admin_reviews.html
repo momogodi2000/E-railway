@@ -1,0 +1,111 @@
+{% extends 'panel/base/base_admin.html' %}
+
+{% load static %}
+<style>
+    .table {
+        animation: fadeIn 0.8s ease-in-out;
+    }
+
+    /* Fade In Animation for the Tables */
+    @keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+    }
+
+    .table thead {
+        background-color: #343a40;
+        color: white;
+    }
+
+    .table-hover tbody tr:hover {
+        background-color: #f1f1f1;
+        cursor: pointer;
+    }
+
+    .text-center {
+        font-family: 'Arial', sans-serif;
+        font-weight: 700;
+    }
+</style>
+{% block content %}
+<div class="container mt-5">
+    <h2 class="text-center mb-4">Admin Panel: User Ratings & Reports</h2>
+    
+    <!-- Ratings Table -->
+    <div class="table-responsive">
+        <h4>Ratings</h4>
+        <table class="table table-bordered table-hover">
+            <thead class="thead-dark">
+                <tr>
+                    <th>Rated User</th>
+                    <th>Rating User</th>
+                    <th>Rating</th>
+                    <th>Comment</th>
+                    <th>Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for rating in ratings %}
+                <tr>
+                    <td>{{ rating.rated_user.username }}</td>
+                    <td>{{ rating.rating_user.username }}</td>
+                    <td>{{ rating.rating }}</td>
+                    <td>{{ rating.comment }}</td>
+                    <td>{{ rating.date }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Reports Table -->
+    <div class="table-responsive mt-5">
+        <h4>Reports</h4>
+        <table class="table table-bordered table-hover">
+            <thead class="thead-dark">
+                <tr>
+                    <th>Reported User</th>
+                    <th>Reporting User</th>
+                    <th>Description</th>
+                    <th>Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for report in reports %}
+                <tr>
+                    <td>{{ report.reported_user.username }}</td>
+                    <td>{{ report.reporting_user.username }}</td>
+                    <td>{{ report.description }}</td>
+                    <td>{{ report.date }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- Including some animation for a better user experience -->
+<script>
+    $(document).ready(function() {
+        // Apply hover effects on the table rows
+        $('table tbody tr').hover(function() {
+            $(this).addClass('table-info');
+        }, function() {
+            $(this).removeClass('table-info');
+        });
+
+        // AJAX can be added for dynamic data refresh without page reload
+        function refreshData() {
+            $.ajax({
+                url: '{% url "view_reviews" %}',  // Your view URL
+                method: 'GET',
+                success: function(data) {
+                    // Update the table content dynamically if needed
+                    $('#ratings-table tbody').html(data.ratings);
+                    $('#reports-table tbody').html(data.reports);
+                }
+            });
+        }
+    });
+</script>
+{% endblock %}

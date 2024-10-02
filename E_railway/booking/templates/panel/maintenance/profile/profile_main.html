@@ -1,4 +1,4 @@
-{% extends 'panel/base/base_expert.html' %}
+{% extends 'panel/base/base_maintenance.html' %}
 {% load static %}
 
 {% block content %}
@@ -9,7 +9,7 @@
             {% if user.profile_picture %}
                 <img src="{{ user.profile_picture.url }}" alt="Profile Picture" class="profile-picture">
             {% else %}
-                <img src="{% static 'image/why1.jpeg' %}" alt="Default Profile Picture" class="profile-picture">
+                <img src="{% static 'image/why.jpeg' %}" alt="Default Profile Picture" class="profile-picture">
             {% endif %}
         </div>
         <div class="form-group">

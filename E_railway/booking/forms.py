@@ -90,3 +90,15 @@ class CommunicationForm(forms.ModelForm):
             if not photo.content_type.startswith('image'):
                 raise forms.ValidationError("File is not an image")
         return photo
+
+
+from .models import DamageReport
+
+class DamageReportForm(forms.ModelForm):
+    class Meta:
+        model = DamageReport
+        fields = ['damage_type', 'description']
+        widgets = {
+            'description': forms.Textarea(attrs={'class': 'form-control', 'rows': 4}),
+            'damage_type': forms.Select(attrs={'class': 'form-control'}),
+        }

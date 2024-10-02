@@ -1,0 +1,89 @@
+{% extends 'panel/base/base_admin.html' %}
+{% block content %}
+<div class="container">
+    <h1 class="text-center">Analytics and Reporting Dashboard</h1>
+    <div class="row mt-5">
+        <div class="col-md-6">
+            <h3>Data Counts</h3>
+            <ul>
+                <li>Total Users: {{ user_count }}</li>
+                <li>Total Contacts: {{ contact_count }}</li>
+                <li>Total Routes: {{ route_count }}</li>
+                <li>Total Tickets: {{ ticket_count }}</li>
+                <li>Total Maintenance Tasks: {{ maintenance_task_count }}</li>
+                <li>Total Tasks: {{ task_count }}</li>
+                <li>Total Communications: {{ communication_count }}</li>
+                <li>Total Ratings: {{ rating_count }}</li>
+                <li>Total Reports: {{ report_count }}</li>
+                <li>Total Tickets Bought: {{ ticket_bought_count }}</li>
+                <li>Total Damage Reports: {{ damage_report_count }}</li>
+            </ul>
+        </div>
+        <div class="col-md-6">
+            <canvas id="dataChart"></canvas>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    var ctx = document.getElementById('dataChart').getContext('2d');
+    var dataChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: ['Users', 'Contacts', 'Routes', 'Tickets', 'Maintenance Tasks', 'Tasks', 'Communications', 'Ratings', 'Reports', 'Tickets Bought', 'Damage Reports'],
+            datasets: [{
+                label: 'Counts',
+                data: [{{ user_count }}, {{ contact_count }}, {{ route_count }}, {{ ticket_count }}, {{ maintenance_task_count }}, {{ task_count }}, {{ communication_count }}, {{ rating_count }}, {{ report_count }}, {{ ticket_bought_count }}, {{ damage_report_count }}],
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.2)',
+                    'rgba(54, 162, 235, 0.2)',
+                    'rgba(255, 206, 86, 0.2)',
+                    'rgba(75, 192, 192, 0.2)',
+                    'rgba(153, 102, 255, 0.2)',
+                    'rgba(255, 159, 64, 0.2)',
+                    'rgba(54, 162, 235, 0.2)',
+                    'rgba(255, 206, 86, 0.2)',
+                    'rgba(153, 102, 255, 0.2)',
+                    'rgba(75, 192, 192, 0.2)',
+                    'rgba(255, 159, 64, 0.2)',
+                ],
+                borderColor: [
+                    'rgba(255, 99, 132, 1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(255, 206, 86, 1)',
+                    'rgba(75, 192, 192, 1)',
+                    'rgba(153, 102, 255, 1)',
+                    'rgba(255, 159, 64, 1)',
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+    
+</script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+    function fetchData() {
+        $.ajax({
+            url: '{% url "analytics_dashboard" %}',
+            method: 'GET',
+            success: function(data) {
+                // Update the page with new data
+                $('#user_count').text(data.user_count);
+                // similarly for other data points...
+            }
+        });
+    }
+    // Set an interval to fetch data every minute
+    setInterval(fetchData, 60000); // 60 seconds
+</script>
+
+{% endblock %}
