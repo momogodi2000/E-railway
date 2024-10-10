@@ -6,31 +6,119 @@ About Us | E-Railway
 {% endblock %}
 
 {% block content %}
+<div class="bg-gray-100">
+    <section class="py-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+        <h1 class="text-4xl font-bold text-center text-blue-600 mb-8 animate-fade-in-down">About E-Railway</h1>
+        
+        <div class="bg-white shadow-lg rounded-lg p-8 mb-12 animate-fade-in">
+            <p class="text-xl text-gray-700 mb-6">Welcome to E-Railway, your trusted platform for seamless train bookings and travel planning across Cameroon. Our goal is to revolutionize railway travel by providing a modern, user-friendly service that simplifies booking and enhances travel experiences.</p>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div>
+                    <h2 class="text-2xl font-semibold text-blue-600 mb-4">Our Vision</h2>
+                    <p class="text-gray-700">We aim to become the leading railway booking service in Central Africa, ensuring every passenger enjoys fast, reliable, and comfortable travel options across the region.</p>
+                </div>
+                <div>
+                    <h2 class="text-2xl font-semibold text-blue-600 mb-4">Our Mission</h2>
+                    <p class="text-gray-700">To connect passengers with railway services efficiently, making travel easy and accessible while improving the quality of train services and enhancing the customer experience.</p>
+                </div>
+            </div>
+        </div>
+
+        <h2 class="text-3xl font-bold text-center text-blue-600 mb-8">Meet Our Team</h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
+            <div class="bg-white shadow-lg rounded-lg overflow-hidden transform transition duration-500 hover:scale-105">
+                <img src="{% static 'image/team1.jpeg' %}" alt="John Doe" class="w-full h-64 object-cover">
+                <div class="p-6">
+                    <h3 class="text-xl font-semibold mb-2">John Doe</h3>
+                    <p class="text-blue-600 mb-4">CEO & Founder</p>
+                    <p class="text-gray-700">With over 15 years of experience in the transport sector, John leads our vision with passion and commitment.</p>
+                </div>
+            </div>
+            <div class="bg-white shadow-lg rounded-lg overflow-hidden transform transition duration-500 hover:scale-105">
+                <img src="{% static 'image/team2.png' %}" alt="Jane Smith" class="w-full h-64 object-cover">
+                <div class="p-6">
+                    <h3 class="text-xl font-semibold mb-2">Jane Smith</h3>
+                    <p class="text-blue-600 mb-4">Chief Operations Officer</p>
+                    <p class="text-gray-700">Jane ensures that our operations run smoothly, enhancing our service delivery and customer satisfaction.</p>
+                </div>
+            </div>
+            <div class="bg-white shadow-lg rounded-lg overflow-hidden transform transition duration-500 hover:scale-105">
+                <img src="{% static 'image/team3.jpeg' %}" alt="Michael Brown" class="w-full h-64 object-cover">
+                <div class="p-6">
+                    <h3 class="text-xl font-semibold mb-2">Michael Brown</h3>
+                    <p class="text-blue-600 mb-4">Head of Customer Relations</p>
+                    <p class="text-gray-700">Michael is dedicated to understanding and addressing customer needs, fostering a positive travel experience.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="bg-white shadow-lg rounded-lg p-8 mb-12 animate-fade-in">
+            <h2 class="text-3xl font-bold text-blue-600 mb-6">Why Choose E-Railway?</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div class="p-4 border border-blue-200 rounded-lg">
+                    <i class="fas fa-ticket-alt text-3xl text-blue-600 mb-4"></i>
+                    <h3 class="text-xl font-semibold mb-2">Easy Booking</h3>
+                    <p class="text-gray-700">Book your tickets with just a few clicks, anytime, anywhere.</p>
+                </div>
+                <div class="p-4 border border-blue-200 rounded-lg">
+                    <i class="fas fa-map-marked-alt text-3xl text-blue-600 mb-4"></i>
+                    <h3 class="text-xl font-semibold mb-2">Wide Network</h3>
+                    <p class="text-gray-700">Access routes connecting all major cities across Cameroon.</p>
+                </div>
+                <div class="p-4 border border-blue-200 rounded-lg">
+                    <i class="fas fa-user-shield text-3xl text-blue-600 mb-4"></i>
+                    <h3 class="text-xl font-semibold mb-2">Safe Travel</h3>
+                    <p class="text-gray-700">Your safety is our top priority with regular maintenance checks.</p>
+                </div>
+                <div class="p-4 border border-blue-200 rounded-lg">
+                    <i class="fas fa-clock text-3xl text-blue-600 mb-4"></i>
+                    <h3 class="text-xl font-semibold mb-2">Punctuality</h3>
+                    <p class="text-gray-700">We value your time with our commitment to punctual services.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="bg-white shadow-lg rounded-lg p-8 mb-12 animate-fade-in">
+            <h2 class="text-3xl font-bold text-blue-600 mb-6">Our Achievements</h2>
+            <ul class="space-y-4">
+                <li class="flex items-center">
+                    <svg class="h-6 w-6 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                    <span class="text-gray-700">Over 1 million satisfied customers</span>
+                </li>
+                <li class="flex items-center">
+                    <svg class="h-6 w-6 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                    <span class="text-gray-700">Awarded "Best Railway Service" in 2023</span>
+                </li>
+                <li class="flex items-center">
+                    <svg class="h-6 w-6 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                    <span class="text-gray-700">Successfully partnered with multiple local and international agencies</span>
+                </li>
+                <li class="flex items-center">
+                    <svg class="h-6 w-6 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                    <span class="text-gray-700">Implemented eco-friendly practices to reduce our carbon footprint</span>
+                </li>
+            </ul>
+        </div>
+
+        <div class="text-center">
+            <h2 class="text-3xl font-bold text-blue-600 mb-6">Join Us</h2>
+            <p class="text-xl text-gray-700 mb-8">If you want to know more or partner with us, feel free to get in touch. We are always looking to collaborate with industry professionals and make train travel better for everyone.</p>
+            <a href="#contact" class="bg-blue-600 text-white px-8 py-3 rounded-full text-lg font-semibold hover:bg-blue-700 transition duration-300">Contact Us</a>
+        </div>
+    </section>
+</div>
+
 <style>
-    .about-section {
-        background-color: #f8f9fa;
-        padding: 50px 0;
-        animation: fadeIn 1s ease-in;
-    }
-
-    .team-member {
-        transition: transform 0.3s ease;
-    }
-
-    .team-member:hover {
-        transform: scale(1.05);
-    }
-
-    .about-title {
-        font-size: 2.5rem;
-        margin-bottom: 20px;
-        color: #007bff;
-    }
-
-    .about-subtitle {
-        font-size: 1.5rem;
-        margin-top: 40px;
-        color: #343a40;
+    @keyframes fadeInDown {
+        from {
+            opacity: 0;
+            transform: translate3d(0, -20%, 0);
+        }
+        to {
+            opacity: 1;
+            transform: translate3d(0, 0, 0);
+        }
     }
 
     @keyframes fadeIn {
@@ -41,56 +129,36 @@ About Us | E-Railway
             opacity: 1;
         }
     }
+
+    .animate-fade-in-down {
+        animation: fadeInDown 1s ease-out;
+    }
+
+    .animate-fade-in {
+        animation: fadeIn 1s ease-out;
+    }
 </style>
 
-<section class="about-section text-center">
-    <div class="container">
-        <h2 class="about-title">About Us</h2>
-        <p class="lead">Welcome to E-Railway, your trusted platform for seamless train bookings and travel planning across Cameroon. Our goal is to revolutionize railway travel by providing a modern, user-friendly service that simplifies booking and enhances travel experiences.</p>
-        
-        <h3 class="about-subtitle">Our Vision</h3>
-        <p>We aim to become the leading railway booking service in Central Africa, ensuring every passenger enjoys fast, reliable, and comfortable travel options across the region.</p>
+<script>
+    document.addEventListener('DOMContentLoaded', (event) => {
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.1
+        };
 
-        <h3 class="about-subtitle">Our Mission</h3>
-        <p>To connect passengers with railway services efficiently, making travel easy and accessible while improving the quality of train services and enhancing the customer experience.</p>
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('animate-fade-in');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
 
-        <h3 class="about-subtitle">Meet Our Team</h3>
-        <div class="row">
-            <div class="col-md-4 team-member">
-                <img src="{% static 'image/team1.jpeg' %}" alt="John Doe" class="rounded-circle img-fluid">
-                <h5 class="mt-3">John Doe</h5>
-                <p>CEO & Founder</p>
-                <p class="text-muted">With over 15 years of experience in the transport sector, John leads our vision with passion and commitment.</p>
-            </div>
-            <div class="col-md-4 team-member">
-                <img src="{% static 'image/team2.png' %}" alt="Jane Smith" class="rounded-circle img-fluid">
-                <h5 class="mt-3">Jane Smith</h5>
-                <p>Chief Operations Officer</p>
-                <p class="text-muted">Jane ensures that our operations run smoothly, enhancing our service delivery and customer satisfaction.</p>
-            </div>
-            <div class="col-md-4 team-member">
-                <img src="{% static 'image/team3.jpeg' %}" alt="Michael Brown" class="rounded-circle img-fluid">
-                <h5 class="mt-3">Michael Brown</h5>
-                <p>Head of Customer Relations</p>
-                <p class="text-muted">Michael is dedicated to understanding and addressing customer needs, fostering a positive travel experience.</p>
-            </div>
-        </div>
-
-        <h3 class="about-subtitle">Why Choose Us?</h3>
-        <p>At E-Railway, we prioritize convenience, comfort, and safety. Whether you're traveling for business or leisure, we are committed to offering you the best railway experience in Cameroon.</p>
-        
-        <h3 class="about-subtitle">Join Us</h3>
-        <p>If you want to know more or partner with us, feel free to <a href="#contact" class="text-primary">get in touch</a>. We are always looking to collaborate with industry professionals and make train travel better for everyone.</p>
-        
-        <div class="mt-4">
-            <h3 class="about-subtitle">Our Achievements</h3>
-            <ul class="list-unstyled">
-                <li>✅ Over 1 million satisfied customers</li>
-                <li>✅ Awarded "Best Railway Service" in 2023</li>
-                <li>✅ Successfully partnered with multiple local and international agencies</li>
-                <li>✅ Implemented eco-friendly practices to reduce our carbon footprint</li>
-            </ul>
-        </div>
-    </div>
-</section>
+        document.querySelectorAll('.animate-fade-in').forEach(el => {
+            observer.observe(el);
+        });
+    });
+</script>
 {% endblock %}

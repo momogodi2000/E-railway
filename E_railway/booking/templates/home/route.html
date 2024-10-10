@@ -2,75 +2,53 @@
 {% load static %}
 
 {% block content %}
-<section class="routes-section py-5">
-    <div class="container">
-        <h2 class="text-center mb-4">Popular Routes</h2>
-        <p class="lead text-center">Discover the most popular routes and plan your next journey with ease.</p>
+<section class="routes-section py-16 bg-gray-100">
+    <div class="container mx-auto px-4">
+        <h2 class="text-3xl font-bold text-center mb-8 text-gray-800">Popular Routes</h2>
+        <p class="text-lg text-center mb-12 text-gray-600">Explore the most traveled routes and plan your railway journey with our efficient management system.</p>
 
         <!-- Routes Cards -->
-        <div class="row">
-            <!-- Example of Route Card 1 -->
-            <div class="col-md-4 mb-4">
-                <div class="card shadow-sm">
-                    <img src="{% static 'image/1.jpeg' %}" class="card-img-top" alt="Route Image 1">
-                    <div class="card-body">
-                        <h5 class="card-title">Yaoundé to Douala</h5>
-                        <p class="card-text">A high-speed rail route connecting the capital Yaoundé with the bustling port city of Douala. Enjoy a smooth and scenic journey.</p>
-                        <a href="{% url 'route_detail' route_id=1 %}" class="btn btn-primary">View Details</a>
-                    </div>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <!-- Route Card 1 -->
+            <div class="card hover:shadow-lg transition-transform transform hover:scale-105 bg-white rounded-lg overflow-hidden">
+                <img src="{% static 'image/train_new.jpeg' %}" class="w-full h-56 object-cover" alt="Yaoundé to Douala">
+                <div class="p-6">
+                    <h5 class="text-xl font-semibold mb-3">Yaoundé to Douala</h5>
+                    <p class="text-gray-600 mb-4">High-speed rail connecting Yaoundé to the port city of Douala. Experience a smooth and scenic journey with top-tier services.</p>
+                    <a href="{% url 'route_detail' route_id=1 %}" class="inline-block bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-500 transition-colors">View Details</a>
                 </div>
             </div>
 
-            <!-- Example of Route Card 2 -->
-            <div class="col-md-4 mb-4">
-                <div class="card shadow-sm">
-                    <img src="{% static 'image/2.jpeg' %}" class="card-img-top" alt="Route Image 2">
-                    <div class="card-body">
-                        <h5 class="card-title">Bafoussam to Bamenda</h5>
-                        <p class="card-text">Explore the scenic landscapes on this route, connecting the cultural hub of Bafoussam with the highlands of Bamenda.</p>
-                        <a href="{% url 'route_detail' route_id=2 %}" class="btn btn-primary">View Details</a>
-                    </div>
+            <!-- Route Card 2 -->
+            <div class="card hover:shadow-lg transition-transform transform hover:scale-105 bg-white rounded-lg overflow-hidden">
+                <img src="{% static 'image/route_bafoussam.jpeg' %}" class="w-full h-56 object-cover" alt="Bafoussam to Bamenda">
+                <div class="p-6">
+                    <h5 class="text-xl font-semibold mb-3">Bafoussam to Bamenda</h5>
+                    <p class="text-gray-600 mb-4">Scenic route through the cultural heartland of Bafoussam and into the highlands of Bamenda. Enjoy breathtaking views along the way.</p>
+                    <a href="{% url 'route_detail' route_id=2 %}" class="inline-block bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-500 transition-colors">View Details</a>
                 </div>
             </div>
 
-            <!-- Example of Route Card 3 -->
-            <div class="col-md-4 mb-4">
-                <div class="card shadow-sm">
-                    <img src="{% static 'image/3.jpeg' %}" class="card-img-top" alt="Route Image 3">
-                    <div class="card-body">
-                        <h5 class="card-title">Ngaoundéré to Garoua</h5>
-                        <p class="card-text">Travel along the northern regions of Cameroon on this route, known for its breathtaking views of savannahs and wildlife.</p>
-                        <a href="{% url 'route_detail' route_id=3 %}" class="btn btn-primary">View Details</a>
-                    </div>
+            <!-- Route Card 3 -->
+            <div class="card hover:shadow-lg transition-transform transform hover:scale-105 bg-white rounded-lg overflow-hidden">
+                <img src="{% static 'image/3.jpeg' %}" class="w-full h-56 object-cover" alt="Ngaoundéré to Garoua">
+                <div class="p-6">
+                    <h5 class="text-xl font-semibold mb-3">Ngaoundéré to Garoua</h5>
+                    <p class="text-gray-600 mb-4">A journey through Cameroon's northern savannahs, known for its unique wildlife and expansive landscapes.</p>
+                    <a href="{% url 'route_detail' route_id=3 %}" class="inline-block bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-500 transition-colors">View Details</a>
                 </div>
             </div>
         </div>
-
-        <!-- Add more routes if necessary -->
     </div>
 </section>
 
 <style>
 .routes-section {
     background-color: #f9f9f9;
-    padding: 4rem 0;
 }
 
 .card {
-    transition: transform 0.3s;
-}
-
-.card:hover {
-    transform: scale(1.05);
-}
-
-.card-img-top {
-    height: 200px;
-    object-fit: cover;
-}
-
-.text-center {
-    color: #343a40;
+    transition: transform 0.3s ease;
 }
 </style>
 

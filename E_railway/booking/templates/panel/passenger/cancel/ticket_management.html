@@ -1,0 +1,77 @@
+{% extends 'panel/base/base_passenger.html' %}
+{% load static %}
+{% block content %}
+<div class="container mx-auto px-4 py-8">
+    <h1 class="text-2xl font-semibold text-center mb-6">Manage Your Tickets</h1>
+
+    <!-- Loop through the user's ticket history -->
+    <div class="bg-white shadow overflow-hidden sm:rounded-lg">
+        <table class="min-w-full divide-y divide-gray-200">
+            <thead class="bg-gray-50">
+                <tr>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        Ticket
+                    </th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        Amount Paid
+                    </th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        Status
+                    </th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        Actions
+                    </th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        History
+                    </th>
+                </tr>
+            </thead>
+            <tbody class="bg-white divide-y divide-gray-200">
+                {% for ticket in tickets %}
+                <tr>
+                    <td class="px-6 py-4 whitespace-nowrap">{{ ticket.ticket.title }}</td>
+                    <td class="px-6 py-4 whitespace-nowrap">{{ ticket.amount_paid }}</td>
+                    <td class="px-6 py-4 whitespace-nowrap">{{ ticket.get_status_display }}</td>
+                    <td class="px-6 py-4 whitespace-nowrap flex space-x-4">
+                        <!-- Cancel Button -->
+                        <form method="POST" action="{% url 'cancel_ticket' ticket.id %}">
+                            {% csrf_token %}
+                            <button type="submit" class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded transition duration-200">
+                                Cancel
+                            </button>
+                        </form>
+                        <!-- Report Button -->
+                        <form method="POST" action="{% url 'report_ticket' ticket.id %}">
+                            {% csrf_token %}
+                            <button type="submit" class="bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded transition duration-200">
+                                Report
+                            </button>
+                        </form>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                        <ul>
+                            {% for history in ticket.history.all %}
+                            <li>{{ history.get_action_display }} - {{ history.unique_code }} ({{ history.action_date }})</li>
+                            {% endfor %}
+                        </ul>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+{% endblock %}
+
+<script>
+// Add confirmation dialogs for cancellation/reporting actions
+document.querySelectorAll('form').forEach(form => {
+    form.addEventListener('submit', function(event) {
+        const action = form.querySelector('button').textContent.trim();
+        if (!confirm(`Are you sure you want to ${action.toLowerCase()} this reservation?`)) {
+            event.preventDefault();
+        }
+    });
+});
+</script>

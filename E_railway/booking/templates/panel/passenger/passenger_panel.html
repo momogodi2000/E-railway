@@ -1,295 +1,345 @@
 {% extends 'panel/base/base_passenger.html' %}
-
 {% load static %}
 
-{% block title %}
-    e-Railway - Passenger Dashboard
-{% endblock %}
-
-{% block stylesheet %}
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
+<!DOCTYPE html>
+<html lang="en" class="h-full bg-gray-100">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}e-Railway - Passenger Dashboard{% endblock %}</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'camrail-blue': '#0056b3',
+                        'camrail-green': '#28a745',
+                    },
+                    fontFamily: {
+                        'sans': ['Roboto', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap');
+        
+        [x-cloak] { display: none; }
+        
         .dashboard-header {
             background-image: url('{% static "images/railway-bg.jpg" %}');
             background-size: cover;
-            padding: 60px;
-            color: #fff;
-            text-align: center;
-        }
-        .widget {
-            padding: 20px;
-            background-color: #fff;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-            border-radius: 10px;
-            transition: transform 0.3s ease;
-        }
-        .card:hover {
-            transform: translateY(-10px);
-        }
-        .call-to-action {
-            background-color: #343a40;
-            color: #fff;
-            padding: 40px;
-            text-align: center;
-            border-radius: 8px;
-            box-shadow: 0 6px 12px rgba(0,0,0,0.2);
-        }
-        .cta-button {
-            padding: 10px 20px;
-            background-color: #28a745;
-            color: white;
-            border-radius: 50px;
-            border: none;
-            transition: background-color 0.3s ease-in-out;
-        }
-        .cta-button:hover {
-            background-color: #218838;
-        }
-        /* Google Map styling */
-        #map {
-            height: 400px;
-            width: 100%;
-            border-radius: 10px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-        }
-        /* Responsive styles */
-        @media (max-width: 768px) {
-            .dashboard-header {
-                padding: 30px;
-            }
-            .call-to-action {
-                padding: 20px;
-            }
-            .cta-button {
-                padding: 8px 16px;
-            }
-            .widget {
-                margin: 10px 0;
-            }
+            background-position: center;
         }
     </style>
-{% endblock %}
-
-{% block content %}
-<div class="dashboard">
-    <div class="dashboard-header">
-        <h1 class="animate__animated animate__fadeInDown">Welcome {{ user.username }}, To Your e-Railway Dashboard</h1>
-        <p class="animate__animated animate__fadeInUp">Manage your trips, bookings, and services with ease.</p>
-    </div>
-
-    <div class="dashboard-content container mt-4">
-        <div class="row">
-            <!-- Travel Stats Widget -->
-            <div class="col-lg-12 mb-4">
-                <div class="stat-widget text-center animate__animated animate__fadeIn">
-                    <h5><i class="fas fa-train"></i> Travel Statistics</h5>
-                    <p>Track your travel history and upcoming journeys.</p>
-                    <canvas id="travelStatsChart" height="100"></canvas>
+</head>
+<body class="h-full font-sans">
+    {% block content %}
+   
+        <div class="flex flex-col flex-1 overflow-hidden">
+            <header class="flex items-center justify-between px-6 py-4 bg-white border-b-4 border-camrail-blue">
+                <div class="flex items-center">
+                    <button @click="sidebarOpen = true" class="text-gray-500 focus:outline-none lg:hidden">
+                        <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M4 6H20M4 12H20M4 18H11" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </button>
                 </div>
-            </div>
+                
+                <div class="flex items-center">
+                    <div x-data="{ notificationOpen: false }" class="relative">
+                        <button @click="notificationOpen = ! notificationOpen" class="flex mx-4 text-gray-600 focus:outline-none">
+                            <i class="fas fa-bell text-xl"></i>
+                        </button>
 
-            <!-- Ticket Booking -->
-            <div class="col-md-6 col-lg-4 mb-4">
-                <div class="card widget animate__animated animate__fadeInLeft" data-aos="fade-right">
-                    <div class="card-header">
-                        <h5><i class="fas fa-ticket-alt"></i> Ticket Booking</h5>
+                        <div x-cloak x-show="notificationOpen" @click.away="notificationOpen = false" class="absolute right-0 w-48 mt-2 overflow-hidden bg-white rounded-md shadow-xl">
+                            <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-camrail-blue hover:text-white">Notification 1</a>
+                            <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-camrail-blue hover:text-white">Notification 2</a>
+                        </div>
                     </div>
-                    <div class="card-body">
-                        <ul>
-                            <li>Book and manage your train tickets.</li>
-                            <li>View booking history.</li>
-                        </ul>
-                        <img src="{% static 'image/ticket.png' %}" alt="Ticket Booking" class="img-fluid">
-                    </div>
-                </div>
-            </div>
+                    
+                    <div x-data="{ dropdownOpen: false }" class="relative">
+                        <button @click="dropdownOpen = ! dropdownOpen" class="relative block w-8 h-8 overflow-hidden rounded-full shadow focus:outline-none">
+                            <img class="object-cover w-full h-full" src="{% static 'image/1.jpeg' %}" alt="Your avatar">
+                        </button>
 
-            <!-- Train Schedule -->
-            <div class="col-md-6 col-lg-4 mb-4">
-                <div class="card widget animate__animated animate__fadeInRight" data-aos="fade-left">
-                    <div class="card-header">
-                        <h5><i class="fas fa-clock"></i> Train Schedule</h5>
-                    </div>
-                    <div class="card-body">
-                        <ul>
-                            <li>Check real-time train schedules.</li>
-                            <li>Get notifications for delays or changes.</li>
-                        </ul>
-                        <img src="{% static 'image/training.jpeg' %}" alt="Train Schedule" class="img-fluid">
+                        <div x-cloak x-show="dropdownOpen" @click.away="dropdownOpen = false" class="absolute right-0 w-48 mt-2 overflow-hidden bg-white rounded-md shadow-xl">
+                            <a href="{% url 'profile_clients' %}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-camrail-blue hover:text-white">Profile</a>
+                            <a href="{% url 'security_cleints' %}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-camrail-blue hover:text-white">Settings</a>
+                            <a href="{% url 'logout' %}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-camrail-blue hover:text-white">Logout</a>
+                        </div>
                     </div>
                 </div>
-            </div>
+            </header>
+            
+            <main class="flex-1 overflow-x-hidden overflow-y-auto bg-gray-200">
+                <div class="container px-6 py-8 mx-auto">
+                    <h3 class="text-3xl font-medium text-gray-700">Dashboard</h3>
+                    
+                    <div class="mt-8">
+                        <!-- Travel Stats Widget -->
+                        <div class="flex flex-wrap -mx-6">
+                            <div class="w-full px-6 sm:w-1/2 xl:w-1/3">
+                                <div class="flex items-center px-5 py-6 bg-white rounded-md shadow-sm">
+                                    <div class="p-3 bg-camrail-blue bg-opacity-75 rounded-full">
+                                        <i class="fas fa-train text-white text-2xl"></i>
+                                    </div>
 
-            <!-- Customer Support -->
-            <div class="col-md-6 col-lg-4 mb-4">
-                <div class="card widget animate__animated animate__fadeInLeft" data-aos="fade-right">
-                    <div class="card-header">
-                        <h5><i class="fas fa-comments"></i> Customer Support</h5>
+                                    <div class="mx-5">
+                                        <h4 class="text-2xl font-semibold text-gray-700">8,282</h4>
+                                        <div class="text-gray-500">Total Trips</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="w-full px-6 mt-6 sm:w-1/2 xl:w-1/3 sm:mt-0">
+                                <div class="flex items-center px-5 py-6 bg-white rounded-md shadow-sm">
+                                    <div class="p-3 bg-camrail-green bg-opacity-75 rounded-full">
+                                        <i class="fas fa-coins text-white text-2xl"></i>
+                                    </div>
+
+                                    <div class="mx-5">
+                                        <h4 class="text-2xl font-semibold text-gray-700">200,521 XAF</h4>
+                                        <div class="text-gray-500">Total Savings</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="w-full px-6 mt-6 sm:w-1/2 xl:w-1/3 xl:mt-0">
+                                <div class="flex items-center px-5 py-6 bg-white rounded-md shadow-sm">
+                                    <div class="p-3 bg-yellow-600 bg-opacity-75 rounded-full">
+                                        <i class="fas fa-medal text-white text-2xl"></i>
+                                    </div>
+
+                                    <div class="mx-5">
+                                        <h4 class="text-2xl font-semibold text-gray-700">Gold</h4>
+                                        <div class="text-gray-500">Loyalty Tier</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="card-body">
-                        <ul>
-                            <li>Reach out for inquiries or assistance.</li>
-                            <li>Chat with support representatives.</li>
-                        </ul>
-                        <img src="{% static 'image/support.jpeg' %}" alt="Customer Support" class="img-fluid">
+
+                    <div class="mt-8" x-data="{ activeTab: 'upcoming' }">
+                        <!-- Tabs -->
+                        <div class="flex mb-4 border-b border-gray-200">
+                            <button @click="activeTab = 'upcoming'" :class="{ 'border-b-2 border-camrail-blue': activeTab === 'upcoming' }" class="px-4 py-2 text-sm font-medium leading-5 text-camrail-blue focus:outline-none focus:text-camrail-blue focus:border-camrail-blue">
+                                Upcoming Trips
+                            </button>
+                            <button @click="activeTab = 'history'" :class="{ 'border-b-2 border-camrail-blue': activeTab === 'history' }" class="px-4 py-2 ml-8 text-sm font-medium leading-5 text-gray-500 focus:outline-none focus:text-camrail-blue focus:border-camrail-blue">
+                                Trip History
+                            </button>
+                        </div>
+
+                        <!-- Upcoming Trips -->
+                        <div x-show="activeTab === 'upcoming'">
+                            <div class="flex flex-col mt-8">
+                                <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+                                    <div class="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
+                                        <div class="overflow-hidden border-b border-gray-200 shadow sm:rounded-lg">
+                                            <table class="min-w-full divide-y divide-gray-200">
+                                                <thead class="bg-gray-50">
+                                                    <tr>
+                                                        <th scope="col" class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">
+                                                            Date
+                                                        </th>
+                                                        <th scope="col" class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">
+                                                            From
+                                                        </th>
+                                                        <th scope="col" class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">
+                                                            To
+                                                        </th>
+                                                        <th scope="col" class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">
+                                                            Status
+                                                        </th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody class="bg-white divide-y divide-gray-200">
+                                                    <tr>
+                                                        <td class="px-6 py-4 whitespace-nowrap">
+                                                            <div class="text-sm text-gray-900">Oct 15, 2024</div>
+                                                        </td>
+                                                        <td class="px-6 py-4 whitespace-nowrap">
+                                                            <div class="text-sm text-gray-900">Yaoundé</div>
+                                                        </td>
+                                                        <td class="px-6 py-4 whitespace-nowrap">
+                                                            <div class="text-sm text-gray-900">Douala</div>
+                                                        </td>
+                                                        <td class="px-6 py-4 whitespace-nowrap">
+                                                            <span class="inline-flex px-2 text-xs font-semibold leading-5 text-green-800 bg-green-100 rounded-full">
+                                                                Confirmed
+                                                            </span>
+                                                        </td>
+                                                    </tr>
+                                                    <!-- More rows... -->
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Trip History -->
+                        <div x-show="activeTab === 'history'" x-cloak>
+                            <div class="flex flex-col mt-8">
+                                <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+                                    <div class="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
+                                        <div class="overflow-hidden border-b border-gray-200 shadow sm:rounded-lg">
+                                            <table class="min-w-full divide-y divide-gray-200">
+                                                <thead class="bg-gray-50">
+                                                    <tr>
+                                                        <th scope="col" class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">
+                                                            Date
+                                                        </th>
+                                                        <th scope="col" class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">
+                                                            From
+                                                        </th>
+                                                        <th scope="col" class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">
+                                                            To
+                                                        </th>
+                                                        <th scope="col" class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">
+                                                            Status
+                                                        </th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody class="bg-white divide-y divide-gray-200">
+                                                    <tr>
+                                                        <td class="px-6 py-4 whitespace-nowrap">
+                                                            <div class="text-sm text-gray-900">Sep 30, 2024</div>
+                                                        </td>
+                                                        <td class="px-6 py-4 whitespace-nowrap">
+                                                            <div class="text-sm text-gray-900">Douala</div>
+                                                        </td>
+                                                        <td class="px-6 py-4 whitespace-nowrap">
+                                                            <div class="text-sm text-gray-900">Yaoundé</div>
+                                                        </td>
+                                                        <td class="px-6 py-4 whitespace-nowrap">
+                                                            <span class="inline-flex px-2 text-xs font-semibold leading-5 text-gray-800 bg-gray-100 rounded-full">
+                                                                Completed
+                                                            </span>
+                                                        </td>
+                                                    </tr>
+                                                    <!-- More rows... -->
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Railway Map -->
+                    <div class="mt-8">
+                        <h3 class="text-2xl font-medium text-gray-700">Cameroon Railway Network</h3>
+                        <div class="mt-4 bg-white rounded-lg shadow">
+                            <div id="map" class="w-full h-96 rounded-lg" data-aos="fade-up"></div>
+                        </div>
+                    </div>
+
+                    <!-- Quick Actions -->
+                    <div class="mt-8">
+                        <h3 class="text-2xl font-medium text-gray-700">Quick Actions</h3>
+                        <div class="grid grid-cols-1 gap-6 mt-5 md:grid-cols-2 lg:grid-cols-3">
+                            <div class="p-6 bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow duration-300" data-aos="fade-up" data-aos-delay="100">
+                                <div class="flex items-center">
+                                    <i class="fas fa-ticket-alt text-3xl text-camrail-blue"></i>
+                                    <h3 class="ml-4 text-lg font-medium text-gray-700">Book a Ticket</h3>
+                                </div>
+                                <p class="mt-4 text-sm text-gray-600">Quickly book your next train journey.</p>
+                                <a href="#" class="inline-block px-4 py-2 mt-4 text-sm font-medium text-white bg-camrail-blue rounded hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">Book Now</a>
+                            </div>
+                            <div class="p-6 bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow duration-300" data-aos="fade-up" data-aos-delay="200">
+                                <div class="flex items-center">
+                                    <i class="fas fa-history text-3xl text-camrail-green"></i>
+                                    <h3 class="ml-4 text-lg font-medium text-gray-700">View Travel History</h3>
+                                </div>
+                                <p class="mt-4 text-sm text-gray-600">Check your past journeys and bookings.</p>
+                                <a href="#" class="inline-block px-4 py-2 mt-4 text-sm font-medium text-white bg-camrail-green rounded hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2">View History</a>
+                            </div>
+                            <div class="p-6 bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow duration-300" data-aos="fade-up" data-aos-delay="300">
+                                <div class="flex items-center">
+                                    <i class="fas fa-user-circle text-3xl text-yellow-500"></i>
+                                    <h3 class="ml-4 text-lg font-medium text-gray-700">Update Profile</h3>
+                                </div>
+                                <p class="mt-4 text-sm text-gray-600">Keep your personal information up to date.</p>
+                                <a href="#" class="inline-block px-4 py-2 mt-4 text-sm font-medium text-white bg-yellow-500 rounded hover:bg-yellow-600 focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:ring-offset-2">Update Now</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Call to Action -->
+                    <div class="mt-8 bg-camrail-blue rounded-lg shadow-lg overflow-hidden" data-aos="fade-up">
+                        <div class="px-6 py-12 max-w-xl mx-auto sm:px-10 sm:py-20 lg:max-w-full lg:py-24 lg:px-12">
+                            <h2 class="text-3xl font-extrabold text-white sm:text-4xl">
+                                <span class="block">Ready for your next journey?</span>
+                                <span class="block mt-1">Book your ticket today!</span>
+                            </h2>
+                            <p class="mt-6 text-xl leading-8 text-gray-200">
+                                Experience the comfort and convenience of train travel across Cameroon. Book now and enjoy special discounts!
+                            </p>
+                            <a href="#" class="mt-8 inline-flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-camrail-blue bg-white hover:bg-gray-50 sm:w-auto">
+                                Book Your Ticket
+                            </a>
+                        </div>
                     </div>
                 </div>
-            </div>
-
-            <!-- Profile Management -->
-            <div class="col-md-6 col-lg-4 mb-4">
-                <div class="card widget animate__animated animate__fadeInRight" data-aos="fade-left">
-                    <div class="card-header">
-                        <h5><i class="fas fa-user"></i> Profile Management</h5>
-                    </div>
-                    <div class="card-body">
-                        <ul>
-                            <li>Update your personal information.</li>
-                            <li>Manage payment methods and preferences.</li>
-                        </ul>
-                        <img src="{% static 'image/profile-management.jpeg' %}" alt="Profile Management" class="img-fluid">
-                    </div>
-                </div>
-            </div>
-
-            <!-- Promotions -->
-            <div class="col-md-6 col-lg-4 mb-4">
-                <div class="card widget animate__animated animate__fadeInLeft" data-aos="fade-right">
-                    <div class="card-header">
-                        <h5><i class="fas fa-bullhorn"></i> Promotions</h5>
-                    </div>
-                    <div class="card-body">
-                        <ul>
-                            <li>Check for ongoing discounts and offers.</li>
-                            <li>Subscribe for exclusive deals.</li>
-                        </ul>
-                        <img src="{% static 'image/promotions.jpeg' %}" alt="Promotions" class="img-fluid">
-                    </div>
-                </div>
-            </div>
-
-            <!-- Railway Table -->
-            <div class="col-md-12 mb-4">
-                <div class="card widget">
-                    <div class="card-header">
-                        <h5><i class="fas fa-train"></i> Railways in Cameroon</h5>
-                    </div>
-                    <div class="card-body">
-                        <table class="table table-striped">
-                            <thead>
-                                <tr>
-                                    <th scope="col">Railway Name</th>
-                                    <th scope="col">Location</th>
-                                    <th scope="col">Status</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>Cameroon Railway</td>
-                                    <td>Yaoundé</td>
-                                    <td>Operational</td>
-                                </tr>
-                                <tr>
-                                    <td>Douala Railway</td>
-                                    <td>Douala</td>
-                                    <td>Operational</td>
-                                </tr>
-                                <tr>
-                                    <td>Bertoua Railway</td>
-                                    <td>Bertoua</td>
-                                    <td>Under Construction</td>
-                                </tr>
-                                <tr>
-                                    <td>Garoua Railway</td>
-                                    <td>Garoua</td>
-                                    <td>Operational</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Google Map -->
-            <div class="col-md-12 mb-4">
-                <div class="card widget">
-                    <div class="card-header">
-                        <h5><i class="fas fa-map-marker-alt"></i> Nearest Railway Location</h5>
-                    </div>
-                    <div class="card-body">
-                        <div id="map"></div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Call to Action -->
-            <div class="col-md-12 mb-4">
-                <div class="call-to-action animate__animated animate__bounceIn" data-aos="fade-up">
-                    <h2>Ready to Travel?</h2>
-                    <p>Explore our services and book your next journey.</p>
-                    <button class="cta-button">Book Now</button>
-                </div>
-            </div>
-
-            <!-- Copyright Section -->
-            <div class="col-md-12 text-center mt-4">
-                <p class="copyright">© 2024 e-Railway. All rights reserved.</p>
-            </div>
+            </main>
         </div>
     </div>
-{% endblock %}
 
-{% block script %}
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAOVYRIgupAurZup5y1PRh8Ismb1A3lLao&libraries=places&callback=initMap"></script>
+    <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&callback=initMap" async defer></script>
     <script>
-        // Chart for travel statistics
-        const ctx = document.getElementById('travelStatsChart').getContext('2d');
-        const travelStatsChart = new Chart(ctx, {
-            type: 'line',
-            data: {
-                labels: ['January', 'February', 'March', 'April', 'May'],
-                datasets: [{
-                    label: 'Trips Taken',
-                    data: [5, 8, 12, 7, 10],
-                    borderColor: 'rgba(75, 192, 192, 1)',
-                    fill: false
-                }]
-            },
-            options: {
-                responsive: true,
-                scales: {
-                    y: {
-                        beginAtZero: true
-                    }
-                }
-            }
-        });
-
-        // AOS animation initialization
-        AOS.init({
-            duration: 1200,
-            once: true,
-        });
-
-        // Initialize Google Map
         function initMap() {
-            const location = { lat: 4.0511, lng: 9.7085 }; // Example coordinates for Douala
-            const map = new google.maps.Map(document.getElementById('map'), {
-                zoom: 12,
-                center: location
+            const cameroon = { lat: 7.3697, lng: 12.3547 };
+            const map = new google.maps.Map(document.getElementById("map"), {
+                zoom: 6,
+                center: cameroon,
             });
-            const marker = new google.maps.Marker({
-                position: location,
-                map: map
+
+            const railwayCoordinates = [
+                { lat: 4.0511, lng: 9.7679 }, // Douala
+                { lat: 3.8480, lng: 11.5021 }, // Yaoundé
+                { lat: 5.9631, lng: 10.1591 }, // Bafoussam
+                { lat: 4.1570, lng: 9.2457 }, // Limbe
+            ];
+
+            const railwayPath = new google.maps.Polyline({
+                path: railwayCoordinates,
+                geodesic: true,
+                strokeColor: "#0056b3",
+                strokeOpacity: 1.0,
+                strokeWeight: 2,
+            });
+
+            railwayPath.setMap(map);
+
+            railwayCoordinates.forEach((coordinate) => {
+                new google.maps.Marker({
+                    position: coordinate,
+                    map: map,
+                    icon: {
+                        url: "http://maps.google.com/mapfiles/ms/icons/train.png",
+                        scaledSize: new google.maps.Size(32, 32),
+                    },
+                });
             });
         }
 
-        // Call initMap to display the map
-        initMap();
+        // Initialize AOS
+        AOS.init({
+            duration: 1000,
+            once: true,
+        });
     </script>
-{% endblock %}
+    {% endblock %}
+</body>
+</html>

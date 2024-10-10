@@ -60,6 +60,8 @@ class Ticket(models.Model):
     classification = models.CharField(max_length=20, choices=CLASSIFICATION_CHOICES)
     price = models.DecimalField(max_digits=10, decimal_places=2)
     railway_name = models.CharField(max_length=255, default='E-railway Railway')
+    title = models.CharField(max_length=100, default='Untitled Ticket')  # Default value
+
 
     def __str__(self):
         return f'{self.classification} Ticket: {self.departure} to {self.arrival}'
@@ -164,6 +166,8 @@ class TicketBought(models.Model):
     amount_paid = models.DecimalField(max_digits=10, decimal_places=2)
     status = models.CharField(max_length=10, choices=[('paid', 'Paid'), ('reserved', 'Reserved')])
     date = models.DateTimeField(auto_now_add=True)
+    reserved_places = models.JSONField(default=list)  # New field to track reserved places
+
 
 
 from django.contrib.auth import get_user_model
@@ -192,3 +196,24 @@ class DamageReport(models.Model):
 
     def __str__(self):
         return f"{self.get_damage_type_display()} - {self.reported_by.username}"
+
+
+
+from django.db import models
+from django.utils import timezone
+from .models import TicketBought, CustomUser
+
+class TicketHistory(models.Model):
+    ACTION_CHOICES = [
+        ('canceled', 'Canceled'),
+        ('reported', 'Reported')
+    ]
+    
+    ticket = models.ForeignKey(TicketBought, on_delete=models.CASCADE, related_name='history')
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    action = models.CharField(max_length=10, choices=ACTION_CHOICES)
+    unique_code = models.CharField(max_length=12, unique=True)
+    action_date = models.DateTimeField(default=timezone.now)
+
+    def __str__(self):
+        return f'{self.ticket.ticket.title} - {self.get_action_display()} by {self.user.username}'

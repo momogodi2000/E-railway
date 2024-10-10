@@ -886,6 +886,28 @@ def generate_pdf_receipt(receipt_info):
     buffer.seek(0)
     return buffer
 
+def generate_pdf(request):
+    if request.method == 'GET':
+        # Assume we want to generate PDF for the last bought ticket
+        ticket_bought = TicketBought.objects.filter(user=request.user).last()
+        
+        if ticket_bought:
+            receipt_info = {
+                "reference": str(uuid.uuid4()),  # or fetch the actual reference if available
+                "name": request.user.get_full_name(),
+                "email": request.user.email,
+                "phone": "237" + request.user.phone.strip(),  # Make sure phone is formatted correctly
+                "ticket": ticket_bought.ticket.title,  # Assuming Ticket model has a title
+                "amount": ticket_bought.amount_paid,
+                "description": "Payment for ticket",
+                "date": now()
+            }
+            buffer = generate_pdf_receipt(receipt_info)
+            return FileResponse(buffer, as_attachment=True, filename=f'ticket_{ticket_bought.ticket.id}.pdf', content_type='application/pdf')
+        else:
+            return render(request, 'panel/passenger/ticket/no_tickets.html')  # Handle no tickets case
+
+
 
 from .models import TicketBought
 
@@ -925,6 +947,116 @@ def ticket_history(request):
     return render(request, 'panel/passenger/reward/ticket_history.html', {
         'ticket_history': ticket_history,
     })
+
+
+from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib import messages
+from .models import TicketBought
+from django.utils.crypto import get_random_string
+from django.http import HttpResponse
+import io
+from reportlab.pdfgen import canvas
+
+def ticket_management(request):
+    tickets = TicketBought.objects.filter(user=request.user)
+    return render(request, 'panel/passenger/cancel/ticket_management.html', {'tickets': tickets})
+
+from .models import TicketHistory
+
+def cancel_ticket(request, ticket_id):
+    ticket = get_object_or_404(TicketBought, id=ticket_id, user=request.user)
+
+    if ticket.status != 'paid':
+        messages.error(request, 'Only paid tickets can be canceled.')
+        return redirect('ticket_management')
+
+    # Generate a unique identification code
+    unique_code = get_random_string(length=12)
+
+    # Update the ticket's status to "canceled"
+    ticket.status = 'canceled'
+    ticket.save()
+
+    # Create an entry in the TicketHistory table
+    TicketHistory.objects.create(
+        ticket=ticket,
+        user=request.user,
+        action='canceled',
+        unique_code=unique_code
+    )
+
+    # Generate a cancellation receipt PDF
+    response = generate_receipt(ticket, unique_code, "Cancellation")
+
+    return response
+
+def report_ticket(request, ticket_id):
+    ticket = get_object_or_404(TicketBought, id=ticket_id, user=request.user)
+
+    # Generate a unique identification code
+    unique_code = get_random_string(length=12)
+
+    # Create an entry in the TicketHistory table
+    TicketHistory.objects.create(
+        ticket=ticket,
+        user=request.user,
+        action='reported',
+        unique_code=unique_code
+    )
+
+    # Generate a report receipt PDF
+    response = generate_receipt(ticket, unique_code, "Report")
+
+    return response
+
+def generate_receipt(ticket, code, action):
+    # Create a file-like buffer to receive PDF data.
+    buffer = io.BytesIO()
+
+    # Create the PDF object, using the buffer as its "file."
+    p = canvas.Canvas(buffer)
+
+    # Draw the receipt content
+    p.drawString(100, 750, f"Ticket {action} Receipt")
+    p.drawString(100, 730, f"User: {ticket.user.username}")
+    p.drawString(100, 710, f"Ticket: {ticket.ticket.name}")
+    p.drawString(100, 690, f"Amount Paid: {ticket.amount_paid}")
+    p.drawString(100, 710, f"Ticket: {ticket.ticket.title}")  # Use correct field from Ticket model
+    p.drawString(100, 670, f"Status: {ticket.get_status_display()}")
+    p.drawString(100, 650, f"Unique Code: {code}")
+
+    # Close the PDF object cleanly.
+    p.showPage()
+    p.save()
+
+    # Get the value of the BytesIO buffer and write it to the response.
+    buffer.seek(0)
+    response = HttpResponse(buffer, content_type='application/pdf')
+    response['Content-Disposition'] = f'attachment; filename="{action}_receipt.pdf"'
+    
+    return response
+
+
+def choose_train_place(request):
+    # Fetch valid tickets for the user
+    valid_tickets = TicketBought.objects.filter(user=request.user, status='paid')
+    return render(request, 'panel/passenger/place/choose_train_place.html', {'valid_tickets': valid_tickets})
+
+def reserve_place(request, ticket_id, place):
+    if request.method == 'POST':
+        ticket = get_object_or_404(TicketBought, id=ticket_id, user=request.user)
+        
+        if ticket.status == 'paid':
+            # Logic to mark the place as occupied (you might need to implement this logic)
+            # e.g., updating the ticket or a related model to reflect the reservation
+            
+            # For demonstration, we will just return success
+            return JsonResponse({'status': 'success'})
+        
+        return JsonResponse({'status': 'error', 'message': 'Invalid ticket or status.'})
+
+
+
 
 
 ## employer panel

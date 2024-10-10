@@ -4,17 +4,17 @@
 {% block title %}Communication List{% endblock %}
 
 {% block content %}
-<div class="container">
-    <h1 class="text-center">Communications</h1>
-    <div class="row">
+<div class="container mx-auto p-6">
+    <h1 class="text-3xl font-bold text-center mb-6">Communications</h1>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {% for communication in communications %}
-            <div class="col-md-4">
-                <div class="card" data-aos="fade-up">
-                    <div class="card-body">
-                        <h5 class="card-title">{{ communication.name }}</h5>
-                        <p class="card-text">{{ communication.description|truncatewords:10 }}</p>
-                        <button class="btn btn-primary view-details" data-id="{{ communication.id }}">View Details</button>
-                        <a href="{% url 'download_pdf' communication.id %}" class="btn btn-danger">Download as PDF</a>
+            <div class="bg-white rounded-lg shadow-md overflow-hidden transition-transform transform hover:scale-105" data-aos="fade-up">
+                <div class="p-4">
+                    <h5 class="text-xl font-semibold">{{ communication.name }}</h5>
+                    <p class="text-gray-600">{{ communication.description|truncatewords:10 }}</p>
+                    <div class="mt-4">
+                        <button class="bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700 view-details" data-id="{{ communication.id }}">View Details</button>
+                        <a href="{% url 'download_pdf' communication.id %}" class="bg-red-600 text-white py-2 px-4 rounded hover:bg-red-700 ml-2">Download as PDF</a>
                     </div>
                 </div>
             </div>

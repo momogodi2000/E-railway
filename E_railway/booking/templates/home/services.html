@@ -2,170 +2,132 @@
 {% load static %}
 
 {% block content %}
-<section class="services-section py-5 text-center">
-    <div class="container">
-        <h2>Our Services</h2>
-        <p class="lead">Connecting railway professionals, job seekers, and organizations to build the future of the railway industry in Cameroon and beyond.</p>
+<section class="services-section py-10 bg-gray-100 text-center">
+    <div class="container mx-auto">
+        <h2 class="text-3xl font-bold">Our Services</h2>
+        <p class="mt-4 text-lg text-gray-700">Connecting railway professionals, job seekers, and organizations to build the future of the railway industry in Cameroon and beyond.</p>
 
-        <div class="row mt-4">
-            <div class="col-md-4 service-card">
-                <div class="card shadow">
-                    <img src="{% static 'image/train_staff.jpeg' %}" class="card-img-top" alt="Railway Job Seeker Profiles">
-                    <div class="card-body">
-                        <h5 class="card-title">Railway Job Seeker Profiles</h5>
-                        <p class="card-text">Create a detailed profile showcasing your expertise in the railway industry. Connect with leading railway companies searching for skilled professionals. Profiles are verified for added trust and reliability.</p>
-                        <a href="#contact" class="btn btn-primary">Get Started</a>
-                    </div>
-                </div>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mt-8">
+            <div class="service-card bg-white shadow-lg transition-transform transform hover:scale-105 p-5 rounded-lg">
+                <img src="{% static 'image/train_staff.jpeg' %}" class="w-full rounded-t-lg" alt="Railway Job Seeker Profiles">
+                <h5 class="text-xl font-semibold mt-4">Railway Job Seeker Profiles</h5>
+                <p class="mt-2 text-gray-600">Create a detailed profile showcasing your expertise in the railway industry. Connect with leading railway companies searching for skilled professionals.</p>
+                <a href="#contact" class="mt-4 inline-block bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700 transition">Get Started</a>
             </div>
-            <div class="col-md-4 service-card">
-                <div class="card shadow">
-                    <img src="{% static 'image/railway_projects.jpeg' %}" class="card-img-top" alt="Railway Projects">
-                    <div class="card-body">
-                        <h5 class="card-title">Railway Projects</h5>
-                        <p class="card-text">Post detailed railway project descriptions and requirements. Receive tailored candidate recommendations and manage project timelines effectively with our robust project management tools.</p>
-                        <a href="#contact" class="btn btn-primary">Join Us</a>
-                    </div>
-                </div>
+            <div class="service-card bg-white shadow-lg transition-transform transform hover:scale-105 p-5 rounded-lg">
+                <img src="{% static 'image/railway_projects.jpeg' %}" class="w-full rounded-t-lg" alt="Railway Projects">
+                <h5 class="text-xl font-semibold mt-4">Railway Projects</h5>
+                <p class="mt-2 text-gray-600">Post detailed railway project descriptions and requirements. Receive tailored candidate recommendations with our robust project management tools.</p>
+                <a href="#contact" class="mt-4 inline-block bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700 transition">Join Us</a>
             </div>
-            <div class="col-md-4 service-card">
-                <div class="card shadow">
-                    <img src="{% static 'image/secure_payment_railway.jpeg' %}" class="card-img-top" alt="Secure Payments">
-                    <div class="card-body">
-                        <h5 class="card-title">Secure Payments</h5>
-                        <p class="card-text">Benefit from safe and reliable payment systems for both railway companies and job seekers. Our platform ensures transparent invoicing, secure transactions, and dispute resolution for your peace of mind.</p>
-                        <a href="#contact" class="btn btn-primary">Learn More</a>
-                    </div>
-                </div>
+            <div class="service-card bg-white shadow-lg transition-transform transform hover:scale-105 p-5 rounded-lg">
+                <img src="{% static 'image/secure_payment_railway.jpeg' %}" class="w-full rounded-t-lg" alt="Secure Payments">
+                <h5 class="text-xl font-semibold mt-4">Secure Payments</h5>
+                <p class="mt-2 text-gray-600">Benefit from safe and reliable payment systems. Our platform ensures transparent invoicing and secure transactions for peace of mind.</p>
+                <a href="#contact" class="mt-4 inline-block bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700 transition">Learn More</a>
             </div>
         </div>
 
-        <div class="row mt-4">
-            <div class="col-md-4 service-card">
-                <div class="card shadow">
-                    <img src="{% static 'image/communication_railway.jpeg' %}" class="card-img-top" alt="Direct Messaging">
-                    <div class="card-body">
-                        <h5 class="card-title">Direct Messaging</h5>
-                        <p class="card-text">Facilitate communication between railway project managers and job seekers. Share documents, discuss project details, and collaborate efficiently in real-time.</p>
-                        <a href="#contact" class="btn btn-primary">Start Chatting</a>
-                    </div>
-                </div>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mt-8">
+            <div class="service-card bg-white shadow-lg transition-transform transform hover:scale-105 p-5 rounded-lg">
+                <img src="{% static 'image/communication_railway.jpeg' %}" class="w-full rounded-t-lg" alt="Direct Messaging">
+                <h5 class="text-xl font-semibold mt-4">Direct Messaging</h5>
+                <p class="mt-2 text-gray-600">Facilitate communication between railway project managers and job seekers. Collaborate efficiently in real-time.</p>
+                <a href="#contact" class="mt-4 inline-block bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700 transition">Start Chatting</a>
             </div>
-            <div class="col-md-4 service-card">
-                <div class="card shadow">
-                    <img src="{% static 'image/portfolio_showcase_railway.jpeg' %}" class="card-img-top" alt="Portfolio Showcase">
-                    <div class="card-body">
-                        <h5 class="card-title">Portfolio Showcase</h5>
-                        <p class="card-text">Showcase your railway projects and achievements. Customize your portfolio to highlight your skills and gain visibility within the railway industry. Get feedback and recognition for your work.</p>
-                        <a href="#contact" class="btn btn-primary">Showcase Now</a>
-                    </div>
-                </div>
+            <div class="service-card bg-white shadow-lg transition-transform transform hover:scale-105 p-5 rounded-lg">
+                <img src="{% static 'image/portfolio_showcase_railway.jpeg' %}" class="w-full rounded-t-lg" alt="Portfolio Showcase">
+                <h5 class="text-xl font-semibold mt-4">Portfolio Showcase</h5>
+                <p class="mt-2 text-gray-600">Showcase your railway projects and achievements. Gain visibility and get feedback for your work.</p>
+                <a href="#contact" class="mt-4 inline-block bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700 transition">Showcase Now</a>
             </div>
-            <div class="col-md-4 service-card">
-                <div class="card shadow">
-                    <img src="{% static 'image/skill_assessment_railway.jpeg' %}" class="card-img-top" alt="Skill Assessment">
-                    <div class="card-body">
-                        <h5 class="card-title">Skill Assessment</h5>
-                        <p class="card-text">Receive accurate assessments of your railway-related skills and qualifications. Our platform recommends jobs and projects that match your expertise, ensuring you find the right opportunities.</p>
-                        <a href="#contact" class="btn btn-primary">Get Assessed</a>
-                    </div>
-                </div>
+            <div class="service-card bg-white shadow-lg transition-transform transform hover:scale-105 p-5 rounded-lg">
+                <img src="{% static 'image/skill_assessment_railway.jpeg' %}" class="w-full rounded-t-lg" alt="Skill Assessment">
+                <h5 class="text-xl font-semibold mt-4">Skill Assessment</h5>
+                <p class="mt-2 text-gray-600">Receive accurate assessments of your skills. Our platform recommends jobs that match your expertise.</p>
+                <a href="#contact" class="mt-4 inline-block bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700 transition">Get Assessed</a>
             </div>
         </div>
 
-        <h3 class="mt-5">Railway Community Features</h3>
-        <p>Engage with a vibrant community of railway professionals, participate in discussions, share industry insights, and stay updated with the latest developments in railway technology and operations.</p>
+        <h3 class="mt-10 text-2xl font-bold">Railway Community Features</h3>
+        <p class="mt-2 text-gray-700">Engage with a vibrant community of railway professionals, participate in discussions, and stay updated with the latest developments.</p>
 
-        <h3 class="mt-5">Why Choose e_Railway?</h3>
-        <ul class="list-unstyled">
+        <h3 class="mt-10 text-2xl font-bold">Why Choose e_Railway?</h3>
+        <ul class="list-disc list-inside text-left mt-2 text-gray-600">
             <li>✅ Access a Pool of Skilled Railway Professionals.</li>
-            <li>✅ Streamlined Project Management Tools for Railway Projects.</li>
-            <li>✅ Safe and Secure Payment Solutions for Peace of Mind.</li>
+            <li>✅ Streamlined Project Management Tools.</li>
+            <li>✅ Safe and Secure Payment Solutions.</li>
             <li>✅ Global Network of Railway Companies and Talent.</li>
             <li>✅ Strong Community Support and Industry News.</li>
         </ul>
     </div>
 </section>
 
-<!-- New Section for Ticket Availability -->
-<section class="ticket-availability-section py-5 text-center">
-    <div class="container">
-        <h2 class="display-4">Ticket Availability</h2>
-        <p class="lead">Choose from our range of ticket classes to suit your travel needs.</p>
+<section class="ticket-availability-section py-10 bg-gray-200 text-center">
+    <div class="container mx-auto">
+        <h2 class="text-3xl font-bold">Ticket Availability</h2>
+        <p class="mt-4 text-lg text-gray-700">Choose from our range of ticket classes to suit your travel needs.</p>
 
-        <div class="row mt-4">
-            <div class="col-md-4">
-                <div class="card shadow animated-card">
-                    <div class="card-body">
-                        <h5 class="card-title">Standard Class</h5>
-                        <p class="card-text">Experience comfortable seating at an affordable price.</p>
-                        <h6>Price: <span class="text-success">$50</span></h6>
-                        <h6>Services:</h6>
-                        <ul>
-                            <li>Basic refreshments available</li>
-                            <li>Standard seating with adequate legroom</li>
-                        </ul>
-                        <h6>Advantages:</h6>
-                        <ul>
-                            <li>Cost-effective travel</li>
-                            <li>Access to standard facilities</li>
-                        </ul>
-                    </div>
-                </div>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mt-8">
+            <div class="card bg-white shadow-lg p-5 rounded-lg transition-transform transform hover:scale-105">
+                <h5 class="text-xl font-semibold">Standard Class</h5>
+                <p class="mt-2 text-gray-600">Experience comfortable seating at an affordable price.</p>
+                <h6 class="mt-4 font-bold">Price: <span class="text-green-600">$50</span></h6>
+                <h6 class="mt-2 font-semibold">Services:</h6>
+                <ul class="list-disc list-inside text-gray-600">
+                    <li>Basic refreshments available</li>
+                    <li>Standard seating with adequate legroom</li>
+                </ul>
+                <h6 class="mt-2 font-semibold">Advantages:</h6>
+                <ul class="list-disc list-inside text-gray-600">
+                    <li>Cost-effective travel</li>
+                    <li>Access to standard facilities</li>
+                </ul>
             </div>
-            <div class="col-md-4">
-                <div class="card shadow animated-card">
-                    <div class="card-body">
-                        <h5 class="card-title">Premium Class</h5>
-                        <p class="card-text">Enjoy enhanced comfort and additional amenities.</p>
-                        <h6>Price: <span class="text-success">$100</span></h6>
-                        <h6>Services:</h6>
-                        <ul>
-                            <li>Complimentary meals and drinks</li>
-                            <li>More spacious seating with recline options</li>
-                            <li>Dedicated customer service</li>
-                        </ul>
-                        <h6>Advantages:</h6>
-                        <ul>
-                            <li>Better travel experience</li>
-                            <li>Priority boarding</li>
-                        </ul>
-                    </div>
-                </div>
+            <div class="card bg-white shadow-lg p-5 rounded-lg transition-transform transform hover:scale-105">
+                <h5 class="text-xl font-semibold">Premium Class</h5>
+                <p class="mt-2 text-gray-600">Enjoy enhanced comfort and additional amenities.</p>
+                <h6 class="mt-4 font-bold">Price: <span class="text-green-600">$100</span></h6>
+                <h6 class="mt-2 font-semibold">Services:</h6>
+                <ul class="list-disc list-inside text-gray-600">
+                    <li>Complimentary meals and drinks</li>
+                    <li>More spacious seating with recline options</li>
+                    <li>Dedicated customer service</li>
+                </ul>
+                <h6 class="mt-2 font-semibold">Advantages:</h6>
+                <ul class="list-disc list-inside text-gray-600">
+                    <li>Better travel experience</li>
+                    <li>Priority boarding</li>
+                </ul>
             </div>
-            <div class="col-md-4">
-                <div class="card shadow animated-card">
-                    <div class="card-body">
-                        <h5 class="card-title">VIP Class</h5>
-                        <p class="card-text">Travel in luxury with exclusive benefits.</p>
-                        <h6>Price: <span class="text-success">$200</span></h6>
-                        <h6>Services:</h6>
-                        <ul>
-                            <li>Personalized concierge service</li>
-                            <li>Gourmet meals prepared by top chefs</li>
-                            <li>Access to exclusive lounge areas</li>
-                            <li>Wi-Fi and charging stations at every seat</li>
-                        </ul>
-                        <h6>Advantages:</h6>
-                        <ul>
-                            <li>Ultimate comfort and convenience</li>
-                            <li>Enhanced privacy and quiet space</li>
-                        </ul>
-                    </div>
-                </div>
+            <div class="card bg-white shadow-lg p-5 rounded-lg transition-transform transform hover:scale-105">
+                <h5 class="text-xl font-semibold">VIP Class</h5>
+                <p class="mt-2 text-gray-600">Travel in luxury with exclusive benefits.</p>
+                <h6 class="mt-4 font-bold">Price: <span class="text-green-600">$200</span></h6>
+                <h6 class="mt-2 font-semibold">Services:</h6>
+                <ul class="list-disc list-inside text-gray-600">
+                    <li>Personalized concierge service</li>
+                    <li>Gourmet meals prepared by top chefs</li>
+                    <li>Access to exclusive lounge areas</li>
+                    <li>Wi-Fi and charging stations at every seat</li>
+                </ul>
+                <h6 class="mt-2 font-semibold">Advantages:</h6>
+                <ul class="list-disc list-inside text-gray-600">
+                    <li>Ultimate comfort and convenience</li>
+                    <li>Enhanced privacy and quiet space</li>
+                </ul>
             </div>
         </div>
     </div>
 </section>
 
-
-<section class="video-intro-section py-5 bg-white">
-    <div class="container text-center">
-        <h2>Learn How e_Railway Connects the Railway Industry</h2>
-        <p>Watch our introduction video to see how e_Railway bridges the gap between job seekers, employers, and project managers in the railway sector.</p>
-        <div class="embed-responsive embed-responsive-16by9 mt-4">
+<section class="video-intro-section py-10 bg-white text-center">
+    <div class="container mx-auto">
+        <h2 class="text-3xl font-bold">Learn How e_Railway Connects the Railway Industry</h2>
+        <p class="mt-4 text-lg text-gray-700">Watch our introduction video to see how e_Railway bridges the gap between job seekers and employers.</p>
+        <div class="embed-responsive mt-4">
             <iframe 
-                class="embed-responsive-item" 
+                class="w-full h-64 md:h-96 rounded-lg" 
                 src="https://www.youtube.com/embed/SUpq7oz1Hxg?autoplay=1&mute=1" 
                 allow="autoplay" 
                 allowfullscreen>
@@ -173,64 +135,4 @@
         </div>
     </div>
 </section>
-
-<style>
-.services-section {
-    background-color: #eef1f7;
-}
-
-.service-card {
-    margin-bottom: 2rem;
-}
-
-.card {
-    transition: transform 0.3s;
-}
-
-.card:hover {
-    transform: scale(1.05);
-}
-
-.ticket-availability-section {
-    background-color: #f1f1f1;
-    padding: 3rem 0;
-}
-
-.ticket-availability-section h2 {
-    margin-bottom: 1.5rem;
-}
-
-.video-intro-section {
-    padding: 5rem 0;
-    background-color: #f8f9fa;
-}
-</style>
-
-<style>
-    .animated-card {
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
-
-    .animated-card:hover {
-        transform: translateY(-10px);
-        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
-    }
-
-    .ticket-availability-section {
-        background-color: #f9f9f9;
-        border-top: 5px solid #007bff;
-        padding-top: 50px;
-    }
-
-    .ticket-availability-section h2 {
-        margin-bottom: 30px;
-        font-weight: bold;
-        color: #343a40;
-    }
-
-    .ticket-availability-section p.lead {
-        margin-bottom: 40px;
-    }
-</style>
-
 {% endblock %}

@@ -1,0 +1,103 @@
+{% extends 'panel/base/base_passenger.html' %}
+{% load static %}
+{% block content %}
+<div class="container mx-auto px-4 py-8">
+    <h1 class="text-2xl font-semibold text-center mb-6">Choose Your Train Place</h1>
+
+    <!-- Check if the user has valid tickets -->
+    {% if valid_tickets %}
+        <div class="bg-white shadow-md rounded-lg p-6">
+            <h2 class="text-lg font-semibold mb-4">Your Valid Tickets</h2>
+            <table class="min-w-full divide-y divide-gray-200 mb-4">
+                <thead class="bg-gray-50">
+                    <tr>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Train</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Choose Place</th>
+                    </tr>
+                </thead>
+                <tbody class="bg-white divide-y divide-gray-200">
+                    {% for ticket in valid_tickets %}
+                    <tr>
+                        <td class="px-6 py-4 whitespace-nowrap">{{ ticket.ticket.name }}</td>
+                        <td class="px-6 py-4 whitespace-nowrap">{{ ticket.get_status_display }}</td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <button 
+                                onclick="showPlaces({{ ticket.id }})"
+                                class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded transition duration-200">
+                                Choose Place
+                            </button>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% else %}
+        <div class="bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700 p-4 mb-4">
+            <p class="font-bold">No Valid Tickets</p>
+            <p>You do not have any valid or active reservations.</p>
+        </div>
+    {% endif %}
+
+    <!-- Modal for choosing train places -->
+    <div id="placeModal" class="fixed inset-0 bg-gray-800 bg-opacity-50 hidden flex items-center justify-center">
+        <div class="bg-white rounded-lg overflow-hidden shadow-lg p-6 w-1/2">
+            <h2 class="text-lg font-semibold mb-4">Choose Your Place</h2>
+            <div id="placeList" class="grid grid-cols-3 gap-4 mb-4">
+                <!-- Place buttons will be inserted here via JavaScript -->
+            </div>
+            <div class="flex justify-end">
+                <button onclick="closeModal()" class="bg-gray-300 hover:bg-gray-400 text-gray-800 px-4 py-2 rounded transition duration-200">
+                    Close
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+const places = Array.from({ length: 60 }, (_, i) => i + 1); // Initialize places 1-60
+
+function showPlaces(ticketId) {
+    const placeList = document.getElementById('placeList');
+    placeList.innerHTML = ''; // Clear previous places
+
+    // Create buttons for each place
+    places.forEach(place => {
+        const button = document.createElement('button');
+        button.innerText = `Place ${place}`;
+        button.className = 'bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded transition duration-200';
+        button.onclick = () => choosePlace(ticketId, place);
+        placeList.appendChild(button);
+    });
+
+    document.getElementById('placeModal').classList.remove('hidden'); // Show modal
+}
+
+function closeModal() {
+    document.getElementById('placeModal').classList.add('hidden'); // Hide modal
+}
+
+function choosePlace(ticketId, place) {
+    // Make an AJAX call to reserve the place
+    fetch(`/reserve-place/${ticketId}/${place}/`, {
+        method: 'POST',
+        headers: {
+            'X-CSRFToken': '{{ csrf_token }}',
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ ticketId: ticketId, place: place })
+    })
+    .then(response => {
+        if (response.ok) {
+            alert(`Place ${place} has been reserved!`);
+            closeModal();
+            // Optionally, refresh the page or update UI to reflect the reservation
+        } else {
+            alert('Failed to reserve the place. Please try again.');
+        }
+    });
+}
+</script>
+{% endblock %}

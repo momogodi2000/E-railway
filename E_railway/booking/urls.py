@@ -105,6 +105,16 @@ urlpatterns = [
     
     path('damage-reports/', views.damage_report_view, name='damage_report_view'),
 
+    path('manage-tickets/', views.ticket_management, name='ticket_management'),
+    path('cancel-ticket/<int:ticket_id>/', views.cancel_ticket, name='cancel_ticket'),
+    path('report-ticket/<int:ticket_id>/', views.report_ticket, name='report_ticket'),
+
+    path('choose-train-place/', views.choose_train_place, name='choose_train_place'),
+    path('reserve-place/<int:ticket_id>/<int:place>/', views.reserve_place, name='reserve_place'),
+
+
+
+    path('generate_pdf/', views.generate_pdf, name='generate_pdf'),
 
 
 ]

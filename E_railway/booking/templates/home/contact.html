@@ -2,95 +2,27 @@
 {% load static %}
 
 {% block content %}
-<style>
-    .hero {
-        background: url('{% static "image/images.jpeg" %}') no-repeat center center;
-        background-size: cover;
-        color: rgba(255, 255, 255, 0.719);
-    }
-    
-    body {
-        font-family: 'Arial', sans-serif;
-    }
-
-    .hero {
-        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-    }
-
-    .contact-form {
-        background: rgba(255, 255, 255, 0.9);
-        border-radius: 8px;
-        padding: 30px;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-        transition: transform 0.3s ease;
-    }
-
-    .contact-form:hover {
-        transform: scale(1.02);
-    }
-
-    .contact-form h2 {
-        margin-bottom: 20px;
-    }
-
-    .contact-form input,
-    .contact-form textarea {
-        width: 100%;
-        padding: 12px;
-        margin: 10px 0;
-        border: 1px solid #ccc;
-        border-radius: 4px;
-        transition: border-color 0.3s ease;
-    }
-
-    .contact-form input:focus,
-    .contact-form textarea:focus {
-        border-color: #007bff;
-        outline: none;
-    }
-
-    .btn-primary {
-        background-color: #007bff;
-        border: none;
-        padding: 12px 20px;
-        font-size: 16px;
-        border-radius: 4px;
-        transition: background-color 0.3s ease;
-    }
-
-    .btn-primary:hover {
-        background-color: #0056b3;
-    }
-
-    @media (max-width: 768px) {
-        .contact-info {
-            margin-top: 20px;
-        }
-    }
-</style>
-
-<header class="hero text-white text-center py-5 fade-in">
-    <h1>Contact Us</h1>
-    <p>We'd love to hear from you. Get in touch with us today!</p>
+<header class="hero bg-cover bg-center text-white text-center py-20" style="background-image: url('{% static "image/train_new.jpeg" %}');">
+    <h1 class="text-4xl font-bold">Contact Us</h1>
+    <p class="mt-4 text-lg">We'd love to hear from you. Get in touch with us today!</p>
 </header>
 
-<div class="container mt-5">
-    <div class="row">
-        <div class="col-md-6">
-            <div class="contact-form fade-in">
-                <h2>Send Us a Message</h2>
-                <form method="post">
-                    {% csrf_token %}
-                    {{ form.as_p }}
-                    <button type="submit" class="btn btn-primary">Send Message</button>
-                </form>
-            </div>
+<div class="container mx-auto mt-10 px-4">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div class="contact-form bg-white rounded-lg shadow-lg p-6 transition-transform transform hover:scale-105">
+            <h2 class="text-2xl font-semibold mb-4">Send Us a Message</h2>
+            <form method="post">
+                {% csrf_token %}
+                {{ form.as_p|safe }}
+                <button type="submit" class="w-full bg-blue-600 text-white py-3 rounded hover:bg-blue-700 transition">Send Message</button>
+            </form>
         </div>
-        <div class="col-md-6 contact-info fade-in">
-            <h2>Contact Information</h2>
-            <p><strong>Email:</strong> contact@pressingwash.com</p>
-            <p><strong>Phone:</strong> 237 09876282972</p>
-            <p><strong>Address:</strong> 123 Pressing St, Yaoundé, Cameroon</p>
+
+        <div class="contact-info bg-white rounded-lg shadow-lg p-6">
+            <h2 class="text-2xl font-semibold mb-4">Contact Information</h2>
+            <p><strong>Email:</strong> <a href="mailto:contact@pressingwash.com" class="text-blue-600">contact@pressingwash.com</a></p>
+            <p><strong>Phone:</strong> <span class="text-blue-600">+237 09876282972</span></p>
+            <p><strong>Address:</strong> <span class="text-gray-600">123 Pressing St, Yaoundé, Cameroon</span></p>
         </div>
     </div>
 </div>
@@ -101,7 +33,6 @@
 <script src="{% static 'js/contact.js' %}"></script>
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        // Access device location and display it in the location field
         const locationInput = document.querySelector('#id_location');
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(function(position) {
@@ -115,7 +46,6 @@
             alert('Geolocation is not supported by this browser.');
         }
 
-        // Add custom animation to form elements
         const formElements = document.querySelectorAll('.contact-form input, .contact-form textarea');
         formElements.forEach(el => {
             el.addEventListener('focus', function() {

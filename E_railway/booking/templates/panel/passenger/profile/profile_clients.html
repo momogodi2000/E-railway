@@ -2,38 +2,40 @@
 {% load static %}
 
 {% block content %}
-<div class="container animate__animated animate__fadeIn">
-    <div class="profile-container">
-        <h2 class="text-center">Profile</h2>
-        <div class="text-center">
+<div class="container mx-auto p-6 animate__animated animate__fadeIn">
+    <div class="bg-white shadow-lg rounded-lg p-6">
+        <h2 class="text-center text-2xl font-bold mb-4">Profile</h2>
+        <div class="text-center mb-6">
             {% if user.profile_picture %}
-                <img src="{{ user.profile_picture.url }}" alt="Profile Picture" class="profile-picture">
+                <img src="{{ user.profile_picture.url }}" alt="Profile Picture" class="w-32 h-32 rounded-full mx-auto">
             {% else %}
-                <img src="{% static 'image/why.jpeg' %}" alt="Default Profile Picture" class="profile-picture">
+                <img src="{% static 'image/1.jpeg' %}" alt="Default Profile Picture" class="w-32 h-32 rounded-full mx-auto">
             {% endif %}
         </div>
-        <div class="form-group">
-            <label for="username">Username:</label>
-            <input type="text" id="username" class="form-control" value="{{ user.username }}" readonly>
+        <div class="space-y-4">
+            <div class="form-group">
+                <label for="username" class="block text-sm font-semibold">Username:</label>
+                <input type="text" id="username" class="form-control w-full p-2 border border-gray-300 rounded" value="{{ user.username }}" readonly>
+            </div>
+            <div class="form-group">
+                <label for="email" class="block text-sm font-semibold">Email:</label>
+                <input type="email" id="email" class="form-control w-full p-2 border border-gray-300 rounded" value="{{ user.email }}" readonly>
+            </div>
+            <div class="form-group">
+                <label for="role" class="block text-sm font-semibold">Role:</label>
+                <input type="text" id="role" class="form-control w-full p-2 border border-gray-300 rounded" value="{{ user.get_role_display }}" readonly>
+            </div>
+            <div class="form-group">
+                <label for="phone" class="block text-sm font-semibold">Phone:</label>
+                <input type="text" id="phone" class="form-control w-full p-2 border border-gray-300 rounded" value="{{ user.phone }}" readonly>
+            </div>
+            <div class="form-group">
+                <label for="address" class="block text-sm font-semibold">Address:</label>
+                <input type="text" id="address" class="form-control w-full p-2 border border-gray-300 rounded" value="{{ user.address }}" readonly>
+            </div>
         </div>
-        <div class="form-group">
-            <label for="email">Email:</label>
-            <input type="email" id="email" class="form-control" value="{{ user.email }}" readonly>
-        </div>
-        <div class="form-group">
-            <label for="role">Role:</label>
-            <input type="text" id="role" class="form-control" value="{{ user.get_role_display }}" readonly>
-        </div>
-        <div class="form-group">
-            <label for="phone">Phone:</label>
-            <input type="text" id="phone" class="form-control" value="{{ user.phone }}" readonly>
-        </div>
-        <div class="form-group">
-            <label for="address">Address:</label>
-            <input type="text" id="address" class="form-control" value="{{ user.address }}" readonly>
-        </div>
-        <div class="text-center">
-            <a href="#" class="btn btn-edit">Edit Profile</a>
+        <div class="text-center mt-6">
+            <a href="#" class="bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700 transition">Edit Profile</a>
         </div>
     </div>
 </div>
