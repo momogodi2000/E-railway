@@ -6,135 +6,179 @@
 {% endblock %}
 
 {% block stylesheet %}
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
 {% endblock %}
 
 {% block content %}
-<div class="dashboard">
-    <div class="dashboard-header">
-        <h1 class="animate__animated animate__fadeInDown">Welcome {{ user.username }}, To Your E-Railway Dashboard</h1>
-        <p class="animate__animated animate__fadeInUp">Manage ticket sales, reservations, and train schedules effectively.</p>
-    </div>
+<div class="bg-gray-100 min-h-screen">
+    <div class="container mx-auto px-4 py-8">
+        <h1 class="text-4xl font-bold text-blue-800 mb-4 animate__animated animate__fadeInDown">Welcome {{ user.username }} to Your E-Railway Dashboard</h1>
+        <p class="text-xl text-gray-600 mb-8 animate__animated animate__fadeInUp">Manage ticket sales, reservations, and train schedules effectively for Camrail in Cameroon.</p>
 
-    <div class="container mt-4">
-        <div class="row">
-            <!-- Ticket Sales -->
-            <div class="col-md-6 mb-4">
-                <div class="card widget animate__animated animate__fadeInLeft" data-aos="fade-right">
-                    <div class="card-header bg-success text-white">
-                        <h5><i class="fas fa-ticket-alt"></i> Ticket Sales</h5>
-                    </div>
-                    <div class="card-body">
-                        <ul>
-                            <li>Sell tickets to passengers at stations.</li>
-                            <li>Manage daily ticket sales and reports.</li>
-                        </ul>
-                        <img src="{% static 'image/ticket.png' %}" alt="Ticket Sales" class="img-fluid">
-                    </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <!-- Ticket Verification -->
+            <div class="bg-white rounded-lg shadow-lg overflow-hidden transform transition duration-500 hover:scale-105">
+                <div class="bg-blue-600 text-white px-4 py-2">
+                    <h2 class="text-xl font-semibold"><i class="fas fa-check-circle mr-2"></i>Ticket Verification</h2>
+                </div>
+                <div class="p-4">
+                    <p class="text-gray-700 mb-4">Verify ticket status and authenticity quickly and efficiently.</p>
+                    <button id="verifyTicketBtn" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">
+                        Verify Ticket
+                    </button>
                 </div>
             </div>
 
-            <!-- Ticket Reservations -->
-            <div class="col-md-6 mb-4">
-                <div class="card widget animate__animated animate__fadeInRight" data-aos="fade-left">
-                    <div class="card-header bg-info text-white">
-                        <h5><i class="fas fa-calendar-check"></i> Ticket Reservations</h5>
-                    </div>
-                    <div class="card-body">
-                        <ul>
-                            <li>Handle ticket reservations and cancellations.</li>
-                            <li>View and manage reservation status.</li>
-                        </ul>
-                        <img src="{% static 'image/ticket.png' %}" alt="Ticket Reservations" class="img-fluid">
-                    </div>
+            <!-- Reservation Management -->
+            <div class="bg-white rounded-lg shadow-lg overflow-hidden transform transition duration-500 hover:scale-105">
+                <div class="bg-green-600 text-white px-4 py-2">
+                    <h2 class="text-xl font-semibold"><i class="fas fa-calendar-alt mr-2"></i>Reservation Management</h2>
+                </div>
+                <div class="p-4">
+                    <p class="text-gray-700 mb-4">Manage and cancel reservations as needed.</p>
+                    <button id="manageReservationsBtn" class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded">
+                        Manage Reservations
+                    </button>
                 </div>
             </div>
 
-            <!-- Train Schedule -->
-            <div class="col-md-6 mb-4">
-                <div class="card widget animate__animated animate__fadeInLeft" data-aos="fade-right">
-                    <div class="card-header bg-warning text-white">
-                        <h5><i class="fas fa-clock"></i> Train Schedule</h5>
-                    </div>
-                    <div class="card-body">
-                        <ul>
-                            <li>Provide up-to-date information about train schedules.</li>
-                            <li>Manage routes and fares efficiently.</li>
-                        </ul>
-                        <img src="{% static 'image/train_staff.jpeg' %}" alt="Train Schedule" class="img-fluid">
-                    </div>
+            <!-- Notifications -->
+            <div class="bg-white rounded-lg shadow-lg overflow-hidden transform transition duration-500 hover:scale-105">
+                <div class="bg-yellow-600 text-white px-4 py-2">
+                    <h2 class="text-xl font-semibold"><i class="fas fa-bell mr-2"></i>Notifications</h2>
+                </div>
+                <div class="p-4">
+                    <p class="text-gray-700 mb-4">Receive important updates and notifications from admin.</p>
+                    <button id="viewNotificationsBtn" class="bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-2 px-4 rounded">
+                        View Notifications
+                    </button>
+                </div>
+            </div>
+
+            <!-- Schedule Management -->
+            <div class="bg-white rounded-lg shadow-lg overflow-hidden transform transition duration-500 hover:scale-105">
+                <div class="bg-purple-600 text-white px-4 py-2">
+                    <h2 class="text-xl font-semibold"><i class="fas fa-clock mr-2"></i>Schedule Management</h2>
+                </div>
+                <div class="p-4">
+                    <p class="text-gray-700 mb-4">View and update train schedules for optimal service.</p>
+                    <button id="manageScheduleBtn" class="bg-purple-500 hover:bg-purple-600 text-white font-bold py-2 px-4 rounded">
+                        Manage Schedule
+                    </button>
+                </div>
+            </div>
+
+            <!-- Reports -->
+            <div class="bg-white rounded-lg shadow-lg overflow-hidden transform transition duration-500 hover:scale-105">
+                <div class="bg-red-600 text-white px-4 py-2">
+                    <h2 class="text-xl font-semibold"><i class="fas fa-chart-bar mr-2"></i>Reports</h2>
+                </div>
+                <div class="p-4">
+                    <p class="text-gray-700 mb-4">Generate and view reports on ticket sales and reservations.</p>
+                    <button id="generateReportBtn" class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded">
+                        Generate Report
+                    </button>
                 </div>
             </div>
 
             <!-- Customer Support -->
-            <div class="col-md-6 mb-4">
-                <div class="card widget animate__animated animate__fadeInRight" data-aos="fade-left">
-                    <div class="card-header bg-danger text-white">
-                        <h5><i class="fas fa-headset"></i> Customer Support</h5>
-                    </div>
-                    <div class="card-body">
-                        <ul>
-                            <li>Assist passengers with inquiries and issues.</li>
-                            <li>Provide information about routes and fares.</li>
-                        </ul>
-                        <img src="{% static 'image/support.jpeg' %}" alt="Customer Support" class="img-fluid">
-                    </div>
+            <div class="bg-white rounded-lg shadow-lg overflow-hidden transform transition duration-500 hover:scale-105">
+                <div class="bg-indigo-600 text-white px-4 py-2">
+                    <h2 class="text-xl font-semibold"><i class="fas fa-headset mr-2"></i>Customer Support</h2>
+                </div>
+                <div class="p-4">
+                    <p class="text-gray-700 mb-4">Access tools to provide excellent customer support.</p>
+                    <button id="customerSupportBtn" class="bg-indigo-500 hover:bg-indigo-600 text-white font-bold py-2 px-4 rounded">
+                        Support Tools
+                    </button>
                 </div>
             </div>
+        </div>
 
-           
-            <!-- Publicity Section -->
-            <div class="col-md-12 mb-4">
-                <div class="card widget animate__animated animate__fadeInUp" data-aos="fade-up">
-                    <div class="card-header bg-primary text-white">
-                        <h5><i class="fas fa-bullhorn"></i> Publicity and Promotions</h5>
-                    </div>
-                    <div class="card-body">
-                        <p>Check out our latest promotions and campaigns to boost ticket sales!</p>
-                        <ul>
-                            <li>Special discounts on weekend travel.</li>
-                            <li>Family packages available for group bookings.</li>
-                            <li>Seasonal promotions during holidays.</li>
-                        </ul>
-                    </div>
+        <!-- Quick Stats -->
+        <div class="mt-12 bg-white rounded-lg shadow-lg p-6">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4">Quick Stats</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div class="bg-blue-100 rounded-lg p-4">
+                    <h3 class="text-lg font-semibold text-blue-800">Today's Ticket Sales</h3>
+                    <p class="text-3xl font-bold text-blue-600" id="todayTicketSales">Loading...</p>
+                </div>
+                <div class="bg-green-100 rounded-lg p-4">
+                    <h3 class="text-lg font-semibold text-green-800">Active Reservations</h3>
+                    <p class="text-3xl font-bold text-green-600" id="activeReservations">Loading...</p>
+                </div>
+                <div class="bg-yellow-100 rounded-lg p-4">
+                    <h3 class="text-lg font-semibold text-yellow-800">Trains on Schedule</h3>
+                    <p class="text-3xl font-bold text-yellow-600" id="trainsOnSchedule">Loading...</p>
                 </div>
             </div>
+        </div>
 
-            <!-- Local Videos Section -->
-            <div class="col-md-12 mb-4">
-                <div class="card widget animate__animated animate__fadeInUp" data-aos="fade-up">
-                    <div class="card-header bg-secondary text-white">
-                        <h5><i class="fas fa-video"></i> Local Videos</h5>
-                    </div>
-                    <div class="card-body">
-                        <p>Watch our local promotional videos to learn more about our services:</p>
-                        <video controls class="mb-3 w-100">
-                            <source src="{% static 'video/moi.mp4' %}" type="video/mp4">
-                            Your browser does not support the video tag.
-                        </video>
-                      
-                    </div>
-                </div>
-            </div>
-
-            <!-- Copyright Section -->
-            <div class="col-md-12 text-center mt-4">
-                <p class="copyright">© 2024 E-Railway. All rights reserved.</p>
-            </div>
+        <!-- Recent Activity -->
+        <div class="mt-12 bg-white rounded-lg shadow-lg p-6">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4">Recent Activity</h2>
+            <ul class="divide-y divide-gray-200" id="recentActivityList">
+                <li class="py-3">Loading recent activities...</li>
+            </ul>
         </div>
     </div>
 </div>
-
 {% endblock %}
 
 {% block script %}
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
-    <script>
-        // Initialize AOS
-        AOS.init();
-    </script>
+<script>
+    // Simulate loading data
+    setTimeout(() => {
+        document.getElementById('todayTicketSales').textContent = '1,234';
+        document.getElementById('activeReservations').textContent = '567';
+        document.getElementById('trainsOnSchedule').textContent = '42';
+
+        const recentActivities = [
+            'Ticket #12345 verified at 14:30',
+            'Reservation #67890 cancelled at 13:45',
+            'New schedule update received at 12:15',
+            'Generated monthly sales report at 11:00'
+        ];
+
+        const recentActivityList = document.getElementById('recentActivityList');
+        recentActivityList.innerHTML = recentActivities.map(activity => `<li class="py-3">${activity}</li>`).join('');
+    }, 1000);
+
+    // Button click handlers
+    document.getElementById('verifyTicketBtn').addEventListener('click', () => {
+        alert('Ticket verification module opened');
+    });
+
+    document.getElementById('manageReservationsBtn').addEventListener('click', () => {
+        alert('Reservation management module opened');
+    });
+
+    document.getElementById('viewNotificationsBtn').addEventListener('click', () => {
+        alert('Notifications panel opened');
+    });
+
+    document.getElementById('manageScheduleBtn').addEventListener('click', () => {
+        alert('Schedule management module opened');
+    });
+
+    document.getElementById('generateReportBtn').addEventListener('click', () => {
+        alert('Report generation started');
+    });
+
+    document.getElementById('customerSupportBtn').addEventListener('click', () => {
+        alert('Customer support tools opened');
+    });
+
+    // Add smooth scrolling
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            e.preventDefault();
+            document.querySelector(this.getAttribute('href')).scrollIntoView({
+                behavior: 'smooth'
+            });
+        });
+    });
+</script>
 {% endblock %}

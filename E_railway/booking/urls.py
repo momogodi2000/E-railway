@@ -116,5 +116,11 @@ urlpatterns = [
 
     path('generate_pdf/', views.generate_pdf, name='generate_pdf'),
 
+    path('employer/canceled-reported/', views.canceled_reported_reservations, name='canceled_reported_reservations'),
+
+    path('employer/monthly-analytics/', views.monthly_analytics, name='monthly_analytics'),
+
+
+
 
 ]

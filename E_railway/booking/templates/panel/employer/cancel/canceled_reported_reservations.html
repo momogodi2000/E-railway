@@ -1,0 +1,104 @@
+{% extends 'panel/base/base_employer.html' %}
+{% load static %}
+
+{% block title %}
+    Canceled or Reported Reservations
+{% endblock %}
+
+{% block stylesheet %}
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+<div class="container mx-auto px-4 py-6">
+    <h1 class="text-3xl font-bold mb-8">Canceled or Reported Train Reservations</h1>
+
+    {% if ticket_history %}
+    <div class="overflow-x-auto">
+        <table class="min-w-full bg-white border border-gray-200 shadow-sm rounded-lg">
+            <thead>
+                <tr class="bg-gray-200 text-left text-sm leading-normal">
+                    <th class="py-2 px-4">User</th>
+                    <th class="py-2 px-4">Action</th>
+                    <th class="py-2 px-4">Train Ticket</th>
+                    <th class="py-2 px-4">Amount Paid</th>
+                    <th class="py-2 px-4">Reserved Seats</th>
+                    <th class="py-2 px-4">Action Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for history in ticket_history %}
+                <tr class="hover:bg-gray-100 transition duration-150">
+                    <!-- User Information -->
+                    <td class="py-4 px-4">
+                        <div class="flex items-center">
+                            {% if history.user.profile_picture %}
+                            <img src="{{ history.user.profile_picture.url }}" alt="{{ history.user.username }}'s Profile Picture"
+                                class="h-10 w-10 rounded-full mr-4 object-cover">
+                            {% else %}
+                            <i class="fas fa-user-circle fa-2x mr-4"></i>
+                            {% endif %}
+                            <div>
+                                <p class="font-bold">{{ history.user.username }}</p>
+                                <p class="text-sm text-gray-500">{{ history.user.email }}</p>
+                                <p class="text-sm text-gray-500">{{ history.user.phone }}</p>
+                            </div>
+                        </div>
+                    </td>
+
+                    <!-- Action (Canceled/Reported) -->
+                    <td class="py-4 px-4">
+                        {% if history.action == 'canceled' %}
+                        <span class="text-red-500 font-bold capitalize">
+                            {{ history.get_action_display }}
+                        </span>
+                        {% else %}
+                        <span class="text-yellow-500 font-bold capitalize">
+                            {{ history.get_action_display }}
+                        </span>
+                        {% endif %}
+                    </td>
+
+                    <!-- Train Ticket Information -->
+                    <td class="py-4 px-4">
+                        <p class="font-bold">{{ history.ticket.ticket.title }}</p>
+                        <p class="text-sm text-gray-500">Departure: {{ history.ticket.ticket.departure }}</p>
+                        <p class="text-sm text-gray-500">Arrival: {{ history.ticket.ticket.arrival }}</p>
+                    </td>
+
+                    <!-- Amount Paid -->
+                    <td class="py-4 px-4">
+                        {{ history.ticket.amount_paid }} USD
+                    </td>
+
+                    <!-- Reserved Seats -->
+                    <td class="py-4 px-4">
+                        {% for seat in history.ticket.reserved_places %}
+                            <span class="inline-block bg-blue-500 text-white text-sm px-3 py-1 rounded-full">
+                                {{ seat }}
+                            </span>
+                        {% endfor %}
+                    </td>
+
+                    <!-- Action Date -->
+                    <td class="py-4 px-4">
+                        <p class="text-sm text-gray-500">{{ history.action_date|date:"Y-m-d H:i" }}</p>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="6" class="text-center py-6 text-gray-500">No canceled or reported reservations.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+    <p class="text-gray-500">No canceled or reported reservations found.</p>
+    {% endif %}
+</div>
+{% endblock %}
+
+{% block script %}
+<script src="https://cdn.jsdelivr.net/npm/alpinejs@2.8.2/dist/alpine.min.js" defer></script>
+{% endblock %}

@@ -1181,6 +1181,55 @@ def verify_tickets(request):
 
 
 
+from .models import TicketHistory, TicketBought, CustomUser
+
+def canceled_reported_reservations(request):
+    # Query to fetch all ticket history with actions 'canceled' or 'reported'
+    ticket_history = TicketHistory.objects.filter(action__in=['canceled', 'reported']).select_related('ticket', 'user')
+
+    context = {
+        'ticket_history': ticket_history,
+    }
+
+    return render(request, 'panel/employer/cancel/canceled_reported_reservations.html', context)
+
+from .models import TicketHistory, TicketBought, CustomUser
+from django.db.models import Count, Sum
+import datetime
+
+def monthly_analytics(request):
+    # Get the current month
+    current_month = datetime.datetime.now().month
+
+    # Get all ticket history records for the current month
+    ticket_history = TicketHistory.objects.filter(action_date__month=current_month)
+
+    # Calculate statistics
+    total_tickets_bought = TicketBought.objects.filter(date__month=current_month).count()
+    total_tickets_canceled = ticket_history.filter(action='canceled').count()
+    total_revenue = TicketBought.objects.filter(date__month=current_month).aggregate(Sum('amount_paid'))['amount_paid__sum'] or 0
+
+    # Additional analytics (tickets by user)
+    user_ticket_data = CustomUser.objects.annotate(
+        tickets_bought=Count('ticketbought', filter=TicketBought.objects.filter(date__month=current_month))
+    )
+
+    # Estimate next month's sales based on historical data (simple average)
+    total_tickets_last_month = TicketBought.objects.filter(date__month=current_month - 1).count()
+    estimated_next_month_sales = (total_tickets_bought + total_tickets_last_month) // 2  # Simple average
+
+    context = {
+        'total_tickets_bought': total_tickets_bought,
+        'total_tickets_canceled': total_tickets_canceled,
+        'total_revenue': total_revenue,
+        'user_ticket_data': user_ticket_data,
+        'estimated_next_month_sales': estimated_next_month_sales,
+    }
+
+    return render(request, 'panel/employer/cancel/monthly_analytics.html', context)
+
+
+
 
 # maintenance view
 

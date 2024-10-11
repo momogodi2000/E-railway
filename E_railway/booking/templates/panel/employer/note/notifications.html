@@ -7,20 +7,19 @@
 
 {% block stylesheet %}
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="{% static 'css/notifications.css' %}"> <!-- Custom CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <style>
         body {
-            background-color: #f8f9fa;
+            background-color: #f8f9fa; /* Light background */
         }
         h2 {
             font-weight: bold;
             margin-bottom: 20px;
         }
-        .list-group-item {
-            transition: transform 0.3s ease;
+        .notification-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
-        .list-group-item:hover {
+        .notification-card:hover {
             transform: scale(1.02);
             box-shadow: 0 4px 8px rgba(0,0,0,0.2);
         }
@@ -28,19 +27,19 @@
 {% endblock %}
 
 {% block content %}
-    <div class="container mt-5">
-        <h2>Notifications</h2>
-        <div id="task-list" class="list-group">
+    <div class="container mx-auto mt-5">
+        <h2 class="text-2xl text-gray-800">Notifications</h2>
+        <div id="task-list" class="mt-4">
             {% for task in tasks %}
-                <div class="list-group-item">
-                    <h5 class="mb-1">{{ task.name }}</h5>
-                    <p class="mb-1">{{ task.description }}</p>
-                    <small>Status: {{ task.get_status_display }} | Type: {{ task.get_task_type_display }}</small><br>
-                    <small>Assigned At: {{ task.assigned_at|date:"Y-m-d H:i" }}</small>
+                <div class="notification-card bg-white shadow-md rounded-lg p-4 mb-4">
+                    <h5 class="text-lg font-semibold mb-1">{{ task.name }}</h5>
+                    <p class="text-gray-700 mb-1">{{ task.description }}</p>
+                    <small class="text-gray-500">Status: {{ task.get_status_display }} | Type: {{ task.get_task_type_display }}</small><br>
+                    <small class="text-gray-500">Assigned At: {{ task.assigned_at|date:"Y-m-d H:i" }}</small>
                 </div>
             {% empty %}
-                <div class="list-group-item">
-                    <p>No tasks assigned to you.</p>
+                <div class="notification-card bg-white shadow-md rounded-lg p-4 mb-4">
+                    <p class="text-gray-700">No tasks assigned to you.</p>
                 </div>
             {% endfor %}
         </div>
@@ -50,6 +49,6 @@
 {% block script %}
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.js"></script>
     <script src="{% static 'js/notifications.js' %}"></script> <!-- Custom JS -->
 {% endblock %}

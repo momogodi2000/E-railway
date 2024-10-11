@@ -6,88 +6,90 @@
 {% endblock %}
 
 {% block stylesheet %}
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="{% static 'css/verify_tickets.css' %}"> <!-- Custom CSS -->
     <style>
         body {
             background-color: #f8f9fa;
         }
         h2 {
-            font-weight: bold;
-            margin-bottom: 20px;
+            @apply font-bold mb-5 text-3xl;
         }
-        .table th {
-            background-color: #007bff;
-            color: white;
+        table thead th {
+            @apply bg-blue-500 text-white;
         }
-        .table td {
-            vertical-align: middle;
+        table tbody td {
+            @apply align-middle;
         }
         .btn {
-            margin-right: 5px;
+            @apply mr-2;
         }
     </style>
 {% endblock %}
 
 {% block content %}
-    <div class="container mt-5">
-        <h2>Verify Tickets</h2>
+    <div class="container mx-auto mt-10 p-6 bg-white shadow-md rounded-lg">
+        <h2 class="text-2xl font-bold mb-6">Verify Tickets</h2>
 
+        <!-- Flash Messages -->
         {% if messages %}
-            {% for message in messages %}
-                <div class="alert alert-{{ message.tags }}">
-                    {{ message }}
-                </div>
-            {% endfor %}
+            <div class="space-y-4">
+                {% for message in messages %}
+                    <div class="p-4 text-white bg-{{ message.tags }}-500 rounded-lg">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            </div>
         {% endif %}
 
-        <table class="table table-striped">
-            <thead>
-                <tr>
-                    <th>User</th>
-                    <th>Ticket Details</th>
-                    <th>Amount Paid</th>
-                    <th>Status</th>
-                    <th>Date Bought</th>
-                    <th>Action</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for ticket in tickets_bought %}
+        <!-- Ticket Table -->
+        <div class="overflow-x-auto mt-6">
+            <table class="min-w-full divide-y divide-gray-200">
+                <thead>
                     <tr>
-                        <td>{{ ticket.user.username }}</td>
-                        <td>
-                            {{ ticket.ticket }}<br>
-                            Departure: {{ ticket.ticket.departure }}<br>
-                            Arrival: {{ ticket.ticket.arrival }}<br>
-                            Classification: {{ ticket.ticket.classification }}
-                        </td>
-                        <td>{{ ticket.amount_paid }}</td>
-                        <td>{{ ticket.status }}</td>
-                        <td>{{ ticket.date }}</td>
-                        <td>
-                            <form method="post" action="{% url 'verify_tickets' %}">
-                                {% csrf_token %}
-                                <input type="hidden" name="ticket_id" value="{{ ticket.id }}">
-                                <button type="submit" name="action" value="verify" class="btn btn-success">Verify</button>
-                                <button type="submit" name="action" value="reject" class="btn btn-danger">Reject</button>
-                            </form>
-                        </td>
+                        <th class="py-3 text-left font-medium">User</th>
+                        <th class="py-3 text-left font-medium">Ticket Details</th>
+                        <th class="py-3 text-left font-medium">Amount Paid</th>
+                        <th class="py-3 text-left font-medium">Status</th>
+                        <th class="py-3 text-left font-medium">Date Bought</th>
+                        <th class="py-3 text-left font-medium">Action</th>
                     </tr>
-                {% empty %}
-                    <tr>
-                        <td colspan="6" class="text-center">No tickets purchased.</td>
-                    </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+                </thead>
+                <tbody class="bg-white divide-y divide-gray-200">
+                    {% for ticket in tickets_bought %}
+                        <tr class="hover:bg-gray-100 transition duration-200">
+                            <td class="py-4">{{ ticket.user.username }}</td>
+                            <td class="py-4">
+                                {{ ticket.ticket }}<br>
+                                <span class="text-sm">Departure: {{ ticket.ticket.departure }}</span><br>
+                                <span class="text-sm">Arrival: {{ ticket.ticket.arrival }}</span><br>
+                                <span class="text-sm">Class: {{ ticket.ticket.classification }}</span>
+                            </td>
+                            <td class="py-4">{{ ticket.amount_paid }}</td>
+                            <td class="py-4">{{ ticket.status }}</td>
+                            <td class="py-4">{{ ticket.date }}</td>
+                            <td class="py-4">
+                                <form method="post" action="{% url 'verify_tickets' %}">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="ticket_id" value="{{ ticket.id }}">
+                                    <button type="submit" name="action" value="verify" class="btn bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition duration-150">Verify</button>
+                                    <button type="submit" name="action" value="reject" class="btn bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 transition duration-150">Reject</button>
+                                </form>
+                            </td>
+                        </tr>
+                    {% empty %}
+                        <tr>
+                            <td colspan="6" class="py-6 text-center text-gray-500">No tickets purchased.</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
     </div>
 {% endblock %}
 
 {% block script %}
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/alpinejs@2.8.2/dist/alpine.min.js" defer></script>
     <script src="{% static 'js/verify_tickets.js' %}"></script> <!-- Custom JS -->
 {% endblock %}

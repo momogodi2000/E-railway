@@ -4,17 +4,17 @@
 {% block title %}Communication List{% endblock %}
 
 {% block content %}
-<div class="container">
-    <h1 class="text-center">Communications</h1>
-    <div class="row">
+<div class="container mx-auto p-6">
+    <h1 class="text-3xl font-bold text-center mb-6">Communications</h1>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {% for communication in communications %}
-            <div class="col-md-4">
-                <div class="card" data-aos="fade-up">
-                    <div class="card-body">
-                        <h5 class="card-title">{{ communication.name }}</h5>
-                        <p class="card-text">{{ communication.description|truncatewords:10 }}</p>
-                        <button class="btn btn-primary view-details" data-id="{{ communication.id }}">View Details</button>
-                        <a href="{% url 'download_pdf' communication.id %}" class="btn btn-danger">Download as PDF</a>
+            <div class="bg-white shadow-md rounded-lg p-4 transform transition-transform duration-300 hover:scale-105" data-aos="fade-up">
+                <div class="card-body">
+                    <h5 class="text-lg font-semibold">{{ communication.name }}</h5>
+                    <p class="text-gray-700">{{ communication.description|truncatewords:10 }}</p>
+                    <div class="mt-4">
+                        <button class="bg-blue-600 text-white rounded px-4 py-2 mr-2 view-details" data-id="{{ communication.id }}">View Details</button>
+                        <a href="{% url 'download_pdf' communication.id %}" class="bg-red-600 text-white rounded px-4 py-2">Download as PDF</a>
                     </div>
                 </div>
             </div>
@@ -23,16 +23,16 @@
 </div>
 
 <!-- Modal for displaying communication details -->
-<div class="modal fade" id="communicationModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Communication Details</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
+<div class="fixed inset-0 z-50 hidden overflow-y-auto" id="communicationModal">
+    <div class="flex items-center justify-center min-h-screen">
+        <div class="modal-content bg-white rounded-lg shadow-lg w-11/12 md:w-1/2">
+            <div class="modal-header flex justify-between items-center p-4 border-b">
+                <h5 class="text-lg font-semibold">Communication Details</h5>
+                <button type="button" class="text-gray-500 close" aria-label="Close" onclick="document.getElementById('communicationModal').classList.add('hidden');">
+                    &times;
                 </button>
             </div>
-            <div class="modal-body">
+            <div class="modal-body p-4">
                 <div id="communication-details"></div>
             </div>
         </div>
@@ -40,6 +40,7 @@
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
 <script>
@@ -52,14 +53,20 @@
                 url: '/get_communication_details_employer/' + communicationId + '/',
                 method: 'GET',
                 success: function(data) {
-                    // Insert the HTML from the response into the modal body
                     $('#communication-details').html(data.html);
-                    $('#communicationModal').modal('show');
+                    $('#communicationModal').removeClass('hidden');
                 },
                 error: function() {
                     alert('Error fetching details');
                 }
             });
+        });
+
+        // Close modal when clicking outside of it
+        $(document).on('click', function(event) {
+            if ($(event.target).closest('.modal-content').length === 0) {
+                $('#communicationModal').addClass('hidden');
+            }
         });
     });
 </script>
